@@ -18,6 +18,7 @@ This API method does not require any additional parameters.
 The response will be a JSON array where each element contains the following keys.
 
 | Key             | Meaning                                | Example           | Type    |
+| --------------- | -------------------------------------- | ----------------- | ------- |
 | id              | Internal identifier                    | 123               | Integer |
 | full_name       | Full name of this user                 | "Bob Example"     | String  |
 | email           | Email address for this user            | "bob@example.com" | String  |
