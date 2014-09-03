@@ -1,3 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Autoresponders](#autoresponders)
+  - [Get a list of autoresponders](#get-a-list-of-autoresponders)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+  - [Create a new autoresponder](#create-a-new-autoresponder)
+    - [URL](#url-1)
+    - [Request Parameters](#request-parameters-1)
+    - [Response](#response-1)
+    - [Example Request](#example-request-1)
+  - [Update an existing autoresponder](#update-an-existing-autoresponder)
+    - [URL](#url-2)
+    - [Request Parameters](#request-parameters-2)
+    - [Response](#response-2)
+    - [Example Request](#example-request-2)
+  - [Get statistics for an autoresponder](#get-statistics-for-an-autoresponder)
+    - [URL](#url-3)
+    - [Request Parameters](#request-parameters-3)
+    - [Response](#response-3)
+    - [Example Request](#example-request-3)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Autoresponders
 
 ### Get a list of autoresponders

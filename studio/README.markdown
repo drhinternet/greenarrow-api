@@ -1,3 +1,38 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Introduction](#introduction)
+- [Formatting](#formatting)
+    - [JSON Formatting](#json-formatting)
+    - [Return Values](#return-values)
+    - [Error Response](#error-response)
+    - [Dates and Times](#dates-and-times)
+- [Versions](#versions)
+- [Authentication](#authentication)
+    - [Organization ID](#organization-id)
+    - [API Keys](#api-keys)
+    - [Authorization Header](#authorization-header)
+- [Version 2](#version-2)
+    - [[Subscribers](./v2/subscribers.markdown)](#subscribersv2subscribersmarkdown)
+    - [[Mailing Lists](./v2/mailing_lists.markdown)](#mailing-listsv2mailing_listsmarkdown)
+    - [[Custom Fields](./v2/custom_fields.markdown)](#custom-fieldsv2custom_fieldsmarkdown)
+    - [[Campaigns](./v2/campaigns.markdown)](#campaignsv2campaignsmarkdown)
+    - [[Campaign Templates](./v2/campaign_templates.markdown)](#campaign-templatesv2campaign_templatesmarkdown)
+    - [[Autoresponders](./v2/autoresponders.markdown)](#autorespondersv2autorespondersmarkdown)
+    - [[Virtual MTAs](./v2/virtual_mtas.markdown)](#virtual-mtasv2virtual_mtasmarkdown)
+    - [[URL Domains](./v2/url_domains.markdown)](#url-domainsv2url_domainsmarkdown)
+    - [[Bounce Emails](./v2/bounce_emails.markdown)](#bounce-emailsv2bounce_emailsmarkdown)
+    - [[Segmentation Criterias](./v2/segmentation_criterias.markdown)](#segmentation-criteriasv2segmentation_criteriasmarkdown)
+    - [[Users](./v2/users.markdown)](#usersv2usersmarkdown)
+    - [[Jobs](./v2/jobs.markdown)](#jobsv2jobsmarkdown)
+- [Enumerated Values](#enumerated-values)
+  - [Automatic Winner Selection Metrics](#automatic-winner-selection-metrics)
+  - [Subscriber Statuses](#subscriber-statuses)
+  - [Custom Field Types](#custom-field-types)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Introduction
 
 This is the documentation for the GreenArrow Studio 4 API. If you have

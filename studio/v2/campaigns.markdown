@@ -1,3 +1,41 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Campaigns](#campaigns)
+  - [Get a list of campaigns](#get-a-list-of-campaigns)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+  - [Get campaign details](#get-campaign-details)
+    - [URL](#url-1)
+    - [Request Parameters](#request-parameters-1)
+    - [Response](#response-1)
+    - [Example Request](#example-request-1)
+  - [Create a new campaign](#create-a-new-campaign)
+    - [URL](#url-2)
+    - [Request Parameters](#request-parameters-2)
+    - [Response](#response-2)
+    - [Example Request](#example-request-2)
+  - [Update an existing campaign](#update-an-existing-campaign)
+    - [URL](#url-3)
+    - [Request Parameters](#request-parameters-3)
+    - [Response](#response-3)
+    - [Example Request](#example-request-3)
+  - [Pause a campaign](#pause-a-campaign)
+    - [URL](#url-4)
+    - [Request Parameters](#request-parameters-4)
+    - [Response](#response-4)
+    - [Example Request](#example-request-4)
+  - [Resume a campaign](#resume-a-campaign)
+    - [URL](#url-5)
+    - [Request Parameters](#request-parameters-5)
+    - [Response](#response-5)
+    - [Example Request](#example-request-5)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Campaigns
 
 ### Get a list of campaigns

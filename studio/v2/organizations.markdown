@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+  - [Organizations](#organizations)
+    - [Organization Attributes](#organization-attributes)
+- [Hello from My Org](#hello-from-my-org)
+- [Goodbye!](#goodbye!)
+    - [Get a list of organizations](#get-a-list-of-organizations)
+      - [URL](#url)
+      - [Response](#response)
+    - [Create a new organization](#create-a-new-organization)
+      - [URL](#url-1)
+      - [Payload](#payload)
+      - [Response](#response-1)
+    - [Update an existing organization](#update-an-existing-organization)
+      - [URL](#url-2)
+      - [Payload](#payload-1)
+      - [Response](#response-2)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Organizations
 
 

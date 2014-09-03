@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Segmentation Criterias](#segmentation-criterias)
+  - [Get a list of segmentation criterias](#get-a-list-of-segmentation-criterias)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Segmentation Criterias
 
 ### Get a list of segmentation criterias

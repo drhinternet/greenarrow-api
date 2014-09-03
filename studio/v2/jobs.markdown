@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Jobs](#jobs)
+  - [Get a list of background jobs](#get-a-list-of-background-jobs)
+    - [URL (All background jobs)](#url-all-background-jobs)
+    - [URL (Only unfinished background jobs)](#url-only-unfinished-background-jobs)
+    - [Response](#response)
+    - [Example Request](#example-request)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Jobs
 
 ### Get a list of background jobs

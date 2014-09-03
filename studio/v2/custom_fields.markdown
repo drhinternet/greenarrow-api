@@ -1,3 +1,29 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Custom Fields](#custom-fields)
+  - [Create a new custom field](#create-a-new-custom-field)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Request Payload](#request-payload)
+      - [Extra Parameters: text](#extra-parameters-text)
+      - [Extra Parameters: text_multiline](#extra-parameters-text_multiline)
+      - [Extra Parameters: number](#extra-parameters-number)
+      - [Extra Parameters: date, day_of_year](#extra-parameters-date-day_of_year)
+      - [Extra Parameters: select_single_dropdown, select_single_radio, select_multiple_checkboxes](#extra-parameters-select_single_dropdown-select_single_radio-select_multiple_checkboxes)
+      - [Extra Parameters: booelean](#extra-parameters-booelean)
+    - [Response](#response)
+    - [Example](#example)
+  - [Update an existing custom field](#update-an-existing-custom-field)
+    - [URL](#url-1)
+    - [Request Parameters](#request-parameters-1)
+    - [Request Payload](#request-payload-1)
+    - [Response](#response-1)
+    - [Example](#example-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Custom Fields
 
 

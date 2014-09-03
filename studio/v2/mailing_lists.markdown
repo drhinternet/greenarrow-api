@@ -1,3 +1,28 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Mailing Lists](#mailing-lists)
+  - [Get list of mailing lists](#get-list-of-mailing-lists)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+  - [Create a new mailing list](#create-a-new-mailing-list)
+    - [URL](#url-1)
+    - [Request Parameters](#request-parameters-1)
+    - [Request Payload](#request-payload)
+    - [Response](#response-1)
+    - [Example](#example)
+  - [Update an existing mailing list](#update-an-existing-mailing-list)
+    - [URL](#url-2)
+    - [Request Parameters](#request-parameters-2)
+    - [Request Payload](#request-payload-1)
+    - [Response](#response-2)
+    - [Example](#example-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Mailing Lists
 
 

@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Campaign Templates](#campaign-templates)
+  - [Create a new campaign](#create-a-new-campaign)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Campaign Templates
 
 

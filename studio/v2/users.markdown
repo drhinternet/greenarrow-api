@@ -1,3 +1,26 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Users](#users)
+  - [Get a list of users](#get-a-list-of-users)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+  - [Create a new user](#create-a-new-user)
+    - [URL](#url-1)
+    - [Request Parameters](#request-parameters-1)
+    - [Response](#response-1)
+    - [Example Request](#example-request-1)
+  - [Update an existing user](#update-an-existing-user)
+    - [URL](#url-2)
+    - [Request Parameters](#request-parameters-2)
+    - [Response](#response-2)
+    - [Example Request](#example-request-2)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Users
 
 

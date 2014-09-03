@@ -1,3 +1,32 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Suppression Lists](#suppression-lists)
+  - [Suppression List Attributes](#suppression-list-attributes)
+  - [Suppressed Address Attributes](#suppressed-address-attributes)
+  - [Address Formats](#address-formats)
+  - [Get a list of suppression lists](#get-a-list-of-suppression-lists)
+    - [URL](#url)
+    - [Response](#response)
+  - [Create a new suppression list](#create-a-new-suppression-list)
+    - [URL](#url-1)
+    - [Post Data](#post-data)
+    - [Response](#response-1)
+  - [Update an existing suppression list](#update-an-existing-suppression-list)
+    - [URL](#url-2)
+    - [Response](#response-2)
+  - [Get a list of suppressed addresses](#get-a-list-of-suppressed-addresses)
+    - [URL](#url-3)
+    - [Response](#response-3)
+  - [Add new suppressed addresses](#add-new-suppressed-addresses)
+    - [URL](#url-4)
+    - [Post Data](#post-data-1)
+  - [Remove an address from the suppression list](#remove-an-address-from-the-suppression-list)
+    - [URL](#url-5)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Suppression Lists
 
 

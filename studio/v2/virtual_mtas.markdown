@@ -1,3 +1,16 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Virtual MTAs](#virtual-mtas)
+  - [Get a list of virtual mtas](#get-a-list-of-virtual-mtas)
+    - [URL](#url)
+    - [Request Parameters](#request-parameters)
+    - [Response](#response)
+    - [Example Request](#example-request)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Virtual MTAs
 
 
