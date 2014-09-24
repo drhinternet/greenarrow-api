@@ -541,7 +541,7 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 #### URL (Resume a campaign by Stat ID instead of Campaign ID)
 
-    GET /ga/api/v2/campaigns/by_stat/:stat_id/resume
+    POST /ga/api/v2/campaigns/by_stat/:stat_id/resume
 
 #### Request Parameters
 
