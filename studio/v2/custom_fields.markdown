@@ -3,8 +3,19 @@
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [Custom Fields](#custom-fields)
-  - [Create a new custom field](#create-a-new-custom-field)
+  - [Attributes](#attributes)
+      - [Extra Attributes: text](#extra-attributes-text)
+      - [Extra Attributes: text_multiline](#extra-attributes-text_multiline)
+      - [Extra Attributes: number](#extra-attributes-number)
+      - [Extra Attributes: date, day_of_year](#extra-attributes-date-day_of_year)
+      - [Extra Attributes: select_single_dropdown, select_single_radio, select_multiple_checkboxes](#extra-attributes-select_single_dropdown-select_single_radio-select_multiple_checkboxes)
+      - [Extra Attributes: booelean](#extra-attributes-booelean)
+  - [Get custom field details](#get-custom-field-details)
     - [URL](#url)
+    - [Response](#response)
+    - [Example Response](#example-response)
+  - [Create a new custom field](#create-a-new-custom-field)
+    - [URL](#url-1)
     - [Request Parameters](#request-parameters)
     - [Request Payload](#request-payload)
       - [Extra Parameters: text](#extra-parameters-text)
@@ -13,18 +24,147 @@
       - [Extra Parameters: date, day_of_year](#extra-parameters-date-day_of_year)
       - [Extra Parameters: select_single_dropdown, select_single_radio, select_multiple_checkboxes](#extra-parameters-select_single_dropdown-select_single_radio-select_multiple_checkboxes)
       - [Extra Parameters: booelean](#extra-parameters-booelean)
-    - [Response](#response)
+    - [Response](#response-1)
     - [Example](#example)
   - [Update an existing custom field](#update-an-existing-custom-field)
-    - [URL](#url-1)
+    - [URL](#url-2)
     - [Request Parameters](#request-parameters-1)
     - [Request Payload](#request-payload-1)
-    - [Response](#response-1)
+    - [Response](#response-2)
     - [Example](#example-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Custom Fields
+
+
+### Attributes
+
+The POST request should have a JSON document in its payload with all of the following keys.
+
+| Key          | Meaning                                                                            | Example                       | Type    |
+| ------------ | ---------------------------------------------------------------------------------- | ----------------------------- | ------- |
+| id           | The primary key for this custom field                                              | 123                           | Integer |
+| name         | The name of the custom field                                                       | "First Name"                  | String  |
+| field_type   | The type of this custom field, see the "Custom Field Types" enumerated value below | text                          | String  |
+| required     | This custom field is required to be filled out for all subscribers                 | true                          | Boolean |
+| instructions | Instructions on how this field should be used                                      | "Enter your first name here." | String  |
+
+The response will have extra attributes in it that are used based upon the field
+type. See the tables below for details on these fields.
+
+[See the "Custom Field Types" enumerated value](./../README.markdown#custom-field-types)
+
+##### Extra Attributes: text
+
+| Key            | Meaning                                                                                                                      | Example    | Type    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
+| default_string | The default value for this custom field                                                                                      | "John Doe" | String  |
+| minimum_length | The minimum length for this string (Note that if the field is not "Required", then it can be blank regardless of this value) | 10         | Integer |
+| maximum_length | The maximum length for this string                                                                                           | 100        | Integer |
+
+##### Extra Attributes: text_multiline
+
+| Key            | Meaning                                                                                                                      | Example    | Type    |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
+| default_string | The default value for this custom field                                                                                      | "John Doe" | String  |
+| minimum_length | The minimum length for this string (Note that if the field is not "Required", then it can be blank regardless of this value) | 10         | Integer |
+| maximum_length | The maximum length for this string                                                                                           | 100        | Integer |
+| number_of_rows | The number of rows that should be displayed when rendering this input field                                                  | 5          | Integer |
+
+##### Extra Attributes: number
+
+| Key             | Meaning                                                                                                                     | Example | Type    |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
+| default_integer | The default value for this custom field                                                                                     | 12345   | Integer |
+| minimum_value   | The minimum value for this number (Note that if the field is not "Required", then it can be blank regardless of this value) | 100     | Integer |
+| maximum_value   | The maximum value for this number                                                                                           | 100000  | Integer |
+
+##### Extra Attributes: date, day_of_year
+
+There are no extra attributes for these fields.
+
+##### Extra Attributes: select_single_dropdown, select_single_radio, select_multiple_checkboxes
+
+| Key     | Meaning                                                   | Example | Type   |
+| ------- | --------------------------------------------------------- | ------- | ------ |
+| options | An options array composed of the elements described below |         | String |
+
+Options Array Elements:
+
+| Key  | Meaning                                                                                  | Example | Type   |
+| ---- | ---------------------------------------------------------------------------------------- | ------- | ------ |
+| name | The name of this option; The string value presented in dropdowns, radios, and checkboxes | "Cats"  | String |
+
+##### Extra Attributes: booelean
+
+| Key             | Meaning                                                              | Example | Type    |
+| --------------- | -------------------------------------------------------------------- | ------- | ------- |
+| default_boolean | This boolean custom field should / should not be selected by default | true    | Boolean |
+
+
+### Get custom field details
+
+#### URL
+
+    GET /ga/api/v2/mailing_lists/:mailing_list_id/custom_fields
+
+#### Response
+
+The response will be an array of custom field objects, as defined in the "Attributes" section above.
+
+#### Example Response
+
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "default_string": "",
+      "field_type": "text",
+      "id": 1,
+      "instructions": "",
+      "mailing_list_id": 1,
+      "maximum_length": null,
+      "minimum_length": null,
+      "name": "Subscriber Name",
+      "required": false
+    },
+    {
+      "field_type": "select_multiple_checkboxes",
+      "id": 2,
+      "instructions": "",
+      "mailing_list_id": 1,
+      "name": "Car Type",
+      "required": false,
+      "options": [
+        {
+          "id": 2,
+          "index": 2,
+          "name": "Minivan"
+        },
+        {
+          "id": 3,
+          "index": 3,
+          "name": "Passenger Car"
+        },
+        {
+          "id": 4,
+          "index": 4,
+          "name": "Truck"
+        },
+        {
+          "id": 5,
+          "index": 5,
+          "name": "Big Rig"
+        }
+      ]
+    }
+  ],
+  "error_code": null,
+  "error_message": null
+}
+```
 
 
 ### Create a new custom field
@@ -162,6 +302,7 @@ A failure will return a standard error response with an explanation of what went
    }
 }
 ```
+
 
 ### Update an existing custom field
 

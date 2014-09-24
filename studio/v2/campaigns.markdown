@@ -10,6 +10,7 @@
     - [Example Request](#example-request)
   - [Get campaign details](#get-campaign-details)
     - [URL](#url-1)
+    - [URL (Get campaign details by Stat ID instead of Campaign ID)](#url-get-campaign-details-by-stat-id-instead-of-campaign-id)
     - [Request Parameters](#request-parameters-1)
     - [Response](#response-1)
     - [Example Request](#example-request-1)
@@ -20,16 +21,19 @@
     - [Example Request](#example-request-2)
   - [Update an existing campaign](#update-an-existing-campaign)
     - [URL](#url-3)
+    - [URL (Update campaign details by Stat ID instead of Campaign ID)](#url-update-campaign-details-by-stat-id-instead-of-campaign-id)
     - [Request Parameters](#request-parameters-3)
     - [Response](#response-3)
     - [Example Request](#example-request-3)
   - [Pause a campaign](#pause-a-campaign)
     - [URL](#url-4)
+    - [URL (Pause campaign a campaign by Stat ID instead of Campaign ID)](#url-pause-campaign-a-campaign-by-stat-id-instead-of-campaign-id)
     - [Request Parameters](#request-parameters-4)
     - [Response](#response-4)
     - [Example Request](#example-request-4)
   - [Resume a campaign](#resume-a-campaign)
     - [URL](#url-5)
+    - [URL (Resume a campaign by Stat ID instead of Campaign ID)](#url-resume-a-campaign-by-stat-id-instead-of-campaign-id)
     - [Request Parameters](#request-parameters-5)
     - [Response](#response-5)
     - [Example Request](#example-request-5)
@@ -120,7 +124,11 @@ Get details of particular campaign belonging to a particular mailing list.
 
 #### URL
 
-    GET /ga/api/v2/mailing_lists/:mailing_list_id/campaigns/:campaign_id
+    GET /ga/api/v2/campaigns/:campaign_id
+
+#### URL (Get campaign details by Stat ID instead of Campaign ID)
+
+    GET /ga/api/v2/campaigns/by_stat/:stat_id
 
 #### Request Parameters
 
@@ -364,7 +372,11 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 #### URL
 
-    PUT /ga/api/v2/mailing_lists/:mailing_list_id/campaigns/:campaign_id
+    PUT /ga/api/v2/campaigns/:campaign_id
+
+#### URL (Update campaign details by Stat ID instead of Campaign ID)
+
+    PUT /ga/api/v2/campaigns/by_stat/:stat_id
 
 #### Request Parameters
 
@@ -431,7 +443,11 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 #### URL
 
-    POST /ga/api/v2/mailing_lists/:mailing_list_id/campaigns/:campaign_id/pause
+    POST /ga/api/v2/campaigns/:campaign_id/pause
+
+#### URL (Pause campaign a campaign by Stat ID instead of Campaign ID)
+
+    POST /ga/api/v2/campaigns/by_stat/:stat_id/pause
 
 #### Request Parameters
 
@@ -521,7 +537,11 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 #### URL
 
-    POST /ga/api/v2/mailing_lists/:mailing_list_id/campaigns/:campaign_id/resume
+    POST /ga/api/v2/campaigns/:campaign_id/resume
+
+#### URL (Resume a campaign by Stat ID instead of Campaign ID)
+
+    GET /ga/api/v2/campaigns/by_stat/:stat_id/resume
 
 #### Request Parameters
 
