@@ -280,17 +280,23 @@ A failure will return a standard error response with an explanation of what went
 
 The PUT request should have a JSON document in its payload with all of the following keys.
 
-| Key                       | Meaning                                                                                                        | Example                                                       | Type    |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| subscriber.email          | The subscriber's email address                                                                                 | bob@example.com                                               | String  |
-| subscriber.confirmed      | The subscriber's confirmed status. This column is only needed for mailing lists which use the Confirmed field. | true or false                                                 | Boolean |
-| subscriber.email_format   | The subscriber's email format. This column is only needed for mailing lists which use the Format field.        | "plaintext" or "html"                                         | String  |
-| subscriber.status         | The status of the subscriber.                                                                                  | "active", "bounced", "unsubscribed", "scomp" or "deactivated" | String  |
-| subscriber.subscribe_time | The time the subscriber subscribed.                                                                            | "2013-03-27T10:14:13-05:00"                                   | String  |
-| subscriber.subscribe_ip   | The ip the subscriber subscribed from. This can be null if it is unknown.                                      | "192.168.0.123"                                               | String  |
-| subscriber.custom_fields  | An array of entries matching the definition found below.                                                       | ...                                                           | Hash    |
+| Key                           | Meaning                                                                                                        | Example                                                       | Type    |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| subscriber.email              | The subscriber's email address                                                                                 | bob@example.com                                               | String  |
+| subscriber.confirmed          | The subscriber's confirmed status. This column is only needed for mailing lists which use the Confirmed field. | true or false                                                 | Boolean |
+| subscriber.email_format       | The subscriber's email format. This column is only needed for mailing lists which use the Format field.        | "plaintext" or "html"                                         | String  |
+| subscriber.status             | The status of the subscriber.                                                                                  | "active", "bounced", "unsubscribed", "scomp" or "deactivated" | String  |
+| subscriber.subscribe_time     | The time the subscriber subscribed.                                                                            | "2013-03-27T10:14:13-05:00"                                   | String  |
+| subscriber.subscribe_ip       | The ip the subscriber subscribed from. This can be null if it is unknown.                                      | "192.168.0.123"                                               | String  |
+| subscriber.custom_fields      | An array of entries matching the definition found below.                                                       | ...                                                           | Hash    |
+| subscriber.run_autoresponders | Run autoresponders on this subscriber as though it was just created. Defaults to false.                        | true                                                          | Boolean |
 
-Each entry in the specified *custom_fields* hash must have the following keys. The keys for the hash is the name of the custom field.
+* The `run_autoresponders` option does not affect reactions that are
+  already in the queue. Using this parameter, it is possible for an
+  autoresponder to be sent to the same subscriber multiple times.
+
+Each entry in the specified *custom_fields* hash must have the following keys.
+The keys for the hash is the name of the custom field.
 
 | Key   | Meaning                                                   | Example       | Type             | Present for Custom Field Types                                    | 
 | ----- | --------------------------------------------------------- | ------------- | ---------------- | ----------------------------------------------------------------- | 
