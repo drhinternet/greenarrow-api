@@ -1,9 +1,9 @@
+# Special Sending Rules
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Special Sending Rules](#special-sending-rules)
-  - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
 - [Special Sending Rules: Usage & Interface](#special-sending-rules-usage-&-interface)
   - [Notes](#notes)
@@ -47,10 +47,6 @@
       - [Example Special Sending Rule that Sends Using Different Virtual MTAs for Even and Odd Subscriber IDs](#example-special-sending-rule-that-sends-using-different-virtual-mtas-for-even-and-odd-subscriber-ids-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Special Sending Rules
-
-## Table of Contents
 
 ## Overview
 
