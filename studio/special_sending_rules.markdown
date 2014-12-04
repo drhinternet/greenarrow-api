@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-  - [Overview](#overview)
+- [Overview](#overview)
 - [Special Sending Rules: Usage & Interface](#special-sending-rules-usage-&-interface)
   - [Notes](#notes)
   - [Attributes of a Special Sending Rule](#attributes-of-a-special-sending-rule)
@@ -48,7 +48,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Overview
+# Overview
 
 Special Sending Rules provide a way to programmatically customize the sending
 attributes or the content of a message before it is sent.
@@ -210,16 +210,18 @@ The Campaign Information Hash ($campaign_information_hash) contains data about t
 
 | Key                        | Description                                                                                                                                         |
 | -----------------          | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| is_preview                 | If this is a campaign preview, then 1. Otherwise 0.                                                                                                 |
 | seed_list_name             | Name of seed list. (Undefined if no seedlist selected.)                                                                                             |
 | seed_list_id               | Primary key of seed list. (Undefined if no seedlist selected.)                                                                                      |
 | speed                      | Speed of the campaign in messages per hour or zero if unlimited.                                                                                    |
 | from_name                  | From address name.                                                                                                                                  |
 | from_email                 | From email address.                                                                                                                                 |
 | sender_email               | Sender email address. (Undefined if not specified.)                                                                                                 |
-| reply_to_email             | Reply-to email address (Undefined if not specified.)                                                                                                |
+| reply_to                   | Reply-to email address (Undefined if not specified.)                                                                                                |
 | virtual_mta_name           | Name of VirtualMTA used for sending. (If this option is hidden from the user, then this will be set to the actual value used for sending.)          |
 | virtual_mta_id             | Primary key of the VirtualMTA.                                                                                                                      |
 | url_domain_name            | Domain name for click and open tracking URLs. (If this option is hidden from the user, then this will be set to the actual value used for sending.) |
+| url_domain_id              | Primary key of the URL Domain.                                                                                                                      |
 | track_opens                | If tracking opens, then 1. Otherwise 0.                                                                                                             |
 | track_links                | If tracking links, then 1. Otherwise 0.                                                                                                             |
 | bounce_email               | Bounce handling email address. (If this option is hidden from the user, then this will be set to the actual value used for sending.)                |
@@ -233,8 +235,9 @@ The Campaign Information Hash ($campaign_information_hash) contains data about t
 
 Note on `segmentation_criteria_json`: The format of this field is undocumented.
 It exists as an input for users that need it, but its fields should be
-discovered through experimentation. If a campaign does not yet have a segment
-defined, then these values will be null.
+discovered through experimentation. (If a campaign does not yet have a segment
+defined, then these values will be null. This can happen when a SSR is applied
+to a campaign preview where the campaign does not have a segment defined.)
 
 #### Recipient Information Hash
 
@@ -247,17 +250,21 @@ The Recipient Information Hash ($multiple_recipients_information_hash) contains 
 
 ##### subscriber Hash
 
-| Key            | Description                                                                                                                   |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| id             | Primary key of subscriber.                                                                                                    |
-| email          | Email address.                                                                                                                |
-| created_at     | Date subscriber record was created.                                                                                           |
-| confirmed      | If confirmed, then 1. Otherwise 0. This key is only presented for mailing lists which use the Confirmed field.             |
-| email_format   | Subscriber's format setting ("html" or "text"). This key is only presented for mailing lists which use the Format field.   |
-| status         | Status for the subscriber. Is always "active".                                                                                |
-| subscribe_time | Date that subscriber subscribed.                                                                                              |
-| subscribe_ip   | IP address that subscriber subscribed from.                                                                                   |
-| custom_fields  | Hash of custom fields.                                                                                                        |
+| Key                      | Description                                                                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| id                       | Primary key of subscriber.                                                                                                            |
+| email                    | Email address.                                                                                                                        |
+| created_at               | Time subscriber record was created in [ISO 8601 date/time format](http://www.w3.org/TR/NOTE-datetime) in the organization time zone.  |
+| created_at_epoch         | Time subscriber record was created in seconds past the UNIX epoch in the organization time zone.                                      |
+| created_at_epoch_utc     | Time subscriber record was created in seconds past the UNIX epoch in the UTC time zone.                                               |
+| confirmed                | If confirmed, then 1. Otherwise 0. This key is only presented for mailing lists which use the Confirmed field.                        |
+| email_format             | Subscriber's format setting ("html" or "text"). This key is only presented for mailing lists which use the Format field.              |
+| status                   | Status for the subscriber. Is always "active".                                                                                        |
+| subscribe_time           | Time that subscriber subscribed in [ISO 8601 date/time format](http://www.w3.org/TR/NOTE-datetime) in the organization time zone.     |   
+| subscribe_time_epoch     | Time that subscriber subscribed in seconds past the UNIX epoch in the organization time zone.                                         |     
+| subscribe_time_epoch_utc | Time that subscriber subscribed in seconds past the UNIX epoch in the UTC time zone.                                                  |     
+| subscribe_ip             | IP address that subscriber subscribed from.                                                                                           |
+| custom_fields            | Hash of custom fields. Uses the same format as returned by the get subscriber API call.                                               |
 
 The date values are returned in `YYYY-MM-DDThh:mm:ss.s` format, using UTC as the time zone. For example, `2014-10-30 13:08:18.936708`.
 
@@ -265,7 +272,8 @@ The date values are returned in `YYYY-MM-DDThh:mm:ss.s` format, using UTC as the
 
 | Key     | Description                                                                                                                                     |
 | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| format  | Format of email message to send: "both", "html", or "text"                                                                                   |
+| id      | The internal ID of this content object                                                                                                          |
+| format  | Format of email message to send: "both", "html", or "text"                                                                                      |
 | html    | HTML content before custom field replacement, click tracking, and open tracking. (If this is a text-only message, then this will be undefined.) |
 | text    | Text content before custom field replacement, click tracking, and open tracking. (If this is a html-only message, then this will be undefined.) |
 | subject | Subject of email before custom field replacement.                                                                                               |
@@ -279,16 +287,19 @@ default value for a particular delivery.
 
 | Key              | Corresponds to                             | Description                                                                                                                                                                                                                                                                                       |
 | ---------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| html             | message_information_hash.content.html      | New HTML content. If this is set to undefined or a blank string, then this removes the HTML content and creates a text-only email, provided that text content exists. Custom field replacement, click tracking, and open tracking will be performed on this content. |
-| text             | message_information_hash.content.text      | New text content. If this is set to undefined or a blank string, then this removes the text content and creates a HTML-only email, provided that HTML content exists. Custom field replacement, and click tracking will be performed on this content. |
+| html             | message_information_hash.content.html      | New HTML content. If this is set to undefined or a blank string, then this removes the HTML content and creates a text-only email, provided that text content exists. Custom field replacement, click tracking, and open tracking will be performed on this content.                              |
+| text             | message_information_hash.content.text      | New text content. If this is set to undefined or a blank string, then this removes the text content and creates a HTML-only email, provided that HTML content exists. Custom field replacement, and click tracking will be performed on this content.                                             |
 | subject          | message_information_hash.content.subject   | New subject. Custom field replacement will be performed on this content.                                                                                                                                                                                                                          |
 | from_name        | campaign_information_hash.from_name        | New from address name.                                                                                                                                                                                                                                                                            |
 | from_email       | campaign_information_hash.from_email       | New from email address.                                                                                                                                                                                                                                                                           |
 | sender_email     | campaign_information_hash.sender_email     | New sender email address. Set to blank or undefined to clear the sender email address.                                                                                                                                                                                                            |
-| reply_to_email   | campaign_information_hash.reply_to_email   | New reply-to email address. Set to blank or undefined to clear the reply-to email address.                                                                                                                                                                                                        |
-| virtual_mta_name | campaign_information_hash.virtual_mta_name | New VirtualMTA. Set to the name of the VirtualMTA.                                                                                                                                                                                                                                                |
-| url_domain_name  | campaign_information_hash.url_domain_name  | New URL domain.                                                                                                                                                                                                                                                                                   |
-| bounce_email     | campaign_information_hash.bounce_email     | New bounce email address.                                                                                                                                                                                                                                                                         |
+| reply_to         | campaign_information_hash.reply_to         | New reply-to email address. Set to blank or undefined to clear the reply-to email address.                                                                                                                                                                                                        |
+| virtual_mta_name | campaign_information_hash.virtual_mta_name | New VirtualMTA. Set to the name of the VirtualMTA. Specify only one of this or `virtual_mta_id`.                                                                                                                                                                                                  |
+| virtual_mta_id   | campaign_information_hash.virtual_mta_id   | New VirtualMTA. Set to the ID of the VirtualMTA.  Specify only one of this or `virtual_mta_name`.                                                                                                                                                                                                 |
+| url_domain_name  | campaign_information_hash.url_domain_name  | New URL domain. Set to the URL Domain domain name. Specify only one of this or `url_domain_id`.                                                                                                                                                                                                   |
+| url_domain_id    | campaign_information_hash.url_domain_id    | New URL domain. Set to the ID of the URL Domain. Specify only one of this or `url_domain_name`.                                                                                                                                                                                                   |
+| bounce_email     | campaign_information_hash.bounce_email     | New bounce email address. Specify only one of this or `bounce_email_id`.                                                                                                                                                                                                                          |
+| bounce_email_id  | &mdash;                                    | New bounce email address. Specify only one of this or `bounce_email`.                                                                                                                                                                                                                             |
 
 * If the SSR's override hash includes `html` or `text` keys, this may cause
   the email format to change. For example, if a campaign was originally `text`,
@@ -364,7 +375,7 @@ $campaign_information_hash = {
     from_name         => 'DRH Internet',
     from_email        => 'newsletter@example.drh.net',
     sender_email      => undef,
-    reply_to_email    => undef,
+    reply_to          => undef,
     virtual_mta_name  => 'smtp1-2',
     virtual_mta_id    => 3,
     url_domain_name   => 'http://newsletter.example.drh.net/',
@@ -380,15 +391,19 @@ $campaign_information_hash = {
 $multiple_recipients_information_hash = {
     182634 => {
         subscriber => {
-            id  => 182634,
-            email          => 'fred@example.com',
-            created_at     => ???
-            confirmed      => 1,
-            email_format   => 'html',
-            status         => 'active'
-            subscribe_time => ???,
-            subscribe_ip   => '10.0.0.3',
-            custom_fields  => {
+            id                       => 182634,
+            email                    => 'fred@example.com',
+            created_at               => '2014-12-03T08:39:53+12:00',
+            created_at_epoch         => 1417595993,
+            created_at_epoch_utc     => 1417552793,
+            confirmed                => 1,
+            email_format             => 'html',
+            status                   => 'active'
+            subscribe_time           => '2014-12-03T08:39:53+12:00',
+            subscribe_time_epoch     => 1417595993,
+            subscribe_time_epoch_utc => 1417552793,
+            subscribe_ip             => '10.0.0.3',
+            custom_fields            => {
                 "First Name" => {
                     name  => "First Name",
                     type  => "text",
@@ -448,7 +463,7 @@ my %result = map {
     from_name         => $campaign_information_hash->{from_name},
     from_email        => $campaign_information_hash->{from_email},
     sender_email      => $campaign_information_hash->{sender_email},
-    reply_to_email    => $campaign_information_hash->{reply_to_email},
+    reply_to          => $campaign_information_hash->{reply_to},
     virtual_mta_name  => $campaign_information_hash->{virtual_mta_name},
     url_domain_name   => $campaign_information_hash->{url_domain_name},
     bounce_email      => $campaign_information_hash->{bounce_email},
@@ -520,7 +535,7 @@ return array_map((function ($recipient) use ($campaign_information_hash) {
     'from_name'         => $campaign_information_hash->from_name,
     'from_email'        => $campaign_information_hash->from_email,
     'sender_email'      => $campaign_information_hash->sender_email,
-    'reply_to_email'    => $campaign_information_hash->reply_to_email,
+    'reply_to'          => $campaign_information_hash->reply_to,
     'virtual_mta_name'  => $campaign_information_hash->virtual_mta_name,
     'url_domain_name'   => $campaign_information_hash->url_domain_name,
     'bounce_email'      => $campaign_information_hash->bounce_email,
