@@ -19,6 +19,7 @@
     - [Request Parameters](#request-parameters-2)
     - [Response](#response-2)
     - [Example Request](#example-request-2)
+    - [Example code](#example-code)
   - [Update an existing campaign](#update-an-existing-campaign)
     - [URL](#url-3)
     - [URL (Update campaign details by Stat ID instead of Campaign ID)](#url-update-campaign-details-by-stat-id-instead-of-campaign-id)
@@ -367,6 +368,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
       "success" : true
     }
 
+#### Example code
+
+* [Create a new campaign](../examples/create_a_new_campaign.php)
 
 ### Update an existing campaign
 

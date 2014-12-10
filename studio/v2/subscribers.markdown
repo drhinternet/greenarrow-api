@@ -15,12 +15,14 @@
     - [Request Payload](#request-payload)
     - [Response](#response-1)
     - [Example](#example)
+    - [Example code](#example-code)
   - [Update an existing subscriber](#update-an-existing-subscriber)
     - [URL](#url-2)
     - [Request Parameters](#request-parameters-2)
     - [Request Payload](#request-payload-1)
     - [Response](#response-2)
     - [Example](#example-1)
+    - [Example code](#example-code-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -261,6 +263,10 @@ A failure will return a standard error response with an explanation of what went
         "error_message": null,
         "success": true
     }
+#### Example code
+
+* [Create a new subscriber](../examples/create_a_new_subscriber.php)
+* [Create a new subscriber with custom fields](../examples/create_a_new_subscriber_with_custom_field.php)
 
 
 ### Update an existing subscriber
@@ -384,3 +390,7 @@ A failure will return a standard error response with an explanation of what went
         "error_message": null,
         "success": true
     }
+
+#### Example code
+
+* [Update an existing subscriber](../examples/update_existing_subscribers_custom_field.php)
