@@ -52,7 +52,7 @@
 
 ## Introduction
 
-This is the documentation for the GreenArrow Studio 4 API. If you have additional questions about the API, or feel that you've encountered a bug, please don't hesitate to contact us at [techtickets-studio4beta@drh.net](mailto:techtickets-studio4beta@drh.net).
+This is the documentation for the GreenArrow Studio 4 API. If you have additional questions about the API, or feel that you've encountered a bug, please don't hesitate to contact us at [our support address](https://drhinternet.zendesk.com/anonymous_requests/new).
 
 Interactions with this API are accomplished over HTTP. On POST and PUT requests, JSON is expected as the body of the request. All API calls reply with JSON.
 
