@@ -4,12 +4,13 @@
 
 - [Custom Fields](#custom-fields)
   - [Attributes](#attributes)
-      - [Extra Attributes: text](#extra-attributes-text)
-      - [Extra Attributes: text_multiline](#extra-attributes-text_multiline)
-      - [Extra Attributes: number](#extra-attributes-number)
-      - [Extra Attributes: date, day_of_year](#extra-attributes-date-day_of_year)
-      - [Extra Attributes: select_single_dropdown, select_single_radio, select_multiple_checkboxes](#extra-attributes-select_single_dropdown-select_single_radio-select_multiple_checkboxes)
-      - [Extra Attributes: booelean](#extra-attributes-booelean)
+      - [Extra Attributes: Responses](#extra-attributes-responses)
+      - [Extra Attributes: text fields](#extra-attributes-text-fields)
+      - [Extra Attributes: text_multiline fields](#extra-attributes-text_multiline-fields)
+      - [Extra Attributes: number fields](#extra-attributes-number-fields)
+      - [Extra Attributes: date and day_of_year fields](#extra-attributes-date-and-day_of_year-fields)
+      - [Extra Attributes: select_single_dropdown, select_single_radio, and select_multiple_checkboxes fields](#extra-attributes-select_single_dropdown-select_single_radio-and-select_multiple_checkboxes-fields)
+      - [Extra Attributes: boolean fields](#extra-attributes-boolean-fields)
   - [Get custom field details](#get-custom-field-details)
     - [URL](#url)
     - [Response](#response)
@@ -18,12 +19,6 @@
     - [URL](#url-1)
     - [Request Parameters](#request-parameters)
     - [Request Payload](#request-payload)
-      - [Extra Parameters: text](#extra-parameters-text)
-      - [Extra Parameters: text_multiline](#extra-parameters-text_multiline)
-      - [Extra Parameters: number](#extra-parameters-number)
-      - [Extra Parameters: date, day_of_year](#extra-parameters-date-day_of_year)
-      - [Extra Parameters: select_single_dropdown, select_single_radio, select_multiple_checkboxes](#extra-parameters-select_single_dropdown-select_single_radio-select_multiple_checkboxes)
-      - [Extra Parameters: booelean](#extra-parameters-booelean)
     - [Response](#response-1)
     - [Example](#example)
   - [Update an existing custom field](#update-an-existing-custom-field)
@@ -32,6 +27,12 @@
     - [Request Payload](#request-payload-1)
     - [Response](#response-2)
     - [Example](#example-1)
+  - [Deleting a custom field](#deleting-a-custom-field)
+    - [URL](#url-3)
+    - [Request Parameters](#request-parameters-2)
+    - [Request Payload](#request-payload-2)
+    - [Response](#response-3)
+    - [Example](#example-2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -55,7 +56,16 @@ type. See the tables below for details on these fields.
 
 [See the "Custom Field Types" enumerated value](./../README.markdown#custom-field-types)
 
-##### Extra Attributes: text
+##### Extra Attributes: Responses
+
+The following keys are included when the custom field is sent back in a JSON
+response. These keys are not valid input values.
+
+| Key       | Meaning                                         | Example | Type    |
+| --------- | ----------------------------------------------- | ------- | ------- |
+| is_global | This custom field is global to the organization | false   | Boolean |
+
+##### Extra Attributes: text fields
 
 | Key            | Meaning                                                                                                                      | Example    | Type    |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
@@ -63,7 +73,7 @@ type. See the tables below for details on these fields.
 | minimum_length | The minimum length for this string (Note that if the field is not "Required", then it can be blank regardless of this value) | 10         | Integer |
 | maximum_length | The maximum length for this string                                                                                           | 100        | Integer |
 
-##### Extra Attributes: text_multiline
+##### Extra Attributes: text_multiline fields
 
 | Key            | Meaning                                                                                                                      | Example    | Type    |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
@@ -72,7 +82,7 @@ type. See the tables below for details on these fields.
 | maximum_length | The maximum length for this string                                                                                           | 100        | Integer |
 | number_of_rows | The number of rows that should be displayed when rendering this input field                                                  | 5          | Integer |
 
-##### Extra Attributes: number
+##### Extra Attributes: number fields
 
 | Key             | Meaning                                                                                                                     | Example | Type    |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
@@ -80,11 +90,11 @@ type. See the tables below for details on these fields.
 | minimum_value   | The minimum value for this number (Note that if the field is not "Required", then it can be blank regardless of this value) | 100     | Integer |
 | maximum_value   | The maximum value for this number                                                                                           | 100000  | Integer |
 
-##### Extra Attributes: date, day_of_year
+##### Extra Attributes: date and day_of_year fields
 
 There are no extra attributes for these fields.
 
-##### Extra Attributes: select_single_dropdown, select_single_radio, select_multiple_checkboxes
+##### Extra Attributes: select_single_dropdown, select_single_radio, and select_multiple_checkboxes fields
 
 | Key     | Meaning                                                   | Example | Type   |
 | ------- | --------------------------------------------------------- | ------- | ------ |
@@ -96,7 +106,7 @@ Options Array Elements:
 | ---- | ---------------------------------------------------------------------------------------- | ------- | ------ |
 | name | The name of this option; The string value presented in dropdowns, radios, and checkboxes | "Cats"  | String |
 
-##### Extra Attributes: booelean
+##### Extra Attributes: boolean fields
 
 | Key             | Meaning                                                              | Example | Type    |
 | --------------- | -------------------------------------------------------------------- | ------- | ------- |
@@ -107,7 +117,14 @@ Options Array Elements:
 
 #### URL
 
+To get the custom fields that apply to a mailing list (this includes both
+custom fields that are attached to this mailing list and global custom fields):
+
     GET /ga/api/v2/mailing_lists/:mailing_list_id/custom_fields
+
+To get the custom fields that are global to the organization:
+
+    GET /ga/api/v2/custom_fields
 
 #### Response
 
@@ -128,7 +145,8 @@ The response will be an array of custom field objects, as defined in the "Attrib
       "maximum_length": null,
       "minimum_length": null,
       "name": "Subscriber Name",
-      "required": false
+      "required": false,
+      "is_global": false
     },
     {
       "field_type": "select_multiple_checkboxes",
@@ -137,6 +155,7 @@ The response will be an array of custom field objects, as defined in the "Attrib
       "mailing_list_id": 1,
       "name": "Car Type",
       "required": false,
+      "is_global": false,
       "options": [
         {
           "id": 2,
@@ -171,7 +190,13 @@ The response will be an array of custom field objects, as defined in the "Attrib
 
 #### URL
 
+To create a new custom field on a mailing list:
+
     POST /ga/api/v2/mailing_lists/:mailing_list_id/custom_fields
+
+To create a new custom field that is global to the organization:
+
+    POST /ga/api/v2/custom_fields
 
 #### Request Parameters
 
@@ -181,78 +206,13 @@ The response will be an array of custom field objects, as defined in the "Attrib
 
 #### Request Payload
 
-The POST request should have a JSON document in its payload with all of the following keys.
-
-| Key          | Meaning                                                                            | Example                       | Type    |
-| ------------ | ---------------------------------------------------------------------------------- | ----------------------------- | ------- |
-| name         | The name of the custom field                                                       | "First Name"                  | String  |
-| field_type   | The type of this custom field, see the "Custom Field Types" enumerated value below | text                          | String  |
-| required     | This custom field is required to be filled out for all subscribers                 | true                          | Boolean |
-| instructions | Instructions on how this field should be used                                      | "Enter your first name here." | String  |
-
-The response will have extra parameters in it that are used based upon the field
-type. See the tables below for details on these fields.
-
-##### Extra Parameters: text
-
-| Key            | Meaning                                                                                                                      | Example    | Type    |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
-| default_string | The default value for this custom field                                                                                      | "John Doe" | String  |
-| minimum_length | The minimum length for this string (Note that if the field is not "Required", then it can be blank regardless of this value) | 10         | Integer |
-| maximum_length | The maximum length for this string                                                                                           | 100        | Integer |
-
-##### Extra Parameters: text_multiline
-
-| Key            | Meaning                                                                                                                      | Example    | Type    |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------- | ------- |
-| default_string | The default value for this custom field                                                                                      | "John Doe" | String  |
-| minimum_length | The minimum length for this string (Note that if the field is not "Required", then it can be blank regardless of this value) | 10         | Integer |
-| maximum_length | The maximum length for this string                                                                                           | 100        | Integer |
-| number_of_rows | The number of rows that should be displayed when rendering this input field                                                  | 5          | Integer |
-
-##### Extra Parameters: number
-
-| Key             | Meaning                                                                                                                     | Example | Type    |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------- | ------- | ------- |
-| default_integer | The default value for this custom field                                                                                     | 12345   | Integer |
-| minimum_value   | The minimum value for this number (Note that if the field is not "Required", then it can be blank regardless of this value) | 100     | Integer |
-| maximum_value   | The maximum value for this number                                                                                           | 100000  | Integer |
-
-##### Extra Parameters: date, day_of_year
-
-There are no extra parameters for these fields.
-
-##### Extra Parameters: select_single_dropdown, select_single_radio, select_multiple_checkboxes
-
-| Key     | Meaning                                                   | Example | Type   |
-| ------- | --------------------------------------------------------- | ------- | ------ |
-| options | An options array composed of the elements described below |         | String |
-
-Options Array Elements:
-
-| Key  | Meaning                                                                                  | Example | Type   |
-| ---- | ---------------------------------------------------------------------------------------- | ------- | ------ |
-| name | The name of this option; The string value presented in dropdowns, radios, and checkboxes | "Cats"  | String |
-
-##### Extra Parameters: booelean
-
-| Key             | Meaning                                                              | Example | Type    |
-| --------------- | -------------------------------------------------------------------- | ------- | ------- |
-| default_boolean | This boolean custom field should / should not be selected by default | true    | Boolean |
+See the "Attributes" section above for an explanation of the custom field
+fields. The JSON object should be a child of the `custom_field` key.
 
 #### Response
 
 A successful response will return the custom field record as described below,
 in addition to the "Extra Parameters" listed above.
-
-| Key             | Meaning                                                                            | Example                       | Type    |
-| --------------- | ------------------------------------------------                                   | -------                       | ------- |
-| id              | The id of the custom field                                                         | 17293                         | Integer |
-| mailing_list_id | The id of the mailing list for this custom field                                   | 17293                         | Integer |
-| name            | The name of the custom field                                                       | "First Name"                  | String  |
-| field_type      | The type of this custom field, see the "Custom Field Types" enumerated value below | text                          | String  |
-| required        | This custom field is required to be filled out for all subscribers                 | true                          | Boolean |
-| instructions    | Instructions on how this field should be used                                      | "Enter your first name here." | String  |
 
 A failure will return a standard error response with an explanation of what went wrong.
 
@@ -308,7 +268,13 @@ A failure will return a standard error response with an explanation of what went
 
 #### URL
 
+Update a custom field that is associated with a single mailing list:
+
     PUT /ga/api/v2/mailing_lists/:mailing_list_id/custom_fields/:id
+
+Update a custom field that is global to the organization:
+
+    PUT /ga/api/v2/custom_fields/:id
 
 #### Request Parameters
 
@@ -367,3 +333,68 @@ A failure will return a standard error response with an explanation of what went
           "required":false
        }
     }
+
+
+### Deleting a custom field
+
+#### URL
+
+Delete a custom field that is associated with a single mailing list:
+
+    DELETE /ga/api/v2/mailing_lists/:mailing_list_id/custom_fields/:id
+
+Delete a custom field that is global to the organization:
+
+    DELETE /ga/api/v2/custom_fields/:id
+
+#### Request Parameters
+
+| Key             | Meaning                                          | Example |
+| --------------- | ------------------------------------------------ | ------- |
+| id              | The id of the custom field                       | 123     |
+| mailing_list_id | The id of the mailing list for this custom field | 17293   |
+
+#### Request Payload
+
+This request has no payload.
+
+#### Response
+
+A successful response will return an empty success response:
+
+```
+{
+  "success": true,
+  "data": null,
+  "error_code": null,
+  "error_message": null
+}
+```
+
+A failure will return a standard error response with an explanation of what went wrong.
+
+#### Example
+
+```
+> DELETE custom_fields/8 HTTP/1.1
+> Authorization: Basic MTpjMmUzNzJmMDAxNmQyYWNhZDIyZjJjYzNhMzQwNWY4MDc5NWVlMThh
+> Accept: application/json
+> Content-Type: application/json
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "f744395dc73a323ce47b552d60a1c6cb"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=3725ce5c714b5298dfddc07ddbf08cef; path=/; HttpOnly
+< X-Request-Id: bb1debcd7215b30b540a26e6d7cff517
+< X-Runtime: 0.018141
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "data": null,
+  "error_code": null,
+  "error_message": null
+}
+```

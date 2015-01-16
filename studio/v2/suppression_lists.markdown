@@ -108,7 +108,7 @@ Returns the updated suppression list object.
 
 #### URL
 
-    GET /ga/api/v2/suppression_lists/:suppression_list_id/suppressed_addresses?page=0&limit=250
+    GET /ga/api/v2/suppression_lists/:suppression_list_id/suppressed_addresses?page=0&per_page=250
 
 #### Response
 
