@@ -15,6 +15,7 @@
     - [Authorization Header](#authorization-header)
 - [Version 2](#version-2)
     - [[Subscribers](./v2/subscribers.markdown)](#subscribersv2subscribersmarkdown)
+    - [[Subscriber Imports](./v2/subscriber_imports.markdown)](#subscriber-importsv2subscriber_importsmarkdown)
     - [[Mailing Lists](./v2/mailing_lists.markdown)](#mailing-listsv2mailing_listsmarkdown)
     - [[Custom Fields](./v2/custom_fields.markdown)](#custom-fieldsv2custom_fieldsmarkdown)
     - [[Campaigns](./v2/campaigns.markdown)](#campaignsv2campaignsmarkdown)
@@ -181,6 +182,8 @@ Thus, for that example, our header would be the following.
 
 
 ### [Subscribers](./v2/subscribers.markdown)
+
+### [Subscriber Imports](./v2/subscriber_imports.markdown)
 
 ### [Mailing Lists](./v2/mailing_lists.markdown)
 
