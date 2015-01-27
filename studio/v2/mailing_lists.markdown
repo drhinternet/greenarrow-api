@@ -20,6 +20,12 @@
     - [Request Payload](#request-payload-1)
     - [Response](#response-2)
     - [Example](#example-1)
+  - [Deleting a mailing list](#deleting-a-mailing-list)
+    - [URL](#url-3)
+    - [Response (Request Confirmation Code)](#response-request-confirmation-code)
+      - [Example](#example-2)
+    - [Response (Reply with Confirmation Code, Delete Mailing List)](#response-reply-with-confirmation-code-delete-mailing-list)
+      - [Example](#example-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -389,3 +395,107 @@ went wrong.
         "error_message": null,
         "success": true
     }
+
+
+### Deleting a mailing list
+
+Deleting a mailing list is a two-step process:
+
+1. Request a "Delete Confirmation Code". This will generate a confirmation code
+   that will be valid for 2 minutes.
+2. Send the confirmation code back to the server.
+
+We do this because deleting a mailing list is what we consider to be a major
+event. The following happens when a mailing list is deleted:
+
+1. All subscribers are deleted.
+2. All active/scheduled subscriber imports and exports are cancelled.
+3. All active/scheduled campaigns are cancelled.
+4. The mailing list's database entry is marked as "deleted."
+
+From that point forward, the mailing list will no longer appear in the user interface.
+
+#### URL
+
+To request the confirmation code:
+
+    GET /ga/api/v2/mailing_lists/:mailing_list_id/delete_confirmation_code
+
+To confirm the deletion and start the deletion process:
+
+    DELETE /ga/api/v2/mailing_lists/:mailing_list_id/confirmed/:delete_confirmation_code
+
+#### Response (Request Confirmation Code)
+
+| Key                              | Meaning                                                                                 |
+| -------------------------------- | --------------------------------------------------------------------------------------- |
+| `delete_confirmation_code`       | The token to send back to the server to confirm deletion of the specified mailing list. |
+| `delete_confirmation_expires_at` | The time at which the included token will no longer be valid.                           |
+
+##### Example
+
+```json
+> GET /ga/api/mailing_lists/3/delete_confirmation_code HTTP/1.1
+> Authorization: Basic MTpjMjBmMWMyODUwM2M5ODg2N2YwZDRjYWQ3NGYyMWI4NzU5ODMzYTAz
+> Accept: application/json
+> Content-Type: application/json
+
+< Date: Tue, 20 Jan 2015 14:15:46 GMT
+< Server: Apache/2.2.27 (Unix) mod_ssl/2.2.27 OpenSSL/1.0.1e-fips PHP/5.3.28 Phusion_Passenger/4.0.45
+< X-UA-Compatible: IE=Edge,chrome=1
+< ETag: "695e7fac5af2c12993874f8e798a127a"
+< Cache-Control: must-revalidate, private, max-age=0
+< X-Request-Id: efc60ffbc114662efdae67ff6f7f4e72
+< X-Runtime: 0.084875
+< X-Rack-Cache: miss
+< X-Powered-By: Phusion Passenger 4.0.45
+< Set-Cookie: _session_id=4c395b61027d76f25f469bedf53c6f5d; path=/; HttpOnly
+< Status: 200 OK
+< Transfer-Encoding: chunked
+< Content-Type: application/json; charset=utf-8
+
+{
+  "success": true,
+  "data": {
+    "delete_confirmation_code": "889d6ede39689b0f25e41d8cd4441f7d18082c79:1421871666",
+    "delete_confirmation_expires_at": "2015-01-20T14:17:46Z"
+  },
+  "error_code": null,
+  "error_message": null
+}
+```
+
+#### Response (Reply with Confirmation Code, Delete Mailing List)
+
+An empty successful response to this request indicates that the mailing list
+has been marked as deleted and the data cleanup listed above has been done.
+
+##### Example
+
+```json
+> DELETE /ga/api/mailing_lists/3/confirmed/889d6ede39689b0f25e41d8cd4441f7d18082c79:1421871666 HTTP/1.1
+> Authorization: Basic MTpjMjBmMWMyODUwM2M5ODg2N2YwZDRjYWQ3NGYyMWI4NzU5ODMzYTAz
+> Accept: application/json
+> Content-Type: application/json
+
+< Date: Tue, 20 Jan 2015 14:16:00 GMT
+< Server: Apache/2.2.27 (Unix) mod_ssl/2.2.27 OpenSSL/1.0.1e-fips PHP/5.3.28 Phusion_Passenger/4.0.45
+< X-UA-Compatible: IE=Edge,chrome=1
+< ETag: "f744395dc73a323ce47b552d60a1c6cb"
+< Cache-Control: max-age=0, private, must-revalidate
+< X-Request-Id: 75d99d41a3063d411b23cd751c9bf4cd
+< X-Runtime: 0.096435
+< X-Rack-Cache: invalidate, pass
+< X-Powered-By: Phusion Passenger 4.0.45
+< Set-Cookie: _session_id=ae243b2ca548b6e3e1c57967bc33e44f; path=/; HttpOnly
+< Status: 200 OK
+< Transfer-Encoding: chunked
+< Content-Type: application/json; charset=utf-8
+
+{
+  "success": true,
+  "data": null,
+  "error_code": null,
+  "error_message": null
+}
+```

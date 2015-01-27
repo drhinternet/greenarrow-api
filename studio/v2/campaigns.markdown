@@ -17,6 +17,8 @@
   - [Create a new campaign](#create-a-new-campaign)
     - [URL](#url-2)
     - [Request Parameters](#request-parameters-2)
+    - [Ad Hoc Segmentation Criteria](#ad-hoc-segmentation-criteria)
+      - [In Mailing List](#in-mailing-list)
     - [Response](#response-2)
     - [Example Request](#example-request-2)
     - [Example code](#example-code)
@@ -161,7 +163,7 @@ This API method does not require any additional parameters.
 | dispatch.seed_list_name             | The name of the Seed List assigned to the Campaign                                                                                                                                      | "Seed List 1"                   | String   |
 | dispatch.speed                      | Maximum throughput speed; 0 for unlimited throughput                                                                                                                                    | 0                               | Integer  |
 | dispatch.track_opens                | Marks whether the Campaign will track openings stats                                                                                                                                    | true                            | Boolean  |
-| dispatch.track_clicks               | Marks whether the Campaign will track clicks stats                                                                                                                                      | true                            | Boolean  |
+| dispatch.track_links                | Marks whether the Campaign will track clicks stats                                                                                                                                      | true                            | Boolean  |
 | dispatch.paused                     | Marks whether the Campaign has been paused                                                                                                                                              | false                           | Boolean  |
 | dispatch.from_name                  | Name to use in the "From:" field                                                                                                                                                        | "John Doe"                      | String   |
 | dispatch.from_email                 | Email to use in the "From:" field                                                                                                                                                       | "john.doe@example.com"          | String   |
@@ -269,6 +271,7 @@ The POST request should have a JSON document in its payload with at least keys t
 | campaign.campaign_contents_attributes[x].content_attributes.subject | Email subject to use                                                                                                                    | "Hey there\!"                                                                                                          | String   |
 | campaign.active_html_editor                                         | The keyword of active editor to be used on the form page for the Campaign; Can be one of: "ckeditor", "textarea"                        | "ckeditor"                                                                                                             | String   |
 | campaign.segmentation_criteria_id                                   | The id of a Segmenetation Criteria                                                                                                      | 1                                                                                                                      | Integer  |
+| campaign.segmentation_criteria_ad_hoc                               | An ad hoc segmentation criteria specification - see the "Ad Hoc Segmentation Criteria" section below for more details                   | [ ]                                                                                                                    | Array    |
 | campaign.dispatch_attributes                                        | Inline object containing delivery settings of the Campaign; Comes from the server only if delivery settings of the Campaign are defined | {}                                                                                                                     | Hash     |
 | campaign.dispatch_attributes.state                                  | The state of delivery; Can be one of: "idle", "scheduled", "sending", "finished", "failed", "cancelled"                                 | "failed"                                                                                                               | String   |
 | campaign.dispatch_attributes.state_description                      | Localized textual description of the state                                                                                              | "Step 2: Scheduled"                                                                                                    | String   |
@@ -282,7 +285,7 @@ The POST request should have a JSON document in its payload with at least keys t
 | campaign.dispatch_attributes.seed_list_name                         | The name of the Seed List assigned to the Campaign                                                                                      | "Seed List 1"                                                                                                          | String   |
 | campaign.dispatch_attributes.speed                                  | Maximum throughput speed; 0 for unlimited throughput                                                                                    | 0                                                                                                                      | Integer  |
 | campaign.dispatch_attributes.track_opens                            | Marks whether the Campaign will track openings stats                                                                                    | true                                                                                                                   | Boolean  |
-| campaign.dispatch_attributes.track_clicks                           | Marks whether the Campaign will track clicks stats                                                                                      | true                                                                                                                   | Boolean  |
+| campaign.dispatch_attributes.track_links                            | Marks whether the Campaign will track clicks stats                                                                                      | true                                                                                                                   | Boolean  |
 | campaign.dispatch_attributes.paused                                 | Marks whether the Campaign has been paused                                                                                              | false                                                                                                                  | Boolean  |
 | campaign.dispatch_attributes.from_name                              | Name to use in the "From:" field                                                                                                        | "John Doe"                                                                                                             | String   |
 | campaign.dispatch_attributes.from_email                             | Email to use in the "From:" field                                                                                                       | "john.doe@example.com"                                                                                                 | String   |
@@ -302,6 +305,46 @@ The POST request should have a JSON document in its payload with at least keys t
    floating point can not exactly represent some decimal values. For example 94.85
    is represented as 94.85000000000001 which will cause a validation error if used
    here. You may want to print to a string using two decimals of precision.
+
+#### Ad Hoc Segmentation Criteria
+
+An ad hoc segmentation criteria may be specified to generate a basic
+segmentation criteria for a campaign.
+
+The ad hoc segmentation criteria is an array of clauses, all of which must be
+true for each subscriber record to be included in the campaign.
+
+Specifying an empty array `[]` is equivalent to sending to "All Active Subscribers".
+
+##### In Mailing List
+
+An ad hoc segment may include a clause restricting the included subscribers to
+those whose email address exists on another mailing list.
+
+Example:
+
+```json
+{
+  "segmentation_criteria_ad_hoc": [
+    { "type": "in_mailing_list", "operator": "is_in", "mailing_list_id": 12 }
+  ]
+}
+```
+
+This campaign would be sent to "All Active Subscribers whose email address exists on mailing list #12".
+
+Example with multiple clauses:
+
+```json
+{
+  "segmentation_criteria_ad_hoc": [
+    { "type": "in_mailing_list", "operator": "is_in", "mailing_list_id": 12 },
+    { "type": "in_mailing_list", "operator": "is_not_in", "mailing_list_id": 14 }
+  ]
+}
+```
+
+This campaign would be sent to "All Active Subscribers whose email address exists on mailing list #12 AND NOT in mailing list #14".
 
 #### Response
 
