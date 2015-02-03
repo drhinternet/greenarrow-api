@@ -60,6 +60,7 @@ The response will be a JSON array where each element contains the following keys
 | d_speed                     | The default speed for campaigns from this mailing list                                                                                                                     | 75                              | Integer |
 | d_sender_email              | The default sender email address for campaigns from this mailing list                                                                                                      | "sender@example.com"            | String  |
 | d_bounce_email              | The default bounce email address for campaigns from this mailing list.                                                                                                     | "bounce@example.com"            | String  |
+| d_seed_lists                | The default seed lists for campaigns from this mailing list. This is an array of hashes with the `id` and `name` keys.                                                     | `[ { "id": 1, "name": "S1" } ]` | Array   |
 | d_autowinner_enabled        | The default setting for automatic winner selection on new campaigns                                                                                                        | true/false                      | Boolean |
 | d_autowinner_percentage     | The default percentage that will be sent for the split-test portion of the campaign (Note: This value is returned as a string to prevent floating-point conversion errors) | "25.0"                          | String  |
 | d_autowinner_delay_amount   | The default number of units of time that the campaign will wait before finishing after a split-test.                                                                       | 25                              | Integer |
@@ -176,6 +177,8 @@ The POST request should have a JSON document in its payload with all of the foll
 | mailing_list.d_speed                   | The default speed for campaigns from this mailing list                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 75                              | Integer |
 | mailing_list.d_sender_email            | The default sender email address for campaigns from this mailing list                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | "sender@example.com"            | String  |
 | mailing_list.d_bounce_email            | The default bounce email address for campaigns from this mailing list.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | "bounce@example.com"            | String  |
+| mailing_list.d_seed_list_ids           | The default seed lists for campaigns from this mailing list. This is an array of integers that represent the IDs of the seed lists to use.                                                                                                                                                                                                                                                                                                                                                                                                                                      | `[ 1, 2 ]`                      | Array   |
+| mailing_list.d_seed_list_names         | The default seed lists for campaigns from this mailing list. This is an array of strings that represent the names of the seed lists to use.                                                                                                                                                                                                                                                                                                                                                                                                                                     | `[ "Seed List", "Two" ]`        | Array   |
 | mailing_list.d_autowinner_enabled      | The default setting for automatic winner selection on new campaigns                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | true/false                      | Boolean |
 | mailing_list.d_autowinner_percentage   | The default percentage that will be sent for the split-test portion of the campaign (Note: This value is returned as a string to prevent floating-point conversion errors. You may send this value as an Integer, Float or String. Posting a value with more than two decimals will cause a validation error. Be careful because IEEE floating point can not exactly represent some decimal values. For example 94.85 is represented as 94.85000000000001 which will cause a validation error if used here. You may want to print to a string using two decimals of precision.) | "25.0"                          | String  |
 | mailing_list.d_autowinner_delay_amount | The default number of units of time that the campaign will wait before finishing after a split-test.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | 25                              | Integer |
@@ -193,6 +196,8 @@ described in the "Get list of mailing lists" section of the API.
 
 A failure will return a standard error response with an explanation of what
 went wrong.
+
+* Only one of `d_seed_list_ids` and `d_seed_list_names` should be present in a single request.
 
 #### Example
 
@@ -212,6 +217,7 @@ went wrong.
             "d_reply_to": "",
             "d_sender_email": "",
             "d_speed": 0,
+            "d_seed_list_names": [ "Seed List" ],
             "d_url_domain": "staging.example.com",
             "d_virtual_mta": "System Default Route",
             "d_autowinner_enabled": true,
@@ -244,6 +250,7 @@ went wrong.
             "d_reply_to": "",
             "d_sender_email": "",
             "d_speed": 0,
+            "d_seed_lists": [ { "id": 1, "name": "Seed List" } ],
             "d_url_domain": "staging.example.com",
             "d_url_domain_id": 2,
             "d_virtual_mta": "System Default Route",
@@ -281,37 +288,42 @@ went wrong.
 
 #### Request Payload
 
-The POST request should have a JSON document in its payload with all of the following keys.
+The PUT request should have a JSON document in its payload with all of the following keys.
 
-| Key                                      | Meaning                                                                                                                                   | Example                         | Type    |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
-| mailing_list.name                        | The name of the mailing list                                                                                                              | "My Mailing List"               | String  |
-| mailing_list.d_from_email                | The default from email for campaigns from this mailing list                                                                               | "bob@example.com"               | String  |
-| mailing_list.d_from_name                 | The default from name for campaigns from this mailing list                                                                                | "Bob Example"                   | String  |
-| mailing_list.d_reply_to                  | The default reply-to email address for campaigns from this mailing list                                                                   | "replies@example.com"           | String  |
-| mailing_list.d_virtual_mta               | The name of the default virtual mta for campaigns from this mailing list                                                                  | "smtp1-1"                       | String  |
-| mailing_list.d_url_domain                | The default url domain for campaigns from this mailing list                                                                               | "www.urldomain.com"             | String  |
-| mailing_list.d_speed                     | The default speed for campaigns from this mailing list                                                                                    | 75                              | Integer |
-| mailing_list.d_sender_email              | The default sender email address for campaigns from this mailing list                                                                     | "sender@example.com"            | String  |
-| mailing_list.d_bounce_email              | The default bounce email address for campaigns from this mailing list.                                                                    | "bounce@example.com"            | String  |
-| mailing_list.d_autowinner_enabled        | The default setting for automatic winner selection on new campaigns                                                                       | true/false                      | Boolean |
-| mailing_list.d_autowinner_percentage     | The default percentage that will be sent for the split-test portion of the campaign                                                       | "25.0"                          | String  |
-| mailing_list.d_autowinner_delay_amount   | The default number of units of time that the campaign will wait before finishing after a split-test.                                      | 25                              | Integer |
-| mailing_list.d_autowinner_delay_unit     | The default unit used in calculating the delay duration.                                                                                  | "minutes", "hours", "days"      | String  |
-| mailing_list.d_autowinner_metric         | The default metric used to decide the winner. See the "Automatic Winner Selection Metrics" table for more information.                    | "clicks_unique", "opens_unique" | String  |
-| mailing_list.has_format                  | True if this mailing list uses the email_format field.                                                                                    | true or false                   | Boolean |
-| mailing_list.has_confirmed               | True if this mailing list uses the confirmed field.                                                                                       | true or false                   | Boolean |
-| mailing_list.custom_headers_enabled      | True if this mailing list uses custom headers. If true, custom_headers must be set.                                                       | true or false                   | Boolean |
-| mailing_list.custom_headers              | The content of the custom headers that will be added to every email sent to this mailing list.                                            | `X-Company: Acme\n`             | String  |
-| mailing_list.primary_key_custom_field_id | The custom field to use as this mailing list's primary key. If this is null, then the subscriber's email address will be the primary key. | null                            | Integer |
+| Key                                      | Meaning                                                                                                                                     | Example                         | Type    |
+| ---------------------------------------- | -----------------------------------------------------------------------------------------------------------------------------------------   | ------------------------------- | ------- |
+| mailing_list.name                        | The name of the mailing list                                                                                                                | "My Mailing List"               | String  |
+| mailing_list.d_from_email                | The default from email for campaigns from this mailing list                                                                                 | "bob@example.com"               | String  |
+| mailing_list.d_from_name                 | The default from name for campaigns from this mailing list                                                                                  | "Bob Example"                   | String  |
+| mailing_list.d_reply_to                  | The default reply-to email address for campaigns from this mailing list                                                                     | "replies@example.com"           | String  |
+| mailing_list.d_virtual_mta               | The name of the default virtual mta for campaigns from this mailing list                                                                    | "smtp1-1"                       | String  |
+| mailing_list.d_url_domain                | The default url domain for campaigns from this mailing list                                                                                 | "www.urldomain.com"             | String  |
+| mailing_list.d_speed                     | The default speed for campaigns from this mailing list                                                                                      | 75                              | Integer |
+| mailing_list.d_sender_email              | The default sender email address for campaigns from this mailing list                                                                       | "sender@example.com"            | String  |
+| mailing_list.d_bounce_email              | The default bounce email address for campaigns from this mailing list.                                                                      | "bounce@example.com"            | String  |
+| mailing_list.d_seed_list_ids             | The default seed lists for campaigns from this mailing list. This is an array of integers that represent the IDs of the seed lists to use.  | `[ 1, 2 ]`                      | Array   |
+| mailing_list.d_seed_list_names           | The default seed lists for campaigns from this mailing list. This is an array of strings that represent the names of the seed lists to use. | `[ "Seed List", "Two" ]`        | Array   |
+| mailing_list.d_autowinner_enabled        | The default setting for automatic winner selection on new campaigns                                                                         | true/false                      | Boolean |
+| mailing_list.d_autowinner_percentage     | The default percentage that will be sent for the split-test portion of the campaign                                                         | "25.0"                          | String  |
+| mailing_list.d_autowinner_delay_amount   | The default number of units of time that the campaign will wait before finishing after a split-test.                                        | 25                              | Integer |
+| mailing_list.d_autowinner_delay_unit     | The default unit used in calculating the delay duration.                                                                                    | "minutes", "hours", "days"      | String  |
+| mailing_list.d_autowinner_metric         | The default metric used to decide the winner. See the "Automatic Winner Selection Metrics" table for more information.                      | "clicks_unique", "opens_unique" | String  |
+| mailing_list.has_format                  | True if this mailing list uses the email_format field.                                                                                      | true or false                   | Boolean |
+| mailing_list.has_confirmed               | True if this mailing list uses the confirmed field.                                                                                         | true or false                   | Boolean |
+| mailing_list.custom_headers_enabled      | True if this mailing list uses custom headers. If true, custom_headers must be set.                                                         | true or false                   | Boolean |
+| mailing_list.custom_headers              | The content of the custom headers that will be added to every email sent to this mailing list.                                              | `X-Company: Acme\n`             | String  |
+| mailing_list.primary_key_custom_field_id | The custom field to use as this mailing list's primary key. If this is null, then the subscriber's email address will be the primary key.   | null                            | Integer |
 
-Note: The `d_autowinner_percentage` value is returned as a string to prevent
-floating-point conversion errors. You may send this value as an Integer, Float
-or String. Posting a value with more than 2 decimals will cause a validation
-error. Be careful because IEEE floating point can not exactly represent some
-decimal values. For example 94.85 is represented as 94.85000000000001 which
-will cause a validation error if used here. You may want to print to a string
-using two decimals of precision.
+* The `d_autowinner_percentage` value is returned as a string to prevent
+  floating-point conversion errors. You may send this value as an Integer, Float
+  or String. Posting a value with more than 2 decimals will cause a validation
+  error. Be careful because IEEE floating point can not exactly represent some
+  decimal values. For example 94.85 is represented as 94.85000000000001 which
+  will cause a validation error if used here. You may want to print to a string
+  using two decimals of precision.
+
+* Only one of `d_seed_list_ids` and `d_seed_list_names` should be present
+  in a single request.
 
 #### Response
 

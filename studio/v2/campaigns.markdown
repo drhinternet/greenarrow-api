@@ -159,8 +159,9 @@ This API method does not require any additional parameters.
 | dispatch.bounce_email_name          | The Bounce Email explicitly assigned to the Campaign                                                                                                                                    | "no@reply.com"                  | String   |
 | dispatch.url_domain_id              | The id of an URL domain explicitly assigned to the Campaign                                                                                                                             | 1                               | Integer  |
 | dispatch.url_domain_name            | The URL domain explicitly assigned to the Campaign                                                                                                                                      | "example.com"                   | String   |
-| dispatch.seed_list_id               | The id of a Seed List assigned to the Campaign                                                                                                                                          | 1                               | Integer  |
-| dispatch.seed_list_name             | The name of the Seed List assigned to the Campaign                                                                                                                                      | "Seed List 1"                   | String   |
+| dispatch.seed_list_id               | Deprecated: The ID of the first seed list assigned to the Campaign, ordered by ID. Use `seed_lists` instead.                                                                            | 1                               | Integer  |
+| dispatch.seed_list_name             | Deprecated: The name of the first seed list assigned to the Campaign, ordered by ID. Use `seed_lists` instead.                                                                          | "Seed List 1"                   | String   |
+| dispatch.seed_lists                 | An array of seed lists assigned to the Campaign, where each entry is a hash with `id` and `name` keys.                                                                                  | `[{"id": 1, "name": "S2"}]`     | Array    |
 | dispatch.speed                      | Maximum throughput speed; 0 for unlimited throughput                                                                                                                                    | 0                               | Integer  |
 | dispatch.track_opens                | Marks whether the Campaign will track openings stats                                                                                                                                    | true                            | Boolean  |
 | dispatch.track_links                | Marks whether the Campaign will track clicks stats                                                                                                                                      | true                            | Boolean  |
@@ -281,8 +282,10 @@ The POST request should have a JSON document in its payload with at least keys t
 | campaign.dispatch_attributes.bounce_email_name                      | The Bounce Email explicitly assigned to the Campaign                                                                                    | "no@reply.com"                                                                                                         | String   |
 | campaign.dispatch_attributes.url_domain_id                          | The id of an URL domain explicitly assigned to the Campaign                                                                             | 1                                                                                                                      | Integer  |
 | campaign.dispatch_attributes.url_domain_name                        | The URL domain explicitly assigned to the Campaign                                                                                      | "example.com"                                                                                                          | String   |
-| campaign.dispatch_attributes.seed_list_id                           | The id of a Seed List assigned to the Campaign                                                                                          | 1                                                                                                                      | Integer  |
-| campaign.dispatch_attributes.seed_list_name                         | The name of the Seed List assigned to the Campaign                                                                                      | "Seed List 1"                                                                                                          | String   |
+| campaign.dispatch_attributes.seed_list_id                           | Deprecated: The ID of the first seed list assigned to the Campaign, ordered by ID. Use `seed_lists` instead.                            | 1                                                                                                                      | Integer  |
+| campaign.dispatch_attributes.seed_list_name                         | Deprecated: The name of the first seed list assigned to the Campaign, ordered by ID. Use `seed_lists` instead.                          | "Seed List 1"                                                                                                          | String   |
+| campaign.dispatch_attributes.seed_list_ids                          | An array of seed lists assigned to the Campaign, where each entry is the ID of a seed list to use.                                      | `[ 1, 2, 3 ]`                                                                                                          | Array    |
+| campaign.dispatch_attributes.seed_list_names                        | An array of seed lists assigned to the Campaign, where each entry is the name of a seed list to use.                                    | `[ "Seed List", "Two" ]`                                                                                               | Array    |
 | campaign.dispatch_attributes.speed                                  | Maximum throughput speed; 0 for unlimited throughput                                                                                    | 0                                                                                                                      | Integer  |
 | campaign.dispatch_attributes.track_opens                            | Marks whether the Campaign will track openings stats                                                                                    | true                                                                                                                   | Boolean  |
 | campaign.dispatch_attributes.track_links                            | Marks whether the Campaign will track clicks stats                                                                                      | true                                                                                                                   | Boolean  |
@@ -305,6 +308,11 @@ The POST request should have a JSON document in its payload with at least keys t
    floating point can not exactly represent some decimal values. For example 94.85
    is represented as 94.85000000000001 which will cause a validation error if used
    here. You may want to print to a string using two decimals of precision.
+2. Only one of `seed_list_id`, `seed_list_name`, `seed_list_ids`, and
+   `seed_list_names` may be present in a single request.
+3. Assigning to the deprecated fields `seed_list_id` or `seed_list_name` will
+   assign the entire list of seed lists to the provided value, overwriting one or
+   more seed lists that were already in use.
 
 #### Ad Hoc Segmentation Criteria
 
@@ -543,7 +551,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
         "organization_name" : "System Organization",
         "dispatch" : {
           "reply_to" : "",
+          "seed_list_id" : null,
           "seed_list_name" : null,
+          "seed_lists" : [],
           "paused" : true,
           "virtual_mta_id" : 0,
           "from_email" : "foo@example.com",
@@ -561,7 +571,6 @@ Note that the JSON response will not be "pretty formatted" as it is below.
           "bounce_email_domain_id" : 1,
           "bounce_email_email" : "test@test",
           "started_at" : null,
-          "seed_list_id" : null,
           "url_domain_domain" : "test",
           "begins_at" : null,
           "autowinner_enabled": true,
@@ -637,7 +646,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
         "organization_name" : "System Organization",
         "dispatch" : {
           "reply_to" : "",
+          "seed_list_id" : null,
           "seed_list_name" : null,
+          "seed_lists" : [],
           "paused" : false,
           "virtual_mta_id" : 0,
           "from_email" : "foo@example.com",
@@ -655,7 +666,6 @@ Note that the JSON response will not be "pretty formatted" as it is below.
           "bounce_email_domain_id" : 1,
           "bounce_email_email" : "test@test",
           "started_at" : null,
-          "seed_list_id" : null,
           "url_domain_domain" : "test",
           "begins_at" : null,
           "autowinner_enabled": true,

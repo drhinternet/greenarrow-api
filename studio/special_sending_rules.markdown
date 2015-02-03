@@ -208,30 +208,31 @@ different terms for similar things. Here is how the concepts are translated.
 
 The Campaign Information Hash ($campaign_information_hash) contains data about the campaign. This does not change per recipient.
 
-| Key                        | Description                                                                                                                                         |
-| -----------------          | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| is_preview                 | If this is a campaign preview, then 1. Otherwise 0.                                                                                                 |
-| seed_list_name             | Name of seed list. (Undefined if no seedlist selected.)                                                                                             |
-| seed_list_id               | Primary key of seed list. (Undefined if no seedlist selected.)                                                                                      |
-| speed                      | Speed of the campaign in messages per hour or zero if unlimited.                                                                                    |
-| from_name                  | From address name.                                                                                                                                  |
-| from_email                 | From email address.                                                                                                                                 |
-| sender_email               | Sender email address. (Undefined if not specified.)                                                                                                 |
-| reply_to                   | Reply-to email address (Undefined if not specified.)                                                                                                |
-| virtual_mta_name           | Name of VirtualMTA used for sending. (If this option is hidden from the user, then this will be set to the actual value used for sending.)          |
-| virtual_mta_id             | Primary key of the VirtualMTA.                                                                                                                      |
-| url_domain_name            | Domain name for click and open tracking URLs. (If this option is hidden from the user, then this will be set to the actual value used for sending.) |
-| url_domain_id              | Primary key of the URL Domain.                                                                                                                      |
-| track_opens                | If tracking opens, then 1. Otherwise 0.                                                                                                             |
-| track_links                | If tracking links, then 1. Otherwise 0.                                                                                                             |
-| bounce_email               | Bounce handling email address. (If this option is hidden from the user, then this will be set to the actual value used for sending.)                |
-| campaign_name              | Name of campaign.                                                                                                                                   |
-| campaign_id                | Primary key of campaign.                                                                                                                            |
-| mailing_list_name          | Name of mailing list.                                                                                                                               |
-| mailing_list_id            | Primary key of mailing list.                                                                                                                        |
-| segmentation_criteria_name | The name of the segmentation criteria used for this campaign.                                                                                       |
-| segmentation_criteria_id   | The ID of the segmentation criteria used for this campaign.                                                                                         |
-| segmentation_criteria_json | The JSON blob that defines the segmentation criteria used for this campaign.                                                                        |
+| Key                          | Description                                                                                                                                         |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `is_preview`                 | If this is a campaign preview, then 1. Otherwise 0.                                                                                                 |
+| `seed_list_id`               | Deprecated: The ID of the first seed list assigned to the Campaign, ordered by ID. Use `seed_lists` instead. (Undefined if no seed list selected.)  |
+| `seed_list_name`             | Deprecated: The name of the first seed list, ordered by ID. (Undefined if no seed list selected.)                                                   |
+| `seed_lists`                 | An array of seed lists used for the campaign. Each entry will be a hash with `id` and `name` keys.                                                  |
+| `speed`                      | Speed of the campaign in messages per hour or zero if unlimited.                                                                                    |
+| `from_name`                  | From address name.                                                                                                                                  |
+| `from_email`                 | From email address.                                                                                                                                 |
+| `sender_email`               | Sender email address. (Undefined if not specified.)                                                                                                 |
+| `reply_to`                   | Reply-to email address (Undefined if not specified.)                                                                                                |
+| `virtual_mta_name`           | Name of VirtualMTA used for sending. (If this option is hidden from the user, then this will be set to the actual value used for sending.)          |
+| `virtual_mta_id`             | Primary key of the VirtualMTA.                                                                                                                      |
+| `url_domain_name`            | Domain name for click and open tracking URLs. (If this option is hidden from the user, then this will be set to the actual value used for sending.) |
+| `url_domain_id`              | Primary key of the URL Domain.                                                                                                                      |
+| `track_opens`                | If tracking opens, then 1. Otherwise 0.                                                                                                             |
+| `track_links`                | If tracking links, then 1. Otherwise 0.                                                                                                             |
+| `bounce_email`               | Bounce handling email address. (If this option is hidden from the user, then this will be set to the actual value used for sending.)                |
+| `campaign_name`              | Name of campaign.                                                                                                                                   |
+| `campaign_id`                | Primary key of campaign.                                                                                                                            |
+| `mailing_list_name`          | Name of mailing list.                                                                                                                               |
+| `mailing_list_id`            | Primary key of mailing list.                                                                                                                        |
+| `segmentation_criteria_name` | The name of the segmentation criteria used for this campaign.                                                                                       |
+| `segmentation_criteria_id`   | The ID of the segmentation criteria used for this campaign.                                                                                         |
+| `segmentation_criteria_json` | The JSON blob that defines the segmentation criteria used for this campaign.                                                                        |
 
 Note on `segmentation_criteria_json`: The format of this field is undocumented.
 It exists as an input for users that need it, but its fields should be
@@ -371,6 +372,7 @@ See examples below.
 $campaign_information_hash = {
     seed_list_name    => 'GreenArrow Monitor',
     seed_list_id      => 12,
+    seed_lists        => [ { id => 12, name => 'GreenArrow Monitor' } ],
     speed             => 0,
     from_name         => 'DRH Internet',
     from_email        => 'newsletter@example.drh.net',
