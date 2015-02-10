@@ -40,6 +40,12 @@
     - [Request Parameters](#request-parameters-5)
     - [Response](#response-5)
     - [Example Request](#example-request-5)
+  - [Get campaign per-link statistics](#get-campaign-per-link-statistics)
+    - [URL](#url-6)
+    - [Request Parameters](#request-parameters-6)
+    - [Pagination](#pagination)
+    - [Response](#response-6)
+    - [Example Request](#example-request-6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -198,7 +204,7 @@ This API method does not require any additional parameters.
 | stat_summary.bounces_unique_remote  | Number of unique (by subscriber) bounces that were remote                                                                                                                               | 1                               | Integer  |
 | stat_summary.clicks_total           | Number of total clicks                                                                                                                                                                  | 1                               | Integer  |
 | stat_summary.clicks_unique          | Number of unique clicks (unique by subscriber)                                                                                                                                          | 1                               | Integer  |
-| stat_summary.clicks_unique_by_link  | Number of unique clicks (unique by subscriber/link)                                                                                                                                     | 1                               | Integer  |
+| stat_summary.clicks_unique_by_link  | **Deprecated** Number of unique clicks (unique by subscriber/link) -- this value does not carry much meaning -- see the Links endpoint below                                            | 1                               | Integer  |
 | stat_summary.opens_total            | Number of total opens                                                                                                                                                                   | 1                               | Integer  |
 | stat_summary.opens_unique           | Number of unique opens (unique by subscriber)                                                                                                                                           | 1                               | Integer  |
 | stat_summary.scomps_total           | Number of scomps (spam complaints)                                                                                                                                                      | 1                               | Integer  |
@@ -690,3 +696,156 @@ Note that the JSON response will not be "pretty formatted" as it is below.
       "error_code" : null,
       "success" : true
     }
+
+
+
+### Get campaign per-link statistics
+
+Get statistics for this campaign, broken down per-link.
+
+Campaigns generate link entries during delivery. Thus if a campaign hasn't yet
+delivered, this API will return an empty list.
+
+#### URL
+
+    GET /ga/api/v2/campaigns/:campaign_id/link_stats
+
+#### Request Parameters
+
+Optional Parameters
+
+| Key        | Meaning                                                                                                                     |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `url`      | If specified, only return links to the specified URL. The specified URL may contain wildcards (`*`) to match multiple URLs. |
+
+* The value of the `url` parameter must be URI encoded.
+
+#### Pagination
+
+The links returned by this API are sorted first by their case-insensitive
+`url`, then by `link_id`.
+
+To query additional records, provide `page` and `per_page` parameters. The
+`page` parameter starts at `0`.  The `per_page` parameter defaults to `100` and
+the maximum allowed is `500`.
+
+For example to get the second page:
+
+    GET /ga/api/v2/campaigns/:campaign_id/link_stats?scope=all&page=1&per_page=100
+
+The response will also contain the following extra parameters:
+
+| Key           | Description                                      |
+| ------------- | ------------------------------------------------ |
+| `page`        | The current page number                          |
+| `per_page`    | The number of records per page                   |
+| `num_records` | The total number of records that match the query |
+| `num_pages`   | The total number of pages that match the query   |
+
+#### Response
+
+<table>
+  <tr>
+    <td><b>all_unclicked_links_recorded</b><br><em>bool</em></td>
+    <td>
+      <p>
+        If this value is false, the list of links available via this API is not
+        a comprehensive list of links that were delivered in this campaign.
+        Some links that have not received clicks may not be present. Links that
+        have received at least one click will always be available in this API,
+        regardless of the value of <code>all_unclicked_links_recorded</code>.
+      </p><p>
+        (This happens when an email campaign has more links than should be
+        recorded in the database. This generally happens when a Special Sending
+        Rule create custom links for each subscriber.)
+      </p><p>
+        If this value is true, all links delivered in this campaign are available
+        via this API.
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <b>links</b><br><em>array of hashes</em><br>
+      <table>
+        <tr>
+          <td><b>link_id</b><br><em>integer</em></td>
+          <td>Internal identifier for this link</td>
+        </tr>
+        <tr>
+          <td><b>url</b><br><em>string</em></td>
+          <td>The URL of the link</td>
+        </tr>
+        <tr>
+          <td><b>clicks_total</b><br><em>integer</em></td>
+          <td>Total number of clicks on this link</td>
+        </tr>
+        <tr>
+          <td><b>clicks_unique</b><br><em>integer</em></td>
+          <td>Number of "unique clicks by subscriber" that happened on this link</td>
+        </tr>
+        <tr>
+          <td><b>clicks_unique_by_link</b><br><em>integer</em></td>
+          <td>Number of "unique clicks by subscriber/link" that happened on this link</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+#### Example Request
+
+Note that the JSON response will not be "pretty formatted" as it is below.
+
+```
+> GET /ga/api/campaigns/2/link_stats HTTP/1.1
+> Authorization: Basic MTowYWUyNTJlMjA3MjkyNDcwYzViMTc0ZTk0MzhlNmU3MzMzZjJkNmU3
+> Accept: application/json
+> Content-Type: application/json
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "1f1fcc31723ce7df22f373ea3c568816"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=c0dcd71b03ad686d3102e24b3debf7ff; path=/; HttpOnly
+< X-Request-Id: 4f5199066ea241610046a19b00bad99c
+< X-Runtime: 0.026501
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "error_code": null,
+  "error_message": null,
+  "page": 0,
+  "per_page": 100,
+  "data": {
+    "all_unclicked_links_recorded": true,
+    "links": [
+      {
+        "clicks_total": 6,
+        "clicks_unique": 0,
+        "clicks_unique_by_link": 1,
+        "link_id": 3,
+        "url": "http://drh.net"
+      },
+      {
+        "clicks_total": 1,
+        "clicks_unique": 1,
+        "clicks_unique_by_link": 1,
+        "link_id": 4,
+        "url": "http://duckduckgo.com"
+      },
+      {
+        "clicks_total": 1,
+        "clicks_unique": 0,
+        "clicks_unique_by_link": 1,
+        "link_id": 5,
+        "url": "https://www.eff.org"
+      }
+    ]
+  },
+  "num_records": 3,
+  "num_pages": 1
+}
+```
