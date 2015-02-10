@@ -55,7 +55,15 @@ Get a list of the basic details of all campaigns of a particular mailing list.
 
 #### Request Parameters
 
-This API method does not require any additional parameters.
+| Key                 | Description                                                                      |
+| ------------------- | -------------------------------------------------------------------------------- |
+| `started_at__start` | A UNIX integer timestamp representing the earliest `started_at` time to include. |
+| `started_at__end`   | A UNIX integer timestamp representing the latest `started_at` time to include.   |
+
+The `started_at__start` and `started_at__end` parameters allow you to filter
+the results returned by this API. Providing either of these keys will result in
+**only** `sending`, `finished`, `cancelled`, or `failed` campaigns to be
+included in the results.
 
 #### Response
 
