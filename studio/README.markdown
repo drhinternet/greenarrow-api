@@ -26,6 +26,7 @@
     - [[Bounce Emails](./v2/bounce_emails.markdown)](#bounce-emailsv2bounce_emailsmarkdown)
     - [[Segmentation Criterias](./v2/segmentation_criterias.markdown)](#segmentation-criteriasv2segmentation_criteriasmarkdown)
     - [[Users](./v2/users.markdown)](#usersv2usersmarkdown)
+    - [[Organizations](./v2/organizations.markdown)](#organizationsv2organizationsmarkdown)
     - [[Jobs](./v2/jobs.markdown)](#jobsv2jobsmarkdown)
 - [Enumerated Values](#enumerated-values)
   - [Automatic Winner Selection Metrics](#automatic-winner-selection-metrics)
@@ -204,6 +205,8 @@ Thus, for that example, our header would be the following.
 ### [Segmentation Criterias](./v2/segmentation_criterias.markdown)
 
 ### [Users](./v2/users.markdown)
+
+### [Organizations](./v2/organizations.markdown)
 
 ### [Jobs](./v2/jobs.markdown)
 

@@ -2,21 +2,19 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-  - [Organizations](#organizations)
-    - [Organization Attributes](#organization-attributes)
-- [Hello from My Org](#hello-from-my-org)
-- [Goodbye!](#goodbye!)
-    - [Get a list of organizations](#get-a-list-of-organizations)
-      - [URL](#url)
-      - [Response](#response)
-    - [Create a new organization](#create-a-new-organization)
-      - [URL](#url-1)
-      - [Payload](#payload)
-      - [Response](#response-1)
-    - [Update an existing organization](#update-an-existing-organization)
-      - [URL](#url-2)
-      - [Payload](#payload-1)
-      - [Response](#response-2)
+- [Organizations](#organizations)
+  - [Organization Attributes](#organization-attributes)
+  - [Get a list of organizations](#get-a-list-of-organizations)
+    - [URL](#url)
+    - [Response](#response)
+  - [Create a new organization](#create-a-new-organization)
+    - [URL](#url-1)
+    - [Payload](#payload)
+    - [Response](#response-1)
+  - [Update an existing organization](#update-an-existing-organization)
+    - [URL](#url-2)
+    - [Payload](#payload-1)
+    - [Response](#response-2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -31,8 +29,8 @@
 | name            | Identifying (unique) name                              | "System Organization"                    | String  |
 | anniversary_day | Day of the month that this organization's quotas reset | 17                                       | Integer |
 | time_zone_name  | The time zone for times in this organization           | "(GMT-06:00) Central Time (US & Canada)" | String  |
-| html_header     | The HTML header prepended to all emails sent           | `"<h1>Hello from My Org</h1>"`           | String  |
-| html_footer     | The HTML footer appended to all emails sent            | `"<h1>Goodbye!</h1>"`                    | String  |
+| html_header     | The HTML header prepended to all emails sent           | `"<h9>Hello from My Org</h9>"`           | String  |
+| html_footer     | The HTML footer appended to all emails sent            | `"<h9>Goodbye!</h9>"`                    | String  |
 | text_header     | The Text header prepended to all emails sent           | "Hello from My Org"                      | String  |
 | text_footer     | The Text footer appended to all emails sent            | "Bye!"                                   | String  |
 
