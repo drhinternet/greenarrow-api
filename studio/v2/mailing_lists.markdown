@@ -7,6 +7,7 @@
     - [URL](#url)
     - [Request Parameters](#request-parameters)
     - [Response](#response)
+      - [Preview Custom Field Data](#preview-custom-field-data)
     - [Example Request](#example-request)
   - [Create a new mailing list](#create-a-new-mailing-list)
     - [URL](#url-1)
@@ -71,6 +72,31 @@ The response will be a JSON array where each element contains the following keys
 | custom_headers_enabled      | True if this mailing list uses custom headers. If true, custom_headers must be set.                                                                                        | true or false                   | Boolean |
 | custom_headers              | The content of the custom headers that will be added to every email sent to this mailing list.                                                                             | X-Company: Acme\n               | String  |
 | primary_key_custom_field_id | The custom field id of the primary key for the mailing list. If this value is NULL, then the primary key is the subscriber's email address.                                | 9918                            | Integer |
+| preview_custom_field_data   | The custom field data, see example below.                                                                                                                                  | See below                       | Hash    |
+
+##### Preview Custom Field Data
+
+The `preview_custom_field_data` key is filled with a hash.
+
+```
+{
+  "Custom Field Name": {
+    "name": "Custom Field Name",
+    "type": "text",
+    "value": "Bob Example"
+  },
+  "Next Custom Field": {
+    "name": "Next Custom Field",
+    "type": "select_multiple_checkboxes",
+    "value": [ "Red", "Blue" ]
+  }
+}
+```
+
+Custom fields which have Preview Custom Field Data values and are not specified in
+the `preview_custom_field_data` list, will remain with the same values. In other words:
+the custom fields provided in `preview_custom_field_data` are merged in with the existing
+Preview Custom Field Data custom fields.
 
 #### Example Request
 
@@ -119,6 +145,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
                 "custom_headers_enabled": true,
                 "custom_headers": "X-Company: Acme\n",
                 "primary_key_custom_field_id": null,
+                "preview_custom_field_data": {
+                  "First Name": { "name": "First Name", "type": "text", "value": "Bob Example" }
+                }
             },
             {
                 "d_bounce_email": "return@staging.example.com",
@@ -313,6 +342,7 @@ The PUT request should have a JSON document in its payload with all of the follo
 | mailing_list.custom_headers_enabled      | True if this mailing list uses custom headers. If true, custom_headers must be set.                                                         | true or false                   | Boolean |
 | mailing_list.custom_headers              | The content of the custom headers that will be added to every email sent to this mailing list.                                              | `X-Company: Acme\n`             | String  |
 | mailing_list.primary_key_custom_field_id | The custom field to use as this mailing list's primary key. If this is null, then the subscriber's email address will be the primary key.   | null                            | Integer |
+| mailing_list.preview_custom_field_data   | The custom field data, a hash that maps custom field names to values.                                                                       | `{ "First Name": "Bob" }`       | Hash    |
 
 * The `d_autowinner_percentage` value is returned as a string to prevent
   floating-point conversion errors. You may send this value as an Integer, Float

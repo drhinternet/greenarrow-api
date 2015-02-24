@@ -8,6 +8,7 @@
   - [Subscriber Import States](#subscriber-import-states)
   - [Mapping Array](#mapping-array)
   - [Default Custom Fields](#default-custom-fields)
+  - [Date/Time Fields](#datetime-fields)
 - [Get a list of subscriber imports](#get-a-list-of-subscriber-imports)
   - [URL](#url)
   - [Request Parameters](#request-parameters)
@@ -105,6 +106,36 @@ Here is an example, with `Subscriber Name` as a text field and
 }
 ```
 
+#### Date/Time Fields
+
+Custom field import data can include date/times for the following fields: `Date Custom Fields`,
+`Day of Year Custom Fields`, `Subscribe Time`, `Remove Time`, and `Confirm Time`
+
+The following date/time formats are accepted for these values.
+
+* `1994-03-11T14:30:47-06:00`
+* `March 11, 1994 14:30`
+* `March 11, 1994`
+* `11 March 1994`
+* `03-11-1994 2:30:47pm`
+* `03-11-1994 14:30:47`
+* `03-11-1994 2:30pm`
+* `03-11-1994 14:30`
+* `03-11-1994`
+* `03/11/1994 2:30:47pm`
+* `03/11/1994 14:30:47`
+* `03/11/1994 2:30pm`
+* `03/11/1994 14:30`
+* `03/11/1994`
+* `1994-03-11 14:30`
+* `1994-03-11`
+
+Note: Other formats may be parsed successfully, but we recommend that you stick
+to this list of accepted formats.
+
+Note: The ambiguous date formats (for example, should `5/11/2014` be `May 11, 2014`
+or `November 5, 2014`) are clarified by the `date_format` field. See the documentation
+below for details on how to set it.
 
 
 ### Get a list of subscriber imports
@@ -445,6 +476,14 @@ The response will be a JSON object with the following keys.
           <td><b>csv_field_enclosure</b><br><em>string</em></td>
           <td>The character to use to enclose fields. Defaults to <code>&quot;</code>, can also be <code>&#x27;</code> for single quotes.</td>
         </tr>
+        <tr>
+          <td><b>date_format</b><br><em>string</em></td>
+          <td>
+            <p>The date format to use when parsing `Date` custom fields, `Subscribe Time`, `Remove Time`, and `Confirm Time`. Defaults to <code>mdy</code>.</p>
+            <p>A value of `mdy` will parse `01/02/2014` as `January 2, 2014`.</p>
+            <p>A value of `dmy` will parse `01/02/2014` as `February 1, 2014`.</p>
+          </td>
+        </tr>
       </table>
     </td>
   </tr>
@@ -566,7 +605,8 @@ The response will be a JSON object with the following keys.
       "character_set": "utf-8",
       "csv_has_headers": true,
       "csv_field_enclosure": "\"",
-      "csv_field_separator": ","
+      "csv_field_separator": ",",
+      "date_format": "mdy"
     },
     "subscriber_defaults": {
       "status": "active"
@@ -719,6 +759,14 @@ keys listed below. See the example request below.
           <td><b>csv_field_enclosure</b><br><em>string</em></td>
           <td>The character to use to enclose fields. Defaults to <code>&quot;</code>, can also be <code>&#x27;</code> for single quotes.</td>
         </tr>
+        <tr>
+          <td><b>date_format</b><br><em>string</em></td>
+          <td>
+            <p>The date format to use when parsing `Date` custom fields, `Subscribe Time`, `Remove Time`, and `Confirm Time`. Defaults to <code>mdy</code>.</p>
+            <p>A value of `mdy` will parse `01/02/2014` as `January 2, 2014`.</p>
+            <p>A value of `dmy` will parse `01/02/2014` as `February 1, 2014`.</p>
+          </td>
+        </tr>
       </table>
     </td>
   </tr>
@@ -753,7 +801,8 @@ show endpoint.
       "character_set": "iso-8859-1",
       "csv_has_headers": true,
       "csv_field_separator": ",",
-      "csv_field_enclosure": "\""
+      "csv_field_enclosure": "\"",
+      "date_format": "mdy"
     },
     "overwrite": true,
     "overwrite_what": {
@@ -824,7 +873,8 @@ show endpoint.
       "character_set": "iso-8859-1",
       "csv_has_headers": true,
       "csv_field_enclosure": "\"",
-      "csv_field_separator": ","
+      "csv_field_separator": ",",
+      "date_format": "mdy"
     },
     "subscriber_defaults": {
       "status": "active"
