@@ -28,6 +28,7 @@
         - [content Hash](#content-hash)
     - [Data Returned From the Special Sending Rule](#data-returned-from-the-special-sending-rule)
       - [Override Hash](#override-hash)
+      - [Attachment Hash](#attachment-hash)
   - [Special Sending Rule Function Interface](#special-sending-rule-function-interface)
     - [General Structure](#general-structure)
     - [Input Variables](#input-variables)
@@ -261,9 +262,9 @@ The Recipient Information Hash ($multiple_recipients_information_hash) contains 
 | confirmed                | If confirmed, then 1. Otherwise 0. This key is only presented for mailing lists which use the Confirmed field.                        |
 | email_format             | Subscriber's format setting ("html" or "text"). This key is only presented for mailing lists which use the Format field.              |
 | status                   | Status for the subscriber. Is always "active".                                                                                        |
-| subscribe_time           | Time that subscriber subscribed in [ISO 8601 date/time format](http://www.w3.org/TR/NOTE-datetime) in the organization time zone.     |   
-| subscribe_time_epoch     | Time that subscriber subscribed in seconds past the UNIX epoch in the organization time zone.                                         |     
-| subscribe_time_epoch_utc | Time that subscriber subscribed in seconds past the UNIX epoch in the UTC time zone.                                                  |     
+| subscribe_time           | Time that subscriber subscribed in [ISO 8601 date/time format](http://www.w3.org/TR/NOTE-datetime) in the organization time zone.     |
+| subscribe_time_epoch     | Time that subscriber subscribed in seconds past the UNIX epoch in the organization time zone.                                         |
+| subscribe_time_epoch_utc | Time that subscriber subscribed in seconds past the UNIX epoch in the UTC time zone.                                                  |
 | subscribe_ip             | IP address that subscriber subscribed from.                                                                                           |
 | custom_fields            | Hash of custom fields. Uses the same format as returned by the get subscriber API call.                                               |
 
@@ -301,6 +302,7 @@ default value for a particular delivery.
 | url_domain_id    | campaign_information_hash.url_domain_id    | New URL domain. Set to the ID of the URL Domain. Specify only one of this or `url_domain_name`.                                                                                                                                                                                                   |
 | bounce_email     | campaign_information_hash.bounce_email     | New bounce email address. Specify only one of this or `bounce_email_id`.                                                                                                                                                                                                                          |
 | bounce_email_id  | &mdash;                                    | New bounce email address. Specify only one of this or `bounce_email`.                                                                                                                                                                                                                             |
+| attachments      | &mdash;                                    | An array of attachment hashes, as defined below.                                                                                                                                                                                                                                                 |
 
 * If the SSR's override hash includes `html` or `text` keys, this may cause
   the email format to change. For example, if a campaign was originally `text`,
@@ -312,6 +314,33 @@ default value for a particular delivery.
   content.
 * If a SSR returns a blank value for `text` on a text-only campaign, this will
   cause the delivery to fail because no content is available to send.
+
+#### Attachment Hash
+
+Each hash in the `attachments` array of the Override Hash must have the following keys:
+
+| Key       | Description                                                                        |
+| --------- | ---------------------------------------------------------------------------------- |
+| filename  | The string that will be used as the filename in the attachment. Must not be blank. |
+| mime_type | The string that will be used as the MIME type for the attached file.               |
+| content   | The string that will be used as the content of the attachment.                     |
+
+* Filenames may contain the characters `A-Z a-z 0-9 _ - .` and spaces, must be at least
+  one character long, must contain at least one non-whitespace character, and may be at
+  most 100 characters long.
+* If `mime_type` is blank, it will be defaulted to `application/octet-stream`.
+
+Here are some of the most common MIME Types used in email attachments.
+[See the Wikipedia page on MIME Types](http://en.wikipedia.org/wiki/Internet_media_type)
+for an expanded list of types.
+
+| MIME Type                  | File Extension | Description                            |
+| -------------------------- | -------------- | -------------------------------------- |
+| `text/plain`               | `.txt`         | Plain Text                             |
+| `text/html`                | `.html`        | HTML                                   |
+| `application/pdf`          | `.pdf`         | Adobe Acrobat Portable Document Format |
+| `application/msword`       | `.doc`         | Microsoft Word                         |
+| `application/vnd.ms-excel` | `.xls`         | Microsoft Excel                        |
 
 ## Special Sending Rule Function Interface
 
