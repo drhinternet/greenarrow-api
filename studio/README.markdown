@@ -28,6 +28,7 @@
     - [[Users](./v2/users.markdown)](#usersv2usersmarkdown)
     - [[Organizations](./v2/organizations.markdown)](#organizationsv2organizationsmarkdown)
     - [[Jobs](./v2/jobs.markdown)](#jobsv2jobsmarkdown)
+    - [[Campaign and Autoresponder Previews](./v2/previews.markdown)](#campaign-and-autoresponder-previewsv2previewsmarkdown)
 - [Enumerated Values](#enumerated-values)
   - [Automatic Winner Selection Metrics](#automatic-winner-selection-metrics)
   - [Subscriber Statuses](#subscriber-statuses)
@@ -209,6 +210,8 @@ Thus, for that example, our header would be the following.
 ### [Organizations](./v2/organizations.markdown)
 
 ### [Jobs](./v2/jobs.markdown)
+
+### [Campaign and Autoresponder Previews](./v2/previews.markdown)
 
 
 
