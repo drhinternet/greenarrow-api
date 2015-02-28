@@ -195,8 +195,13 @@ different terms for similar things. Here is how the concepts are translated.
 
 * A Special Sending Rule may run for a maximum of 60 seconds before being
   terminated, potentially causing the campaign to fail.
-* Special Sending Rules will be attempted three times before causing the campaign to fail.
+* Special Sending Rules will be attempted three times before causing processing the 
+  subscriber to fail.
 * The first retry will be 10 seconds later, with the second retry 60 seconds after that.
+* Depending on the configuration of the Special Sending Rule, either:
+    * a single error processing a subscriber will cause the campaign to be stopped, or
+    * an error threshold must be exceeded for the campaign to be stopped 
+      (For example, greater than 10% of subscribers with errors in the last 2 minutes.)
 * The "Number of Workers" field in Special Sending Rules defines the
   parallelism of the SSR. Every campaign that is using this SSR will run that
   many instances of the evaluator process.
@@ -302,7 +307,9 @@ default value for a particular delivery.
 | url_domain_id    | campaign_information_hash.url_domain_id    | New URL domain. Set to the ID of the URL Domain. Specify only one of this or `url_domain_name`.                                                                                                                                                                                                   |
 | bounce_email     | campaign_information_hash.bounce_email     | New bounce email address. Specify only one of this or `bounce_email_id`.                                                                                                                                                                                                                          |
 | bounce_email_id  | &mdash;                                    | New bounce email address. Specify only one of this or `bounce_email`.                                                                                                                                                                                                                             |
-| attachments      | &mdash;                                    | An array of attachment hashes, as defined below.                                                                                                                                                                                                                                                 |
+| skip             | &mdash;                                    | A return value of true, `1`, or a number greater than zero in this field will cause this recipient to be skipped in delivery.                                                                                                                                                                     |
+| skip_message     | &mdash;                                    | If provided, this message will be set on the `skip` event and presented in statistics screen.                                                                                                                                                                                                     |
+| attachments      | &mdash;                                    | An array of attachment hashes, as defined below.                                                                                                                                                                                                                                                  |
 
 * If the SSR's override hash includes `html` or `text` keys, this may cause
   the email format to change. For example, if a campaign was originally `text`,
