@@ -119,7 +119,8 @@ This endpoint returns an array of suppressed addresses.
 
 #### URL
 
-    POST /ga/api/v2/suppression_lists/:suppression_list_id/suppressed_addresses
+    POST /ga/api/v2/suppression_lists/:suppression_list_id/suppressed_addresses/create_multiple
+
 
 #### Post Data
 
