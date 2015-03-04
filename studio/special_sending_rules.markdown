@@ -400,6 +400,8 @@ See examples below.
 
 ## Examples
 
+[We've created a practical set of examples for reference](./special_sending_rules_examples.markdown)
+
 ### Perl
 
 #### Example Input to SSR
