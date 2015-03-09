@@ -19,6 +19,9 @@ It has no affect on:
 * campaigns that don't use this SSR
 * autoresponders
 
+This rule requires that a Redis server be running at `127.0.0.1:6379`, which is
+its default configuration.
+
 ```php
 # We want "today" to be in the "America/Chicago" time zone. See a full list of
 # available time zones in PHP here:
