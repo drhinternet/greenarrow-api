@@ -33,6 +33,12 @@
     - [Request Payload](#request-payload-2)
     - [Response](#response-3)
     - [Example](#example-2)
+  - [Promote a custom field](#promote-a-custom-field)
+    - [URL](#url-4)
+    - [Request Parameters](#request-parameters-3)
+    - [Request Payload](#request-payload-3)
+    - [Response](#response-4)
+    - [Example](#example-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -394,6 +400,91 @@ A failure will return a standard error response with an explanation of what went
 {
   "success": true,
   "data": null,
+  "error_code": null,
+  "error_message": null
+}
+```
+
+
+
+### Promote a custom field
+
+#### URL
+
+Promote a custom field to be an organization global custom field:
+
+    POST /ga/api/v2/organizations/:organization_id/custom_fields/promote
+
+Custom Fields that are associated with a single mailing list may be promoted to
+be global to the organization. Custom Fields must have a unique name across the
+organization in order to be promoted to be a global custom field.
+
+#### Request Parameters
+
+| Key               | Meaning                                               |
+| ----------------- | ----------------------------------------------------- |
+| `organization_id` | The ID of the organization that owns the custom field |
+
+#### Request Payload
+
+<table>
+  <tr>
+    <td colspan="2">
+      <b>custom_field_promoter</b><br><em>hash</em><br>
+      <table>
+        <tr>
+          <td><b>custom_field_id</b><br><em>integer</em></td>
+          <td>ID of the custom field to promote</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+#### Response
+
+A successful response will return the same output as [Create a new custom field](#create-a-new-custom-field).
+
+A failure will return a standard error response with an explanation of what went wrong.
+
+#### Example
+
+```
+> POST /ga/api/custom_fields/promote HTTP/1.1
+> Authorization: Basic MTozNTZjNTg0ZWM4YWJlMWQ0NDY0OGZlMTY3MmVkM2ZlYmVkYTQxNWRh
+> Accept: application/json
+> Content-Type: application/json
+
+{
+  "promote": {
+    "custom_field_id": 7
+  }
+}
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "e23799d92ddae1f210549ac8d6791e43"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=92dd9834947ebd4336a18b11df1daa80; path=/; HttpOnly
+< X-Request-Id: 84d088cd5055fd93cb28ebc156381405
+< X-Runtime: 0.026102
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "data": {
+    "default_string": "",
+    "field_type": "text",
+    "id": 7,
+    "instructions": "",
+    "mailing_list_id": null,
+    "maximum_length": null,
+    "minimum_length": null,
+    "name": "local field 5",
+    "required": false,
+    "is_global": true
+  },
   "error_code": null,
   "error_message": null
 }
