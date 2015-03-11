@@ -326,16 +326,16 @@ default value for a particular delivery.
 
 Each hash in the `attachments` array of the Override Hash must have the following keys:
 
-| Key       | Description                                                                        |
-| --------- | ---------------------------------------------------------------------------------- |
-| filename  | The string that will be used as the filename in the attachment. Must not be blank. |
-| mime_type | The string that will be used as the MIME type for the attached file.               |
-| content   | The string that will be used as the content of the attachment.                     |
+| Key            | Description                                                                        |
+| -------------- | ---------------------------------------------------------------------------------- |
+| `filename`     | The string that will be used as the filename in the attachment. Must not be blank. |
+| `content_type` | The string that will be used as the MIME type for the attached file.               |
+| `content`      | The string that will be used as the content of the attachment.                     |
 
 * Filenames may contain the characters `A-Z a-z 0-9 _ - .` and spaces, must be at least
   one character long, must contain at least one non-whitespace character, and may be at
   most 100 characters long.
-* If `mime_type` is blank, it will be defaulted to `application/octet-stream`.
+* If `content_type` is blank, it will be defaulted to `application/octet-stream`.
 
 Here are some of the most common MIME Types used in email attachments.
 [See the Wikipedia page on MIME Types](http://en.wikipedia.org/wiki/Internet_media_type)
