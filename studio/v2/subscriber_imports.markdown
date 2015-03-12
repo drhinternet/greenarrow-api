@@ -399,6 +399,10 @@ The response will be a JSON object with the following keys.
           <td><b>format</b><br><em>boolean</em></td>
           <td>When overwriting existing subscribers, this import should update the format field.</td>
         </tr>
+        <tr>
+          <td><b>status</b><br><em>boolean</em></td>
+          <td>When overwriting existing subscribers, this import should update the status field.</td>
+        </tr>
       </table>
     </td>
   </tr>
@@ -628,7 +632,8 @@ The response will be a JSON object with the following keys.
       "custom_fields": true,
       "autoresponder": true,
       "confirmed": false,
-      "format": false
+      "format": false,
+      "status": false
     }
   },
   "error_code": null,
@@ -681,6 +686,10 @@ keys listed below. See the example request below.
         <tr>
           <td><b>format</b><br><em>boolean</em></td>
           <td>When overwriting existing subscribers, this import should update the format field. Default: false.</td>
+        </tr>
+        <tr>
+          <td><b>status</b><br><em>boolean</em></td>
+          <td>When overwriting existing subscribers, this import should update the status field. Default: false.</td>
         </tr>
       </table>
     </td>
@@ -809,7 +818,8 @@ show endpoint.
       "custom_fields": true,
       "autoresponder": false,
       "confirmed": false,
-      "format": false
+      "format": false,
+      "status": false
     },
     "overwrite_when_status": {
       "active": true,
@@ -897,7 +907,8 @@ show endpoint.
       "custom_fields": true,
       "autoresponder": false,
       "confirmed": false,
-      "format": false
+      "format": false,
+      "status": false
     }
   },
   "error_code": null,

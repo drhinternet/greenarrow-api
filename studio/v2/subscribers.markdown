@@ -1,32 +1,170 @@
+## Subscribers
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Subscribers](#subscribers)
-  - [Get subscriber details](#get-subscriber-details)
-    - [URL](#url)
-    - [Request Parameters](#request-parameters)
-    - [Notes](#notes)
-    - [Response](#response)
-    - [Example Request](#example-request)
-  - [Create a new subscriber](#create-a-new-subscriber)
-    - [URL](#url-1)
-    - [Request Parameters](#request-parameters-1)
-    - [Request Payload](#request-payload)
-    - [Response](#response-1)
-    - [Example](#example)
-    - [Example code](#example-code)
-  - [Update an existing subscriber](#update-an-existing-subscriber)
-    - [URL](#url-2)
-    - [Request Parameters](#request-parameters-2)
-    - [Request Payload](#request-payload-1)
-    - [Response](#response-2)
-    - [Example](#example-1)
-    - [Example code](#example-code-1)
+- [Get a list of subscribers](#get-a-list-of-subscribers)
+  - [URL](#url)
+  - [Request Parameters](#request-parameters)
+  - [Pagination](#pagination)
+  - [Response](#response)
+  - [Example](#example)
+- [Get subscriber details](#get-subscriber-details)
+  - [URL](#url-1)
+  - [Request Parameters](#request-parameters-1)
+  - [Notes](#notes)
+  - [Response](#response-1)
+  - [Example Request](#example-request)
+- [Create a new subscriber](#create-a-new-subscriber)
+  - [URL](#url-2)
+  - [Request Parameters](#request-parameters-2)
+  - [Request Payload](#request-payload)
+  - [Response](#response-2)
+  - [Example](#example-1)
+  - [Example code](#example-code)
+- [Update an existing subscriber](#update-an-existing-subscriber)
+  - [URL](#url-3)
+  - [Request Parameters](#request-parameters-3)
+  - [Request Payload](#request-payload-1)
+  - [Response](#response-3)
+  - [Example](#example-2)
+  - [Example code](#example-code-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Subscribers
+
+
+### Get a list of subscribers
+
+Get the details for all subscribers on this list.
+
+#### URL
+
+    GET /ga/api/v2/mailing_lists/:mailing_list_id/subscribers
+
+#### Request Parameters
+
+| Key             | Meaning                              |
+| --------------- | ------------------------------------ |
+| mailing_list_id | The id of the mailing list to query. |
+
+#### Pagination
+
+This endpoint returns its records paginated.  The subscriber records will be
+sorted by their id in ascending order.
+
+Querying without any additional parameters will return the first page. The following
+extra parameters may be specified.
+
+| Key          | Meaning                                                              |
+| ------------ | -------------------------------------------------------------------- |
+| `page`       | The page number to retrieve (starts at 0).                           |
+| `page_token` | The page token to retrieve. This is explained below.                 |
+| `per_page`   | The number of records to return per page (default 100, maximum 500). |
+
+There are two ways to page through the data:
+
+* Sequentially increment `page` to specify additional page numbers until you
+  have retrieved every page of the results. When subscribers are added or removed
+  the page boundaries may shift, and it's possible that some subscribers will be missed
+  between pages or returned on two adjacent pages.
+
+* Provide in `page_token` the `next_page_token` value returned by the most recent
+  call to this API which got the previous page. This guarantees that the next returned page
+  will start immediately after the previous page, with all pages being contiguous and
+  non-overlapping. When a `next_page_token` of null is returned, that indicates that this
+  is the last page.
+
+If you are presenting a list of pages to the user, you probably want to use
+`page`. If you want to retrieve all of the data, `page_token` is likely what you want.
+(When retrieving all data, the `page_token` method allows GreenArrow to more efficiently
+provide the data.)
+
+Both `page` and `page_token` may not be specified in the same request.
+
+#### Response
+
+The response will be an array of subscriber hashes, the same as returned by the
+[Get subscriber details](#get-subscriber-details) endpoint documented below.
+
+#### Example
+
+```
+> GET /ga/api/mailing_lists/1/subscribers?per_page=2 HTTP/1.1
+> Authorization: Basic MTpkOTgzOGM4MDBlMmY3ODAxMWY0MTc1NWUzMGIwY2QzNWJiYTA1ZDYx
+> Accept: application/json
+> Content-Type: application/json
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "9394b6420de28ae7f15744c4a7aa9681"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=67423ec44938ad4beb4de1f8e9c684a0; path=/; HttpOnly
+< X-Request-Id: 12cc0a5d90bbc75779478a30e8793e6b
+< X-Runtime: 0.077669
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "error_code": null,
+  "error_message": null,
+  "per_page": 2,
+  "page": 0,
+  "data": [
+    {
+      "id": 1,
+      "mailing_list_id": 1,
+      "email": "user-1@discardallmail.drh.net",
+      "created_at": "2015-03-09T10:34:04-05:00",
+      "created_at_epoch": 1425915244,
+      "status": "active",
+      "subscribe_time": "2015-03-09T10:34:04-05:00",
+      "subscribe_time_epoch": 1425915244,
+      "subscribe_ip": null,
+      "custom_fields": {
+        "new field 1": {
+          "name": "new field 1",
+          "type": "text",
+          "value": null
+        },
+        "new field 2": {
+          "name": "new field 2",
+          "type": "text",
+          "value": null
+        }
+      }
+    },
+    {
+      "id": 2,
+      "mailing_list_id": 1,
+      "email": "user-2@discardallmail.drh.net",
+      "created_at": "2015-03-09T10:36:55-05:00",
+      "created_at_epoch": 1425915415,
+      "status": "active",
+      "subscribe_time": "2015-03-09T10:36:55-05:00",
+      "subscribe_time_epoch": 1425915415,
+      "subscribe_ip": "10.0.81.5",
+      "custom_fields": {
+        "new field 1": {
+          "name": "new field 1",
+          "type": "text",
+          "value": null
+        },
+        "new field 2": {
+          "name": "new field 2",
+          "type": "text",
+          "value": null
+        }
+      }
+    }
+  ],
+  "next_page_token": "EDZmZjYkFGOjlzM"
+}
+```
+
+
 
 ### Get subscriber details
 
@@ -304,14 +442,14 @@ The PUT request should have a JSON document in its payload with all of the follo
 Each entry in the specified *custom_fields* hash must have the following keys.
 The keys for the hash is the name of the custom field.
 
-| Key   | Meaning                                                   | Example       | Type             | Present for Custom Field Types                                    | 
-| ----- | --------------------------------------------------------- | ------------- | ---------------- | ----------------------------------------------------------------- | 
-| name  | The name of the custom field which this entry represents. | "First Name"  | String           | All                                                               | 
-| value | The string value of the custom field.                     | "James McGuy" | String           | text, text_multiline, select_single_dropdown, select_single_radio | 
-| value | The integer value of the custom field.                    | 9182          | Integer          | number                                                            | 
-| value | The boolean value of the custom field.                    | true or false | Boolean          | boolean                                                           | 
-| value | The date value of the custom field.                       | "2000-02-17"  | String           | date                                                              | 
-| value | The list of values selected for the custom field.         | ...           | Array of strings | select_multiple_checkboxes                                        | 
+| Key   | Meaning                                                   | Example       | Type             | Present for Custom Field Types                                    |
+| ----- | --------------------------------------------------------- | ------------- | ---------------- | ----------------------------------------------------------------- |
+| name  | The name of the custom field which this entry represents. | "First Name"  | String           | All                                                               |
+| value | The string value of the custom field.                     | "James McGuy" | String           | text, text_multiline, select_single_dropdown, select_single_radio |
+| value | The integer value of the custom field.                    | 9182          | Integer          | number                                                            |
+| value | The boolean value of the custom field.                    | true or false | Boolean          | boolean                                                           |
+| value | The date value of the custom field.                       | "2000-02-17"  | String           | date                                                              |
+| value | The list of values selected for the custom field.         | ...           | Array of strings | select_multiple_checkboxes                                        |
 
 #### Response
 
