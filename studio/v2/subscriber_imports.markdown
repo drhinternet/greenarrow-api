@@ -44,16 +44,16 @@
 
 <!-- BEGIN table subscriber_import_states -->
 
-| Value       | Description                                           |
-| ----------- | ----------------------------------------------------- |
-| `idle`      | The import has not yet been scheduled                 |
-| `scheduled` | The import has been scheduled and is waiting to start |
-| `splitting` | The import is being prepared and analyzed             |
-| `importing` | The import is now being processed                     |
-| `paused`    | The import has been paused                            |
-| `finished`  | The import finished successfully                      |
-| `failed`    | There was an internal error during this import        |
-| `cancelled` | The import was permanently cancelled                  |
+| Value         | Description                                           |
+| ------------- | ----------------------------------------------------- |
+| `scheduled`   | The import has been scheduled and is waiting to start |
+| `downloading` | The import is downloading its data from a URL (1)     |
+| `splitting`   | The import is being prepared and analyzed             |
+| `importing`   | The import is now being processed                     |
+| `paused`      | The import has been paused                            |
+| `finished`    | The import finished successfully                      |
+| `failed`      | There was an internal error during this import        |
+| `cancelled`   | The import was permanently cancelled                  |
 
 <!-- END table subscriber_import_states -->
 
@@ -237,11 +237,15 @@ The response will be a JSON array where each element contains the following keys
       <table>
         <tr>
           <td><b>type</b><br><em>string</em></td>
-          <td>The source of the data to use for this import. This can be <code>json</code> or <code>upload_directory</code>.</td>
+          <td>The source of the data to use for this import. This can be <code>json</code>, <code>upload_directory</code>, or <code>url</code>.</td>
         </tr>
         <tr>
           <td><b>filename</b><br><em>string</em></td>
           <td>For <code>upload_directory</code> imports, this is the filename of the local file in the user upload directory.</td>
+        </tr>
+        <tr>
+          <td><b>url</b><br><em>string</em></td>
+          <td>For <code>url</code> imports, this is the URL of the file to fetch for this import.</td>
         </tr>
       </table>
     </td>
@@ -365,7 +369,7 @@ The response will be a JSON object with the following keys.
   </tr>
   <tr>
     <td><b>state</b><br><em>string</em></td>
-    <td>The current state of this import.</td>
+    <td>The current state of this import. See the "Subscriber Import States" table above for more information.</td>
   </tr>
   <tr>
     <td><b>begins_at</b><br><em>datetime</em></td>
@@ -378,6 +382,10 @@ The response will be a JSON object with the following keys.
   <tr>
     <td><b>overwrite</b><br><em>boolean</em></td>
     <td>This import should overwrite existing subscribers with the same email address.</td>
+  </tr>
+  <tr>
+    <td><b>error_message</b><br><em>string</em></td>
+    <td>An error message describing why this import failed.</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -447,15 +455,15 @@ The response will be a JSON object with the following keys.
       <table>
         <tr>
           <td><b>type</b><br><em>string</em></td>
-          <td>The source of the data to use for this import. This can be <code>json</code> or <code>upload_directory</code>.</td>
-        </tr>
-        <tr>
-          <td><b>content</b><br><em>string</em></td>
-          <td>For <code>json</code> imports, this is the CSV content of the import file.</td>
+          <td>The source of the data to use for this import. This can be <code>json</code>, <code>upload_directory</code>, or <code>url</code>.</td>
         </tr>
         <tr>
           <td><b>filename</b><br><em>string</em></td>
-          <td>For <code>upload_directory</code> imports, this is the filename of the local file in the user upload directory.</td>
+          <td>For <code>upload_directory</code> imports, this is the filename of the local file in the user upload directory. For files that were uploaded on the web interface, this is the filename as uploaded.</td>
+        </tr>
+        <tr>
+          <td><b>url</b><br><em>string</em></td>
+          <td>For <code>url</code> imports, this is the URL of the file to fetch for this import.</td>
         </tr>
       </table>
     </td>
@@ -647,6 +655,13 @@ The response will be a JSON object with the following keys.
 
 Start a new subscriber import, providing all details needed to run.
 
+Subscriber imports that retrieve data from a URL will attempt to download from
+that URL up to three times.  The first retry will be 10 seconds after the first
+failure. The final retry will occur 50 seconds after the second failure. For
+these imports, the data will be loaded at the time the imports is scheduled to
+begin. This retry schedule does not apply if the URL did not finish sending
+after 15 minutes of downloading. In such cases, the URL will not be retried.
+
 #### URL
 
     POST /ga/api/v2/mailing_lists/:mailing_list_id/subscriber_imports
@@ -735,15 +750,23 @@ keys listed below. See the example request below.
       <table>
         <tr>
           <td><b>type</b><br><em>string</em></td>
-          <td>The source of the data to use for this import. This can be <code>json</code> or <code>upload_directory</code>. Required.</td>
+          <td>
+            The source of the data to use for this import.
+            This can be <code>json</code>, <code>upload_directory</code>, or <code>url</code>.
+            Required.
+          </td>
         </tr>
         <tr>
           <td><b>content</b><br><em>string</em></td>
-          <td>For <code>json</code> imports, this is the CSV content of the import file.</td>
+          <td>For <code>json</code> imports, this is the CSV content of the import file. This string may be up to 10MB in length. Larger string sizes may work, but they are not recommended nor guaranteed.</td>
         </tr>
         <tr>
           <td><b>filename</b><br><em>string</em></td>
-          <td>For <code>upload_directory</code> imports, this is the filename of the local file in the user upload directory.</td>
+          <td>For <code>upload_directory</code> imports, this is the filename of the local file in the user upload directory. There is no file size limit on local files.</td>
+        </tr>
+        <tr>
+          <td><b>url</b><br><em>string</em></td>
+          <td>For <code>url</code> imports, this is the URL of the file to fetch for this import. The file downloaded from this URL may be up to 200MB in length.</td>
         </tr>
       </table>
     </td>
