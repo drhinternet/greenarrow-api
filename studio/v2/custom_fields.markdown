@@ -413,7 +413,7 @@ A failure will return a standard error response with an explanation of what went
 
 Promote a custom field to be an organization global custom field:
 
-    POST /ga/api/v2/organizations/:organization_id/custom_fields/promote
+    POST /ga/api/v2/custom_fields/promote
 
 Custom Fields that are associated with a single mailing list may be promoted to
 be global to the organization. Custom Fields must have a unique name across the
