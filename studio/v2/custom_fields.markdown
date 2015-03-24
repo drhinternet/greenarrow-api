@@ -33,12 +33,16 @@
     - [Request Payload](#request-payload-2)
     - [Response](#response-3)
     - [Example](#example-2)
+    - [Example of Failure Due to Dependency](#example-of-failure-due-to-dependency)
   - [Promote a custom field](#promote-a-custom-field)
     - [URL](#url-4)
-    - [Request Parameters](#request-parameters-3)
     - [Request Payload](#request-payload-3)
     - [Response](#response-4)
     - [Example](#example-3)
+  - [List deleted custom fields](#list-deleted-custom-fields)
+    - [URL](#url-5)
+    - [Response](#response-5)
+    - [Example](#example-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -377,7 +381,10 @@ A successful response will return an empty success response:
 }
 ```
 
-A failure will return a standard error response with an explanation of what went wrong.
+A failure will return a standard error response with an explanation of what
+went wrong. If the failure is due to other objects depending on this custom
+field to exist, the response data will contain a `dependencies` key. See an
+example of this below.
 
 #### Example
 
@@ -405,6 +412,39 @@ A failure will return a standard error response with an explanation of what went
 }
 ```
 
+#### Example of Failure Due to Dependency
+
+```
+> DELETE /ga/api/mailing_lists/1/custom_fields/7 HTTP/1.1
+> Authorization: Basic MTpkNDViMTY2NDlkMDY4MTVmODY0OWQ3NjE4MjlmMDU2NGVjZGIwYzY5
+> Accept: application/json
+> Content-Type: application/json
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "22907c156bed7d48027b087627c58028"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=bc11a218dbcbf70cba82a6b8fb99777f; path=/; HttpOnly
+< X-Request-Id: baa60f34d5818207466c84cf055b54f9
+< X-Runtime: 0.530502
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": false,
+  "data": {
+    "dependencies": [
+      {
+        "type": "campaign",
+        "id": 1
+      }
+    ]
+  },
+  "error_code": "validation_failed",
+  "error_message": "Cannot delete custom field because it is currently being used by the following records."
+}
+```
+
 
 
 ### Promote a custom field
@@ -418,12 +458,6 @@ Promote a custom field to be an organization global custom field:
 Custom Fields that are associated with a single mailing list may be promoted to
 be global to the organization. Custom Fields must have a unique name across the
 organization in order to be promoted to be a global custom field.
-
-#### Request Parameters
-
-| Key               | Meaning                                               |
-| ----------------- | ----------------------------------------------------- |
-| `organization_id` | The ID of the organization that owns the custom field |
 
 #### Request Payload
 
@@ -485,6 +519,68 @@ A failure will return a standard error response with an explanation of what went
     "required": false,
     "is_global": true
   },
+  "error_code": null,
+  "error_message": null
+}
+```
+
+
+
+### List deleted custom fields
+
+When a custom field is deleted, it is not actually removed from the database.
+Instead, it is marked as deleted and is no longer used.
+
+This endpoint will return the list of deleted custom fields that were
+associated with the specified mailing list or organization.
+
+#### URL
+
+    GET /ga/api/v2/mailing_lists/:mailing_list_id/custom_fields/deleted
+
+    GET /ga/api/v2/custom_fields/deleted
+
+#### Response
+
+The response will contain the same fields as is listed in the
+[Attributes](#attributes) section above -- but with one additional field
+`deleted_at`. This value will be the time at which the custom field was deleted.
+
+#### Example
+
+```
+> GET /ga/api/custom_fields/deleted HTTP/1.1
+> Authorization: Basic MTo5N2M3MDIyMWU0Yzk4NTg4NTY2ZTk5MjZjMzM1MmVmMWExYTIwNWJj
+> Accept: application/json
+> Content-Type: application/json
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "29cdc1ba8bf11b31f1d92d7eeaa7ad75"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=2a40cddeda9a045b6487994258ca6e88; path=/; HttpOnly
+< X-Request-Id: 24f9b05b55f07bbf985899c23c74b975
+< X-Runtime: 0.574737
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "data": [
+    {
+      "default_string": "",
+      "deleted_at": "2015-03-17T21:02:22Z",
+      "field_type": "text",
+      "id": 6,
+      "instructions": "",
+      "mailing_list_id": null,
+      "maximum_length": null,
+      "minimum_length": null,
+      "name": "Org Glo Field",
+      "required": false,
+      "is_global": true
+    }
+  ],
   "error_code": null,
   "error_message": null
 }
