@@ -149,7 +149,7 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 ```
 > POST /ga/api/mailing_lists/1/autoresponders HTTP/1.1
-> Authorization: Basic MTplYWE3YzMzNDM3MjA0ZmYzNWNkN2YwMzdjZjA2ZTBjYmY5MjIzNjBj
+> Authorization: Basic MTo5ODU2MzhiMDNkNGJjOGFlZDJjYTk5NWQ4NzcwM2ExYWZiMjJhYTRl
 > Accept: application/json
 > Content-Type: application/json
 
@@ -177,17 +177,19 @@ Note that the JSON response will not be "pretty formatted" as it is below.
     "url_domain_id": 1,
     "use_external_delivery_setting": true,
     "virtual_mta_id": 0,
-    "content_subject": "Welcome to our mailing list!"
+    "content_format": "html",
+    "content_subject": "Welcome to our mailing list!",
+    "content_html": "<p>Welcome!</p>"
   }
 }
 
 < Content-Type: application/json; charset=utf-8
 < X-UA-Compatible: IE=Edge
-< ETag: "bbc156f3129d51ee12b03d85c34cd24c"
+< ETag: "a8b71350b39af606469bc672096ca0ac"
 < Cache-Control: max-age=0, private, must-revalidate
-< Set-Cookie: _session_id=2f03c9b69c1a7b885739c7cbc2df65fc; path=/; HttpOnly
-< X-Request-Id: 957dcaf72b9adcd194df11c3d73187bc
-< X-Runtime: 0.073428
+< Set-Cookie: _session_id=c6c7db826070a655890578718cfd3e23; path=/; HttpOnly
+< X-Request-Id: 389f0fe0c0628b2dcd4318f4cdfd50e9
+< X-Runtime: 0.089678
 < Connection: close
 < Server: thin 1.5.0 codename Knife
 
@@ -202,7 +204,7 @@ Note that the JSON response will not be "pretty formatted" as it is below.
     "delay_unit": null,
     "from_email": "bob@example.com",
     "from_name": "Bob Example",
-    "id": 5,
+    "id": 1,
     "mailing_list_id": 1,
     "name": "Autoresponder 2",
     "paused": false,
@@ -245,60 +247,84 @@ The response will be a JSON object in the same format as the response to the aut
 
 Note that the JSON response will not be "pretty formatted" as it is below.
 
-    > PUT /ga/api/v2/mailing_lists/1/autoresponders/1 HTTP/1.1
-    > Authorization: Basic MTo1ZTk2NDY1Yzg4M2YzMzA5ZjAxMDVhMmUxMDc2NjMyYjY4N2U2MWQy
-    > User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8r zlib/1.2.5
-    > Host: greenarrow-studio.dev
-    > Accept: */*
-    > Content-Length: 430
-    > Content-Type: application/json
-    >
-    {
-        "autoresponder": {
-          "from_email":"bob2@example.com",
-          "from_name":"Bob Example 2",
-        }
-    }
-    < HTTP/1.1 200 OK
-    < Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-    < Pragma: no-cache
-    < Expires: Fri, 01 Jan 1990 00:00:00 GMT
-    < Content-Type: application/json; charset=utf-8
-    < X-UA-Compatible: IE=Edge
-    < Set-Cookie: _session_id=458055a23f26f844e74f8cd7300f6445; path=/; HttpOnly
-    < X-Request-Id: f6e40d578ed1d9c418cca45e1b7fe532
-    < X-Runtime: 0.025540
-    < Connection: close
-    <
-    {
-       "success":true,
-       "data":{
-          "bounce_email_domain_id":2,
-          "bounce_email_user_id":2,
-          "delay":"immediately",
-          "delay_amount":0,
-          "delay_time":0,
-          "delay_unit":null,
-          "from_email":"bob2@example.com",
-          "from_name":"Bob Example 2",
-          "id":1,
-          "mailing_list_id":1,
-          "name":"Autoresponder 1",
-          "paused":false,
-          "paused_at":null,
-          "segmentation_criteria_id":1,
-          "track_links":true,
-          "track_opens":true,
-          "trigger":"subscription",
-          "trigger_campaign_to_open_id":null,
-          "trigger_include_subscribers_from_import":false,
-          "trigger_run_on_api":false,
-          "triggered_on":"2014-06-30",
-          "url_domain_id":2,
-          "use_external_delivery_setting":true,
-          "virtual_mta_id":0
-       }
-    }
+```
+> PUT /ga/api/mailing_lists/1/autoresponders/1 HTTP/1.1
+> Authorization: Basic MTo5ODU2MzhiMDNkNGJjOGFlZDJjYTk5NWQ4NzcwM2ExYWZiMjJhYTRl
+> Accept: application/json
+> Content-Type: application/json
+
+{
+  "autoresponder": {
+    "bounce_email_domain_id": 1,
+    "bounce_email_user_id": 1,
+    "delay": "immediately",
+    "delay_amount": 0,
+    "delay_time": 0,
+    "delay_unit": null,
+    "from_email": "bob@example.com",
+    "from_name": "Bob Example",
+    "name": "Autoresponder 2",
+    "paused": false,
+    "paused_at": null,
+    "segmentation_criteria_id": 1,
+    "track_links": true,
+    "track_opens": true,
+    "trigger": "subscription",
+    "trigger_campaign_to_open_id": null,
+    "trigger_include_subscribers_from_import": false,
+    "trigger_run_on_api": false,
+    "triggered_on": "2014-06-30",
+    "url_domain_id": 1,
+    "use_external_delivery_setting": true,
+    "virtual_mta_id": 0,
+    "content_format": "html",
+    "content_subject": "Welcome to our mailing list!",
+    "content_html": "<p>Welcome!</p>"
+  }
+}
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "a8b71350b39af606469bc672096ca0ac"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=9ae77aeb60e739aeacf0188153217822; path=/; HttpOnly
+< X-Request-Id: 5821e8d46350c5d54f3eceb23ab70235
+< X-Runtime: 0.148615
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "data": {
+    "bounce_email_domain_id": 1,
+    "bounce_email_user_id": 1,
+    "delay": "immediately",
+    "delay_amount": 0,
+    "delay_time": 0,
+    "delay_unit": null,
+    "from_email": "bob@example.com",
+    "from_name": "Bob Example",
+    "id": 1,
+    "mailing_list_id": 1,
+    "name": "Autoresponder 2",
+    "paused": false,
+    "paused_at": null,
+    "segmentation_criteria_id": 1,
+    "track_links": true,
+    "track_opens": true,
+    "trigger": "subscription",
+    "trigger_campaign_to_open_id": null,
+    "trigger_include_subscribers_from_import": false,
+    "trigger_run_on_api": false,
+    "triggered_on": null,
+    "url_domain_id": 1,
+    "use_external_delivery_setting": true,
+    "virtual_mta_id": 0
+  },
+  "error_code": null,
+  "error_message": null
+}
+```
 
 ### Get statistics for an autoresponder
 
