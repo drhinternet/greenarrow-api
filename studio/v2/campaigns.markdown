@@ -376,62 +376,115 @@ A successful response will return the campaign record using the format described
 
 Note that the JSON response will not be "pretty formatted" as it is below.
 
-    > POST /ga/api/v2/mailing_lists/1/campaigns HTTP/1.1
-    > Authorization: Basic MTo1ZTk2NDY1Yzg4M2YzMzA5ZjAxMDVhMmUxMDc2NjMyYjY4N2U2MWQy
-    > User-Agent: curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8r zlib/1.2.5
-    > Host: greenarrow-studio.dev
-    > Accept: */*
-    >
-    {
-      "campaign": {
-        "name": "My New Campaign"
-      },
-      "mailing_list_id": 1
+```
+> POST /ga/api/mailing_lists/1/campaigns HTTP/1.1
+> Authorization: Basic MTo1MjliODY5YzllNmE3YmFjY2M2NDdmYTg2OTlhMDA2ZGNiNzlkMTA1
+> Accept: application/json
+> Content-Type: application/json
+
+{
+  "campaign": {
+    "name": "Daily Update 2015-01-22",
+    "campaign_contents_attributes": [
+      {
+        "content_attributes": {
+          "format": "html",
+          "subject": "Daily Update Email",
+          "html": "hello world"
+        }
+      }
+    ],
+    "segmentation_criteria_ad_hoc": [
+    ],
+    "dispatch_attributes": {
+      "from_email": "from@example.com",
+      "from_name": "From Example",
+      "speed": 0,
+      "virtual_mta_id": 0,
+      "bounce_email_id": "1@1",
+      "url_domain_id": 1,
+      "begins_at": "2015-01-22 11:10AM CST",
+      "track_opens": true,
+      "track_links": true
     }
-    < HTTP/1.1 200 OK
-    < Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-    < Pragma: no-cache
-    < Expires: Fri, 01 Jan 1990 00:00:00 GMT
-    < Content-Type: application/json; charset=utf-8
-    < X-UA-Compatible: IE=Edge
-    < Set-Cookie: _session_id=458055a23f26f844e74f8cd7300f6445; path=/; HttpOnly
-    < X-Request-Id: f6e40d578ed1d9c418cca45e1b7fe532
-    < X-Runtime: 0.025540
-    < Connection: close
-    <
-    {
-      "error_message" : null,
-      "data" : {
-        "id" : 3,
-        "content_html" : "",
-        "stats" : null,
-        "segmentation_criteria_id" : null,
-        "created_at" : "2013-09-02T16:01:49Z",
-        "organization_id" : 1,
-        "mailing_list_name" : "test",
-        "archived" : false,
-        "content_determined" : false,
-        "mailing_list_id" : 1,
-        "content_subject" : "",
-        "active_html_editor" : "ckeditor",
-        "email_format" : "html",
-        "content_text" : "",
-        "updated_at" : "2013-09-02T16:01:49Z",
-        "organization_name" : "System Organization",
-        "name" : "My New Campaign",
-        "campaign_contents_attributes": [ {
-          "name": "Content A,
-          "content_attributes": {
-            "format": "html",
-            "subject": "My Subject",
-            "html": "My HTML content",
-            "text": "",
-          }
-        } ]
-      },
-      "error_code" : null,
-      "success" : true
-    }
+  }
+}
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "aca97539bce08474cf9b54efb0168cc9"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=6d52a26884763951a2a4d60caceb13dd; path=/; HttpOnly
+< X-Request-Id: afc18b45c9c19b2601df84733bc5739b
+< X-Runtime: 0.126468
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "data": {
+    "active_html_editor": "ckeditor",
+    "archived": false,
+    "content_determined": true,
+    "created_at": "2015-04-10T16:03:17Z",
+    "id": 4,
+    "mailing_list_id": 1,
+    "name": "Daily Update 2015-01-22",
+    "organization_id": 1,
+    "segmentation_criteria_id": 4,
+    "template": false,
+    "updated_at": "2015-04-10T16:03:17Z",
+    "mailing_list_name": "Default Mailing List",
+    "organization_name": "System Organization",
+    "stat_summary": null,
+    "dispatch": {
+      "autowinner_delay_amount": null,
+      "autowinner_delay_unit": "minutes",
+      "autowinner_enabled": false,
+      "autowinner_metric": null,
+      "autowinner_percentage": null,
+      "begins_at": "2015-01-22T17:10:00Z",
+      "finished_at": null,
+      "from_email": "from@example.com",
+      "from_name": "From Example",
+      "paused": false,
+      "reply_to": null,
+      "sender_email": null,
+      "speed": 0,
+      "started_at": null,
+      "state": "scheduled",
+      "track_links": true,
+      "track_opens": true,
+      "url_domain_id": 1,
+      "virtual_mta_id": 0,
+      "state_description": "Step 2: Scheduled",
+      "virtual_mta_name": "System Default Route",
+      "virtual_mta_type": "default_route",
+      "bounce_email_user_id": 1,
+      "bounce_email_domain_id": 1,
+      "bounce_email_email": "return@example.com",
+      "url_domain_domain": "example.com",
+      "seed_lists": [
+
+      ],
+      "seed_list_id": null,
+      "seed_list_name": null
+    },
+    "campaign_contents": [
+      {
+        "id": 3,
+        "name": "Content A",
+        "subject": "Daily Update Email",
+        "html": "hello world",
+        "text": "",
+        "format": "html"
+      }
+    ]
+  },
+  "error_code": null,
+  "error_message": null
+}
+```
 
 #### Example code
 
