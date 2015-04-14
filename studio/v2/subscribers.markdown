@@ -302,18 +302,20 @@ Each entry in the custom_fields hash are keyed for the name of the custom field,
 
 The POST request should have a JSON document in its payload with all of the following keys.
 
-| Key                            | Meaning                                                                                                        | Example                                                       | Type    |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
-| subscriber.email               | The subscriber's email address                                                                                 | bob@example.com                                               | String  |
-| subscriber.confirmed           | The subscriber's confirmed status. This column is only needed for mailing lists which use the Confirmed field. | true or false                                                 | Boolean |
-| subscriber.email_format        | The subscriber's email format. This column is only needed for mailing lists which use the Format field.        | "plaintext" or "html"                                         | String  |
-| subscriber.status              | The status of the subscriber.                                                                                  | "active", "bounced", "unsubscribed", "scomp" or "deactivated" | String  |
-| subscriber.subscribe_time      | The time the subscriber subscribed.                                                                            | "2013-03-27T10:14:13-05:00"                                   | String  |
-| subscriber.subscribe_ip        | The ip the subscriber subscribed from. This can be null if it is unknown.                                      | "192.168.0.123"                                               | String  |
-| subscriber.custom_fields       | An array of entries matching the definition found below.                                                       | ...                                                           | Hash    |
-| subscriber.skip_autoresponders | Do not run autoresponders for this new subscriber                                                              | false                                                         | Boolean |
+| Key                                      | Meaning                                                                                                        | Example                                                       | Type    |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------- |
+| subscriber.email                         | The subscriber's email address                                                                                 | bob@example.com                                               | String  |
+| subscriber.confirmed                     | The subscriber's confirmed status. This column is only needed for mailing lists which use the Confirmed field. | true or false                                                 | Boolean |
+| subscriber.email_format                  | The subscriber's email format. This column is only needed for mailing lists which use the Format field.        | "plaintext" or "html"                                         | String  |
+| subscriber.status                        | The status of the subscriber.                                                                                  | "active", "bounced", "unsubscribed", "scomp" or "deactivated" | String  |
+| subscriber.subscribe_time                | The time the subscriber subscribed.                                                                            | "2013-03-27T10:14:13-05:00"                                   | String  |
+| subscriber.subscribe_ip                  | The ip the subscriber subscribed from. This can be null if it is unknown.                                      | "192.168.0.123"                                               | String  |
+| subscriber.custom_fields                 | An array of entries matching the definition found below (1).                                                   | ...                                                           | Hash    |
+| subscriber.skip_autoresponders           | Do not run autoresponders for this new subscriber (see 2.1 below).                                             | false                                                         | Boolean |
+| subscriber.autoresponder_filter          | Only run the autoresponders that match this case-insensitive string glob (see 2.4 below).                      | `Subscription Autoresponder Sequence*`                        | String  |
+| subscriber.autoresponder_exclude_reacted | Do not run autoresponders if this subscriber has a reaction in the queue (see 2.5 below).                      | `true`                                                        | Boolean |
 
-Each entry in the specified *custom_fields* hash must have the following keys. The keys for the hash is the name of the custom field.
+(1) Each entry in the specified *custom_fields* hash must have the following keys. The keys for the hash is the name of the custom field.
 
 | Key | Meaning | Example | Type | Present for Custom Field Types |
 | --- | ------- | ------- | ---- | ------------------------------ |
@@ -323,6 +325,19 @@ Each entry in the specified *custom_fields* hash must have the following keys. T
 | value | The boolean value of the custom field. | true or false | Boolean | boolean |
 | value | The date value of the custom field. | "2000-02-17" | String | date |
 | value | The list of values selected for the custom field. | ... | Array of strings | select_multiple_checkboxes |
+
+(2) In order for an autoresponder to be triggered for later sending, the following must be true.
+
+1. The `skip_autoresponders` field must not be enabled.
+2. The autoresponder must trigger on *Subscription*.
+3. The autoresponder trigger must be configured with the *Run From API?* option enabled.
+4. If specified, the `autoresponder_filter` field will reduce the list of autoresponders
+   that are run to those whose name matches the glob, where `*` is a wildcard character.
+5. If specified, the `autoresponder_exclude_reacted` field will cause *all*
+   autoresponders to be skipped if any autoresponder remaining at this point contains a
+   reaction in the queue for this subscriber. This only evaluates autoresponders that:
+   (a) are configured with *Run from API?* as true (step 3), (b) match the pattern provided in
+   `autoresponder_filter` if present (step 4), and (c) are paused or un-paused.
 
 #### Response
 
