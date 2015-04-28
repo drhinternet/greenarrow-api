@@ -191,6 +191,8 @@ This API method does not require any additional parameters.
 | dispatch.autowinner_delay_amount    | The number of units of time that the campaign will wait before finishing after a split-test.                                                                                            | 25                              | Integer  |
 | dispatch.autowinner_delay_unit      | The unit used in calculating the delay duration.                                                                                                                                        | "minutes", "hours", "days"      | String   |
 | dispatch.autowinner_metric          | The metric used to decide the winner. See the "Automatic Winner Selection Metrics" table for more information.                                                                          | "clicks_unique", "opens_unique" | String   |
+| dispatch.special_sending_rule_id    | The id of the Special Sending Rule used for this campaign. Special Sending Rules may only be used on the System Organization.                                                           | 123                             | Integer  |
+| dispatch.special_sending_rule_name  | The name of the Special Sending Rule used for this campaign.                                                                                                                            | "Replace Special Tags"          | String   |
 | stat_summary                        | Basic campaign statistics                                                                                                                                                               | {}                              | Hash     |
 | stat_summary.sent_text              | Number of recipients that were sent a text-only message                                                                                                                                 | 1                               | Integer  |
 | stat_summary.sent_html              | Number of recipients that were sent a html-only message                                                                                                                                 | 1                               | Integer  |
@@ -314,6 +316,8 @@ The POST request should have a JSON document in its payload with at least keys t
 | campaign.dispatch_attributes.autowinner_delay_amount                | The number of units of time that the campaign will wait before finishing after a split-test.                                            | 25                                                                                                                     | Integer  |
 | campaign.dispatch_attributes.autowinner_delay_unit                  | The unit used in calculating the delay duration.                                                                                        | "minutes", "hours", "days"                                                                                             | String   |
 | campaign.dispatch_attributes.autowinner_metric                      | The metric used to decide the winner. See the "Automatic Winner Selection Metrics" table for more information.                          | "clicks_unique", "opens_unique"                                                                                        | String   |
+| campaign.dispatch_attributes.special_sending_rule_id                | The id of the Special Sending Rule used for this campaign. Special Sending Rules may only be used on the System Organization.           | 123                             | Integer  |
+| campaign.dispatch_attributes.special_sending_rule_name              | The name of the Special Sending Rule used for this campaign. See note (4) below.                                                        | "Replace Special Tags"          | String   |
 | source_template_id                                                  | The id of campaign template to base on                                                                                                  | Integer  |
 
 1. This value is returned as a string to prevent floating-point conversion errors.
@@ -327,6 +331,8 @@ The POST request should have a JSON document in its payload with at least keys t
 3. Assigning to the deprecated fields `seed_list_id` or `seed_list_name` will
    assign the entire list of seed lists to the provided value, overwriting one or
    more seed lists that were already in use.
+4. Only one of `special_sending_rule_id` and `special_sending_rule_name` may be
+   present in a single request. Special Sending Rules are only valid on the System Organization.
 
 #### Ad Hoc Segmentation Criteria
 
@@ -465,10 +471,11 @@ Note that the JSON response will not be "pretty formatted" as it is below.
       "bounce_email_email": "return@example.com",
       "url_domain_domain": "example.com",
       "seed_lists": [
-
       ],
       "seed_list_id": null,
-      "seed_list_name": null
+      "seed_list_name": null,
+      "special_sending_rule_id": null,
+      "special_sending_rule_name": null
     },
     "campaign_contents": [
       {
@@ -645,6 +652,8 @@ Note that the JSON response will not be "pretty formatted" as it is below.
           "autowinner_delay_amount": 10,
           "autowinner_delay_unit": "hours",
           "autowinner_metric": "opens_unique",
+          "special_sending_rule_id": null,
+          "special_sending_rule_name": null
         },
         "stats" : null,
         "mailing_list_id" : 1,
@@ -740,6 +749,8 @@ Note that the JSON response will not be "pretty formatted" as it is below.
           "autowinner_delay_amount": 10,
           "autowinner_delay_unit": "hours",
           "autowinner_metric": "opens_unique",
+          "special_sending_rule_id": null,
+          "special_sending_rule_name": null
         },
         "stats" : null,
         "mailing_list_id" : 1,
