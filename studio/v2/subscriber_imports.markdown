@@ -4,6 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+- [Remote Lists](#remote-lists)
 - [Definitions](#definitions)
   - [Subscriber Import States](#subscriber-import-states)
   - [Mapping Array](#mapping-array)
@@ -37,6 +38,15 @@
   - [Response](#response-5)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+
+### Remote Lists
+
+Subscriber Imports are not available on [Remote Lists](../remote_lists.markdown).
+API calls to these endpoints will return an error message if attempted on a Remote List.
+
+
 
 ### Definitions
 

@@ -91,6 +91,7 @@ Here are all of the error codes that Studio can return. See the *error_message* 
 | requested_too_many     | The client requested too many records at once.                       |
 | not_found              | The requested record could not be found.                             |
 | multiple_records_found | The request found multiple records instead of one.                   |
+| internal_error         | The request caused an error within GreenArrow Studio.                |
 
 
 ### Dates and Times

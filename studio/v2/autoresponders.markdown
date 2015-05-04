@@ -1,32 +1,42 @@
+## Autoresponders
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Autoresponders](#autoresponders)
-  - [Get a list of autoresponders](#get-a-list-of-autoresponders)
-    - [URL](#url)
-    - [Request Parameters](#request-parameters)
-    - [Response](#response)
-    - [Example Request](#example-request)
-  - [Create a new autoresponder](#create-a-new-autoresponder)
-    - [URL](#url-1)
-    - [Request Parameters](#request-parameters-1)
-    - [Response](#response-1)
-    - [Example Request](#example-request-1)
-  - [Update an existing autoresponder](#update-an-existing-autoresponder)
-    - [URL](#url-2)
-    - [Request Parameters](#request-parameters-2)
-    - [Response](#response-2)
-    - [Example Request](#example-request-2)
-  - [Get statistics for an autoresponder](#get-statistics-for-an-autoresponder)
-    - [URL](#url-3)
-    - [Request Parameters](#request-parameters-3)
-    - [Response](#response-3)
-    - [Example Request](#example-request-3)
+- [Remote Lists](#remote-lists)
+- [Get a list of autoresponders](#get-a-list-of-autoresponders)
+  - [URL](#url)
+  - [Request Parameters](#request-parameters)
+  - [Response](#response)
+  - [Example Request](#example-request)
+- [Create a new autoresponder](#create-a-new-autoresponder)
+  - [URL](#url-1)
+  - [Request Parameters](#request-parameters-1)
+  - [Response](#response-1)
+  - [Example Request](#example-request-1)
+- [Update an existing autoresponder](#update-an-existing-autoresponder)
+  - [URL](#url-2)
+  - [Request Parameters](#request-parameters-2)
+  - [Response](#response-2)
+  - [Example Request](#example-request-2)
+- [Get statistics for an autoresponder](#get-statistics-for-an-autoresponder)
+  - [URL](#url-3)
+  - [Request Parameters](#request-parameters-3)
+  - [Response](#response-3)
+  - [Example Request](#example-request-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Autoresponders
+
+
+### Remote Lists
+
+Autoresponders are not available on [Remote Lists](../remote_lists.markdown).
+API calls to these endpoints will return an error message if attempted on a
+Remote List.
+
+
 
 ### Get a list of autoresponders
 
@@ -346,33 +356,35 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 The response will be a JSON object in the format below.
 
-| Key                    | Meaning                                                                       | Example | Type    |
-| ---------------------- | ----------------------------------------------------------------------------- | ------- | ------- |
-| id                     | The autoresponder's ID                                                        | 99123   | Integer |
-| sent_text              | Number of recipients that were sent a text-only message                       | 1       | Integer |
-| sent_html              | Number of recipients that were sent a html-only message                       | 1       | Integer |
-| sent_multipart         | Number of recipients that were sent a multipart message                       | 1       | Integer |
-| bounces_total          | Total number of bounces received                                              | 1       | Integer |
-| bounces_unique         | Unique (by subscriber) bounces received                                       | 1       | Integer |
-| bounces_unique_hard    | Number of unique (by subscriber) bounces where bounce_type is hard            | 1       | Integer |
-| bounces_unique_soft    | Number of unique (by subscriber) bounces where bounce_type is soft            | 1       | Integer |
-| bounces_unique_other   | Number of unique (by subscriber) bounces where bounce_type is other           | 1       | Integer |
-| bounces_unique_local   | Number of unique (by subscriber) bounces that were local                      | 1       | Integer |
-| bounces_unique_remote  | Number of unique (by subscriber) bounces that were remote                     | 1       | Integer |
-| clicks_total           | Number of total clicks                                                        | 1       | Integer |
-| clicks_unique          | Number of unique clicks (unique by subscriber)                                | 1       | Integer |
-| clicks_unique_by_link  | Number of unique clicks (unique by subscriber/link)                           | 1       | Integer |
-| opens_total            | Number of total opens                                                         | 1       | Integer |
-| opens_unique           | Number of unique opens (unique by subscriber)                                 | 1       | Integer |
-| scomps_total           | Number of scomps (spam complaints)                                            | 1       | Integer |
-| scomps_unique          | Number of unique scomps (unique by subscriber)                                | 1       | Integer |
-| scomps_status_updated  | Number of recipients where the status was updated to status 'scomp'           | 1       | Integer |
-| unsubs_total           | Number of total unsubscribes                                                  | 1       | Integer |
-| unsubs_unique          | Number of unique unsubscribes (unique by subscriber)                          | 1       | Integer |
-| unsubs_status_updated  | Number of recipients where the status was updated to status 'unsubscribed'    | 1       | Integer |
-| bounces_status_updated | Number of recipients where status was updated to status 'bounce'              | 1       | Integer |
-| bounces_unique_by_code | Number of unique (by subscriber) bounces for each bounce code                 | {}      | Hash    |
-| smtp_success           | The number of messages that were successfully delivered to the remote server. | 1       | Integer |
+| Key                    | Meaning                                                                                   | Example | Type    |
+| ---------------------- | ----------------------------------------------------------------------------------------- | ------- | ------- |
+| id                     | The autoresponder's ID                                                                    | 99123   | Integer |
+| sent_text              | Number of recipients that were sent a text-only message                                   | 1       | Integer |
+| sent_html              | Number of recipients that were sent a html-only message                                   | 1       | Integer |
+| sent_multipart         | Number of recipients that were sent a multipart message                                   | 1       | Integer |
+| bounces_total          | Total number of bounces received                                                          | 1       | Integer |
+| bounces_unique         | Unique (by subscriber) bounces received                                                   | 1       | Integer |
+| bounces_unique_hard    | Number of unique (by subscriber) bounces where bounce_type is hard                        | 1       | Integer |
+| bounces_unique_soft    | Number of unique (by subscriber) bounces where bounce_type is soft                        | 1       | Integer |
+| bounces_unique_other   | Number of unique (by subscriber) bounces where bounce_type is other                       | 1       | Integer |
+| bounces_unique_local   | Number of unique (by subscriber) bounces that were local                                  | 1       | Integer |
+| bounces_unique_remote  | Number of unique (by subscriber) bounces that were remote                                 | 1       | Integer |
+| clicks_total           | Number of total clicks                                                                    | 1       | Integer |
+| clicks_unique          | Number of unique clicks (unique by subscriber)                                            | 1       | Integer |
+| clicks_unique_by_link  | Number of unique clicks (unique by subscriber/link)                                       | 1       | Integer |
+| opens_total            | Number of total opens                                                                     | 1       | Integer |
+| opens_unique           | Number of unique opens (unique by subscriber)                                             | 1       | Integer |
+| scomps_total           | Number of scomps (spam complaints)                                                        | 1       | Integer |
+| scomps_unique          | Number of unique scomps (unique by subscriber)                                            | 1       | Integer |
+| scomps_status_updated  | Number of recipients where the status was updated to status 'scomp' (See 1 below).        | 1       | Integer |
+| unsubs_total           | Number of total unsubscribes                                                              | 1       | Integer |
+| unsubs_unique          | Number of unique unsubscribes (unique by subscriber)                                      | 1       | Integer |
+| unsubs_status_updated  | Number of recipients where the status was updated to status 'unsubscribed' (See 1 below). | 1       | Integer |
+| bounces_status_updated | Number of recipients where status was updated to status 'bounce' (See 1 below).           | 1       | Integer |
+| bounces_unique_by_code | Number of unique (by subscriber) bounces for each bounce code                             | {}      | Hash    |
+| smtp_success           | The number of messages that were successfully delivered to the remote server.             | 1       | Integer |
+
+1. The "status updated" fields will always be 0 on [Remote Lists](../remote_lists.markdown).
 
 #### Example Request
 

@@ -4,6 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
+- [Remote Lists](#remote-lists)
 - [Get a list of subscribers](#get-a-list-of-subscribers)
   - [URL](#url)
   - [Request Parameters](#request-parameters)
@@ -32,6 +33,13 @@
   - [Example code](#example-code-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+
+### Remote Lists
+
+Subscribers are not available on [Remote Lists](../remote_lists.markdown). API
+calls to these endpoints will return an error message if attempted on a Remote List.
 
 
 

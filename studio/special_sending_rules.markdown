@@ -238,7 +238,8 @@ The Campaign Information Hash ($campaign_information_hash) contains data about t
 | `mailing_list_id`            | Primary key of mailing list.                                                                                                                        |
 | `segmentation_criteria_name` | The name of the segmentation criteria used for this campaign.                                                                                       |
 | `segmentation_criteria_id`   | The ID of the segmentation criteria used for this campaign.                                                                                         |
-| `segmentation_criteria_json` | The JSON blob that defines the segmentation criteria used for this campaign.                                                                        |
+| `segmentation_criteria_json` | The JSON blob that defines the segmentation criteria used for this campaign (applies to Standard Mailing Lists).                                    |
+| `segmentation_criteria_sql`  | The SQL query used to retrieve the recipient list for this campaign (applies to [Remote Lists](./remote_lists.markdown)).                           |
 
 Note on `segmentation_criteria_json`: The format of this field is undocumented.
 It exists as an input for users that need it, but its fields should be
@@ -274,6 +275,24 @@ The Recipient Information Hash ($multiple_recipients_information_hash) contains 
 | custom_fields            | Hash of custom fields. Uses the same format as returned by the get subscriber API call.                                               |
 
 The date values are returned in `YYYY-MM-DDThh:mm:ss.s` format, using UTC as the time zone. For example, `2014-10-30 13:08:18.936708`.
+
+For [Remote Lists](./remote_lists.markdown), the meaning of the fields will be the following:
+
+1. These fields will always be NULL
+  * `created_at`
+  * `created_at_epoch`
+  * `created_at_epoch_utc`
+  * `status`
+  * `subscribe_time`
+  * `subscribe_time_epoch`
+  * `subscribe_time_epoch_utc`
+  * `subscribe_ip`
+2. These keys will never be present:
+  * `confirmed` (remote lists can not have a confirmed field)
+  * `email_format` (remote lists can not have a format field)
+3. The id field will be the recipient's sequence number during delivery.
+4. If the recipient has a distinct id, it will be in the `custom_fields["distinct_id"]` value.
+5. The `email` field will be recipient's email address.
 
 ##### content Hash
 
