@@ -23,6 +23,9 @@ When a campaign is sent, GreenArrow Studio connects to the external
 database and runs a query to retrieve the recipient list for the
 campaign.
 
+See the [Remote Lists Upgrade](./remote_lists_upgrade.markdown) document for
+system administration information on upgrading a system to have Remote Lists.
+
 ## Delivery
 
 At the start of a campaign, the specified query is run against the
