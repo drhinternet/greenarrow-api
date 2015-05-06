@@ -205,6 +205,13 @@ different terms for similar things. Here is how the concepts are translated.
 * The "Number of Workers" field in Special Sending Rules defines the
   parallelism of the SSR. Every campaign that is using this SSR will run that
   many instances of the evaluator process.
+* Each Special Sending Rule process will handle multiple messages - but will
+  occasionally be restarted in order to reduce the danger of memory leaks in
+  custom code. For this reason, you may use global variables in order to
+  optimize for speed (for example, fetching a resource from an HTTP request and
+  storing it in a global); but you should not assume that an SSR is only
+  started once per campaign. A Special Sending Rule might be loaded many times
+  over the course of a campaign.
 
 ## Definition of Data In and Out of Special Sending Rules
 
