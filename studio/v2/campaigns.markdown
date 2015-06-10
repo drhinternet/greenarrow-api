@@ -63,10 +63,10 @@ Get a list of the basic details of all campaigns of a particular mailing list.
 
 #### Request Parameters
 
-| Key                 | Description                                                                      |
-| ------------------- | -------------------------------------------------------------------------------- |
-| `started_at__start` | A UNIX integer timestamp representing the earliest `started_at` time to include. |
-| `started_at__end`   | A UNIX integer timestamp representing the latest `started_at` time to include.   |
+| Key                 | Description                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `started_at__start` | A UNIX integer timestamp or ISO-8601 datetime string representing the earliest `started_at` time to include. |
+| `started_at__end`   | A UNIX integer timestamp or ISO-8601 datetime string representing the latest `started_at` time to include.   |
 
 The `started_at__start` and `started_at__end` parameters allow you to filter
 the results returned by this API. Providing either of these keys will result in
@@ -361,6 +361,12 @@ GreenArrow Engine's API.
           <td><b>reply_to</b><br><em>string</em></td>
           <td>
             Email to use in the "ReplyTo:" field.
+          </td>
+        </tr>
+        <tr>
+          <td><b>sender_email</b><br><em>string</em></td>
+          <td>
+            Email to use in the "Sender:" field.
           </td>
         </tr>
         <tr>
@@ -1620,6 +1626,12 @@ The POST request should have a JSON document in its payload with at least keys t
           <td><b>reply_to</b><br><em>string</em></td>
           <td>
             Email to use in the "ReplyTo:" field.
+          </td>
+        </tr>
+        <tr>
+          <td><b>sender_email</b><br><em>string</em></td>
+          <td>
+            Email to use in the "Sender:" field.
           </td>
         </tr>
         <tr>
