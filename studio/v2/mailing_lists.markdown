@@ -207,7 +207,7 @@ This API method does not require any additional parameters.
 The POST request should have a JSON document in its payload with all of the following keys.
 
 | Key                                    | Meaning                                                                                                                                     | Example                         | Type    |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------- |
 | mailing_list.name                      | The name of the mailing list                                                                                                                | "My Mailing List"               | String  |
 | mailing_list.d_from_email              | The default from email for campaigns from this mailing list                                                                                 | "bob@example.com"               | String  |
 | mailing_list.d_from_name               | The default from name for campaigns from this mailing list                                                                                  | "Bob Example"                   | String  |
