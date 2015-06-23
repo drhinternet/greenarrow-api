@@ -148,31 +148,7 @@ value. This is the maximum number of workers that any individual SSR may allocat
 
 ### Organization Permissions
 
-Organization access to SSRs may be configured when editing an organization. The
-following settings are available.
-
-**Allow users to select any Special Sending Rule** —
-This allows any user to select any Special Sending Rule when editing a mailing
-list or campaign. This is the most permissive option available.
-
-**Allow users to select from the following Special Sending Rules** —
-Selecting this setting brings up a multi-select box in which the you can select
-one or more specific Special Sending Rules that users within the organization
-may choose from.
-
-**Always use the following Special Sending Rule** —
-Using this mode will force all email campaigns sent for this organization to be
-processed through the Specified Special Sending Rule. The users of that
-organization will not see that an SSR is configured.
-
-**Disable Special Sending Rules** —
-This will hide the Special Sending Rule functionality from that organization
-entirely. No email sent for this organization will use any Special Sending Rule
-and users will not see the option to select one.
-
-* By default, all Organizations except the System Organization will be set to
-  **Disable Special Sending Rules**. A system administrator may enable these
-  features on a per-organization basis at any time.
+Special Sending Rules may only be used on the System Organization.
 
 ## Campaign Preview Emails
 
