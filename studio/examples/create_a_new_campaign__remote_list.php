@@ -37,7 +37,7 @@ function greenarrow_studio_get_object_id($endpoint, $name_field, $name_value) {
         return $obj["id"];
       }
     }
-    throw new Exception("Error, cannot find $endpoint $name_field: $name");
+    throw new Exception("Error, cannot find $endpoint $name_field: $name_value");
   } else {
     throw new Exception("Error, returned $endpoint $name_field: " . $result["error_message"]);
   }
@@ -104,6 +104,8 @@ $params = array(
   'mailing_list_id' => 3,
 
   'segmentation_criteria_remote_sql' => "( SELECT 'example-query@example.com' AS email ) UNION ( SELECT 'user-2@example.com' AS email )",
+  # Alternate option:
+  # 'segmentation_criteria_remote_id' => greenarrow_studio_get_object_id('segmentation_criterias', 'name', 'My Stored Segment'),
 
   'contents' => array(
     array( "name" => "Content AAA", "format" => "text", "subject" => "Daily Update 111", "text" => "Hello, world!\nYou are %%subscribers_email_address%%.\n" ),
