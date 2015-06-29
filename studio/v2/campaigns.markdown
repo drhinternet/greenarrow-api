@@ -1902,6 +1902,7 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 #### Example code
 
 * [Create a new campaign](../examples/create_a_new_campaign.php)
+* [Create a new campaign (Remote Lists)](../examples/create_a_new_campaign__remote_list.php)
 
 
 

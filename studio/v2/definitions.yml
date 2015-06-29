@@ -1,0 +1,157 @@
+objects:
+  subscriber_import:
+    id:
+      type:        integer
+      description: "The internal identifier for this subscriber import"
+    mailing_list_id:
+      type:        integer
+      description: "The ID of the mailing list this import is adding to."
+    mailing_list_name:
+      type:        string
+      description: "The name of the mailing list this import is adding to."
+    created_at:
+      type:        datetime
+      description: "Timestamp when this import was originally created."
+    state:
+      type:        string
+      description: "The current state of this import."
+    begins_at:
+      type:        datetime
+      default:     "Now"
+      description: "The time at which this import is scheduled to begin."
+    finished_at:
+      type:        datetime
+      description: "The time at which this import finished."
+    overwrite:
+      type:        boolean
+      default:     true
+      description: "This import should overwrite existing subscribers with the same email address."
+    overwrite_what:
+      type:        nested_object__subscriber_import__overwrite_what
+    overwrite_when_status:
+      type:        nested_object__subscriber_import__overwrite_when_status
+    column_mapping:
+      type:        definition__subscriber_import_mapping
+      required:    true
+      description: "Import mapping to use, see the \"Mapping Array\" documentation above."
+    default_custom_fields:
+      type:        definition__subscriber_import_default_custom_fields
+      description: "The custom field values to assign to all subscribers in this import."
+    file_source:
+      type:        nested_object__subscriber_import__file_source
+    file_format:
+      type:        nested_object__subscriber_import__file_format
+    stats:
+      type:        nested_object__subscriber_import_stats
+  subscriber_import_stats:
+    number_of_records:
+      type:        integer
+      description: "The total number of rows that were detected in the import's input file."
+    records_imported:
+      type:        integer
+      description: "The total number of rows that were processed during the import."
+    subscribers_added:
+      type:        integer
+      description: "The number of subscribers that were added to the mailing list in this import."
+    subscribers_updated:
+      type:        integer
+      description: "The number of existing subscribers that were updated on the mailing list in this import."
+    subscribers_failed:
+      type:        integer
+      description: "The number of rows that failed to be processed in this import."
+    subscribers_skipped_overwrite:
+      type:        integer
+      description: "The number of subscribers that were skipped because this import is not set to overwrite."
+    subscribers_skipped_active:
+      type:        integer
+      description: "The number of subscribers that were skipped because this import is not set to overwrite active subscribers."
+    subscribers_skipped_unsubscribed:
+      type:        integer
+      description: "The number of subscribers that were skipped because this import is not set to overwrite unsubscribed subscribers."
+    subscribers_skipped_scomp:
+      type:        integer
+      description: "The number of subscribers that were skipped because this import is not set to overwrite spam complaint subscribers."
+    subscribers_skipped_bounced:
+      type:        integer
+      description: "The number of subscribers that were skipped because this import is not set to overwrite bounced subscribers."
+    subscribers_skipped_deactivated:
+      type:        integer
+      description: "The number of subscribers that were skipped because this import is not set to overwrite deactivated subscribers."
+    subscribers_skipped_duplicate:
+      type:        integer
+      description: "The number of subscribers that were skipped because the same email address appeared earlier in the import."
+  subscriber_import__overwrite_what:
+    custom_fields:
+      type:        boolean
+      default:     true
+      description: "When overwriting existing subscribers, this import should overwrite the custom fields."
+    autoresponder:
+      type:        boolean
+      default:     true
+      description: "When overwriting existing subscribers, run autoresponders for the updated subscribers."
+    confirmed:
+      type:        boolean
+      default:     false
+      description: "When overwriting existing subscribers, this import should update the confirmed field."
+    format:
+      type:        boolean
+      default:     false
+      description: "When overwriting existing subscribers, this import should update the format field."
+  subscriber_import__overwrite_when_status:
+    active:
+      type:        boolean
+      default:     true
+      description: "This import should overwrite existing active subscribers."
+    unsubscribed:
+      type:        boolean
+      default:     false
+      description: "This import should overwrite existing unsubscribed subscribers."
+    bounced:
+      type:        boolean
+      default:     false
+      description: "This import should overwrite existing bounced subscribers."
+    deactivated:
+      type:        boolean
+      default:     false
+      description: "This import should overwrite existing deactivated subscribers."
+    scomp:
+      type:        boolean
+      default:     false
+      description: "This import should overwrite existing spam complaint subscribers."
+  subscriber_import__file_source:
+    type:
+      type:        string
+      description: "The source of the data to use for this import. This can be `json`, `upload_directory`, or `url`."
+    content:
+      type:        string
+      description: "For `json` imports, this is the CSV content of the import file."
+    filename:
+      type:        string
+      description: "For `upload_directory` imports, this is the filename of the local file in the user upload directory."
+  subscriber_import__file_format:
+    csv_has_headers:
+      type:        boolean
+      default:     true
+      description: "The top line of this file is headers, don't use it as a record."
+    character_set:
+      type:        string
+      default:     "UTF-8"
+      description: "The character set to use for this import. Defaults to `UTF-8`, can also be `ISO-8859-1`."
+    csv_field_separator:
+      type:        string
+      default:     "\",\""
+      description: "The character to use to separate fields. Defaults to `,`, can also be `\\t` for tabs."
+    csv_field_enclosure:
+      type:        string
+      default:     "'\"'"
+      description: "The character to use to enclose fields. Defaults to `\"`, can also be `'` for single quotes."
+tables:
+  subscriber_import_states:
+    idle:      "The import has not yet been scheduled"
+    scheduled: "The import has been scheduled and is waiting to start"
+    splitting: "The import is being prepared and analyzed"
+    importing: "The import is now being processed"
+    paused:    "The import has been paused"
+    finished:  "The import finished successfully"
+    failed:    "There was an internal error during this import"
+    cancelled: "The import was permanently cancelled"

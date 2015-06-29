@@ -13,7 +13,7 @@
   - [Campaign ID](#campaign-id)
   - [Campaign Name](#campaign-name)
   - [Current Year](#current-year)
-  - [Percent %](#percent-%)
+  - [Percent %](#percent-%25)
   - [From Email](#from-email)
   - [From Name](#from-name)
   - [Sender Email](#sender-email)

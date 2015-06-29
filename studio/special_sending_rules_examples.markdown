@@ -7,7 +7,7 @@
 - [Restrict campaign delivery to one message per email address per day (PHP)](#restrict-campaign-delivery-to-one-message-per-email-address-per-day-php)
 - [Set delivery details based on a custom field value (Perl)](#set-delivery-details-based-on-a-custom-field-value-perl)
 - [Set random delivery details (Perl)](#set-random-delivery-details-perl)
-- [Set random delivery details with 25% / 25% / 50% splits (Perl)](#set-random-delivery-details-with-25%--25%--50%-splits-perl)
+- [Set random delivery details with 25% / 25% / 50% splits (Perl)](#set-random-delivery-details-with-25%25--25%25--50%25-splits-perl)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
