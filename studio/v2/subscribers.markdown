@@ -31,6 +31,11 @@
   - [Response](#response-3)
   - [Example](#example-2)
   - [Example code](#example-code-1)
+- [Unsubscribe](#unsubscribe)
+  - [URL](#url-4)
+  - [Request Payload](#request-payload-2)
+  - [Response](#response-4)
+  - [Example](#example-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -555,3 +560,100 @@ A failure will return a standard error response with an explanation of what went
 #### Example code
 
 * [Update an existing subscriber](../examples/update_existing_subscribers_custom_field.php)
+
+
+
+### Unsubscribe
+
+Unsubscribe a subscriber using a token from the delivered email. This will
+cause the unsubscribe event to be associated with the specific campaign/content
+in which the token was delivered.
+
+The token which should be sent to this endpoint may be generated in the
+campaign content by including the replacement code `%%unsubscribe_token%%`.
+
+#### URL
+
+    POST /ga/api/v2/subscribers/unsubscribe
+
+#### Request Payload
+
+<table>
+  <tr>
+    <td colspan="2">
+      <b>unsubscribe</b><br><em>hash</em><br>
+      <table>
+        <tr>
+          <td><b>token</b><br><em>string</em></td>
+          <td>
+            The value for this field is obtained from the `%%unsubscribe_token%%` replacement code when composing a
+            campaign's contents.  It may then be used to generate a real unsubscribe on that campaign for this subscriber.
+          </td>
+        </tr>
+        <tr>
+          <td><b>ip</b><br><em>string (optional)</em></td>
+          <td>
+            The IP address to use when logging this unsubscribe event. If this
+            is not present, no IP will be set on the unsubscribe event.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+#### Response
+
+A successful response will return the subscriber record using the format described in the "Get subscriber details" section of the API.
+
+A failure will return a standard error response with an explanation of what went wrong.
+
+#### Example
+
+```
+> POST /ga/api/mailing_lists/1/subscribers/unsubscribe HTTP/1.1
+> Authorization: Basic MTpiYTVhZjYzN2JhYjA0NzM0ZjMyMDUwMTBkZWQyZjA3NGMzYmU2YTM1
+> Accept: application/json
+> Content-Type: application/json
+
+{
+  "unsubscribe": {
+    "token": "0E2MiJGZlV2Y10iY4gTZhJWO3QTYyETM2EWLy0SMtETLx0iM",
+    "ip": "127.0.0.7"
+  }
+}
+
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "4778db54a2512804124ea70383ffa61c"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=044b98a3732095dd7bedcd96497215da; path=/; HttpOnly
+< X-Request-Id: d3c93e6c84f61186f733dbbb3c354265
+< X-Runtime: 0.105547
+< Connection: close
+< Server: thin 1.5.0 codename Knife
+
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "mailing_list_id": 1,
+    "email": "user-1@discardallmail.drh.net",
+    "created_at": "2015-06-19T14:19:12-05:00",
+    "created_at_epoch": 1434741552,
+    "status": "unsubscribed",
+    "subscribe_time": "2015-06-19T14:19:12-05:00",
+    "subscribe_time_epoch": 1434741552,
+    "subscribe_ip": null,
+    "custom_fields": {
+      "First Name": {
+        "name": "First Name",
+        "type": "text",
+        "value": "Bob the Builder"
+      }
+    }
+  },
+  "error_code": null,
+  "error_message": null
+}
+```

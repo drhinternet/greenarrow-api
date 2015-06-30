@@ -60,7 +60,15 @@ The unique name assigned to this mailing list.
 
 ## Unsubscribe Link ##
 
-The raw URL that will cause the subscriber to unsubscribe from this mailing list.
+The raw URL that will cause the subscriber to unsubscribe from this mailing
+list. When the user clicks on this link, they'll be taken to a page that will
+remove them from the mailing list. That page contains a form that is
+automatically submitted using JavaScript. This helps to prevent link-crawling
+spam-filtering robots from mistakenly removing subscribers from the mailing list.
+
+If the subscriber's web browser does not support JavaScript, they will be
+presented with an "Unsubscribe" button to click to finalize their removal from
+the mailing list.
 
     Replacement Code: %%unsubscribe_link%%
 
