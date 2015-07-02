@@ -169,6 +169,8 @@ different terms for similar things. Here is how the concepts are translated.
 
 ## Details and Limitations
 
+For Special Sending Rules used in campaigns:
+
 * A Special Sending Rule may run for a maximum of 60 seconds before being
   terminated, potentially causing the campaign to fail.
 * Special Sending Rules will be attempted three times before causing processing the 
@@ -189,6 +191,18 @@ different terms for similar things. Here is how the concepts are translated.
   started once per campaign. A Special Sending Rule might be loaded many times
   over the course of a campaign.
 
+For Special Sending Rules used in autoresponders and web-forms:
+
+* A Special Sending Rule may run for a maximum of 60 seconds before being
+  terminated, potentially causing the message to be skipped.
+* An error will not cause a retry.
+* Errors are logged to the autoresponder or web-form history page.
+* Currently, each Special Sending Rule process will handle a single message. This may
+  change in the future to allow one process to handle multiple messages.
+* Because there is little parallelism in SSR evaluation and the error handling is not
+  as robust as campaigns, it is *strongly recommended* to not access any external
+  resources or do any time-intensive processing.
+
 ## Definition of Data In and Out of Special Sending Rules
 
 ### Data Provided to the Special Sending Rule
@@ -199,6 +213,7 @@ The Campaign Information Hash ($campaign_information_hash) contains data about t
 
 | Key                          | Description                                                                                                                                         |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `entity_type`                | The type of message that is being delivered. May be `campaign`, `autoresponder`, or `web_form`.                                                     |
 | `is_preview`                 | If this is a campaign preview, then 1. Otherwise 0.                                                                                                 |
 | `seed_list_id`               | Deprecated: The ID of the first seed list assigned to the Campaign, ordered by ID. Use `seed_lists` instead. (Undefined if no seed list selected.)  |
 | `seed_list_name`             | Deprecated: The name of the first seed list, ordered by ID. (Undefined if no seed list selected.)                                                   |
@@ -215,8 +230,6 @@ The Campaign Information Hash ($campaign_information_hash) contains data about t
 | `track_opens`                | If tracking opens, then 1. Otherwise 0.                                                                                                             |
 | `track_links`                | If tracking links, then 1. Otherwise 0.                                                                                                             |
 | `bounce_email`               | Bounce handling email address. (If this option is hidden from the user, then this will be set to the actual value used for sending.)                |
-| `campaign_name`              | Name of campaign.                                                                                                                                   |
-| `campaign_id`                | Primary key of campaign.                                                                                                                            |
 | `mailing_list_name`          | Name of mailing list.                                                                                                                               |
 | `mailing_list_id`            | Primary key of mailing list.                                                                                                                        |
 | `segmentation_criteria_name` | The name of the segmentation criteria used for this campaign.                                                                                       |
@@ -229,6 +242,21 @@ It exists as an input for users that need it, but its fields should be
 discovered through experimentation. (If a campaign does not yet have a segment
 defined, then these values will be null. This can happen when a SSR is applied
 to a campaign preview where the campaign does not have a segment defined.)
+
+For campaigns, the following extra keys will be present.
+
+| `campaign_name` | Name of campaign.        |
+| `campaign_id`   | Primary key of campaign. |
+
+For autoresponders, the following extra keys will be present.
+
+| `autoresponder_name` | Name of autoresponder.        |
+| `autoresponder_id`   | Primary key of autoresponder. |
+
+For web forms, the following extra keys will be present.
+
+| `web_form_name` | Name of web form.        |
+| `web_form_id`   | Primary key of web form. |
 
 #### Recipient Information Hash
 

@@ -85,6 +85,8 @@ The response will be a JSON array where each element contains the following keys
 | triggered_on                            | The time this autoresponder last triggered                                                                     | "2013-01-01T00:00:00Z"                                | String  |
 | paused_at                               | The time at which this autoresponder was paused                                                                | "2013-01-01T00:00:00Z"                                | String  |
 | segmentation_criteria_id                | The segmentation criteria used to filter messages sent for this autoresponder                                  | 123                                                   | Integer |
+| special_sending_rule_id                 | The ID of the special sending rule used for this autoresponder.                                                | 123                                                   | Integer |
+| special_sending_rule_name               | The name of the special sending rule used for this autoresponder.                                              | "Customize Content"                                   | String  |
 
 #### Example Request
 
@@ -132,7 +134,9 @@ The response will be a JSON array where each element contains the following keys
              "triggered_on":"2014-06-30",
              "url_domain_id":2,
              "use_external_delivery_setting":true,
-             "virtual_mta_id":0
+             "virtual_mta_id":0,
+             "special_sending_rule_id":93,
+             "special_sending_rule_name":"Customize Content"
           }
        ]
     }
@@ -149,6 +153,8 @@ Create a new autoresponder on the specified mailing list.
 
 The request body should be a JSON hash in the format of `{ 'autoresponder': AUTORESPONDER_DETAILS }`
 where `AUTORESPONDER_DETAILS` is defined above in the `Get a list of autoresponders` section.
+
+Note that you may provide only one of `special_sending_rule_id` and `special_sending_rule_name`.
 
 #### Response
 
@@ -190,7 +196,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
     "virtual_mta_id": 0,
     "content_format": "html",
     "content_subject": "Welcome to our mailing list!",
-    "content_html": "<p>Welcome!</p>"
+    "content_html": "<p>Welcome!</p>",
+    "special_sending_rule_id":123,
+    "special_sending_rule_name":"Customize Content"
   }
 }
 
@@ -230,7 +238,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
     "triggered_on": null,
     "url_domain_id": 1,
     "use_external_delivery_setting": true,
-    "virtual_mta_id": 0
+    "virtual_mta_id": 0,
+    "special_sending_rule_id":92,
+    "special_sending_rule_name":"Customize Content"
   },
   "error_code": null,
   "error_message": null
@@ -330,7 +340,9 @@ Note that the JSON response will not be "pretty formatted" as it is below.
     "triggered_on": null,
     "url_domain_id": 1,
     "use_external_delivery_setting": true,
-    "virtual_mta_id": 0
+    "virtual_mta_id": 0,
+    "special_sending_rule_id": null,
+    "special_sending_rule_name": null
   },
   "error_code": null,
   "error_message": null
@@ -355,35 +367,374 @@ Note that the JSON response will not be "pretty formatted" as it is below.
 
 #### Response
 
-The response will be a JSON object in the format below.
+<table>
 
-| Key                    | Meaning                                                                                   | Example | Type    |
-| ---------------------- | ----------------------------------------------------------------------------------------- | ------- | ------- |
-| id                     | The autoresponder's ID                                                                    | 99123   | Integer |
-| sent_text              | Number of recipients that were sent a text-only message                                   | 1       | Integer |
-| sent_html              | Number of recipients that were sent a html-only message                                   | 1       | Integer |
-| sent_multipart         | Number of recipients that were sent a multipart message                                   | 1       | Integer |
-| bounces_total          | Total number of bounces received                                                          | 1       | Integer |
-| bounces_unique         | Unique (by subscriber) bounces received                                                   | 1       | Integer |
-| bounces_unique_hard    | Number of unique (by subscriber) bounces where bounce_type is hard                        | 1       | Integer |
-| bounces_unique_soft    | Number of unique (by subscriber) bounces where bounce_type is soft                        | 1       | Integer |
-| bounces_unique_other   | Number of unique (by subscriber) bounces where bounce_type is other                       | 1       | Integer |
-| bounces_unique_local   | Number of unique (by subscriber) bounces that were local                                  | 1       | Integer |
-| bounces_unique_remote  | Number of unique (by subscriber) bounces that were remote                                 | 1       | Integer |
-| clicks_total           | Number of total clicks                                                                    | 1       | Integer |
-| clicks_unique          | Number of unique clicks (unique by subscriber)                                            | 1       | Integer |
-| clicks_unique_by_link  | Number of unique clicks (unique by subscriber/link)                                       | 1       | Integer |
-| opens_total            | Number of total opens                                                                     | 1       | Integer |
-| opens_unique           | Number of unique opens (unique by subscriber)                                             | 1       | Integer |
-| scomps_total           | Number of scomps (spam complaints)                                                        | 1       | Integer |
-| scomps_unique          | Number of unique scomps (unique by subscriber)                                            | 1       | Integer |
-| scomps_status_updated  | Number of recipients where the status was updated to status 'scomp' (See 1 below).        | 1       | Integer |
-| unsubs_total           | Number of total unsubscribes                                                              | 1       | Integer |
-| unsubs_unique          | Number of unique unsubscribes (unique by subscriber)                                      | 1       | Integer |
-| unsubs_status_updated  | Number of recipients where the status was updated to status 'unsubscribed' (See 1 below). | 1       | Integer |
-| bounces_status_updated | Number of recipients where status was updated to status 'bounce' (See 1 below).           | 1       | Integer |
-| bounces_unique_by_code | Number of unique (by subscriber) bounces for each bounce code                             | {}      | Hash    |
-| smtp_success           | The number of messages that were successfully delivered to the remote server.             | 1       | Integer |
+  <!-- Message Counts -->
+  <tr>
+    <td><b>sent_text</b><br><em>integer</em></td>
+    <td>
+      Number of recipients that were sent a text-only message.
+    </td>
+  </tr>
+  <tr>
+    <td><b>sent_html</b><br><em>integer</em></td>
+    <td>
+      Number of recipients that were sent a html-only message.
+    </td>
+  </tr>
+  <tr>
+    <td><b>sent_multipart</b><br><em>integer</em></td>
+    <td>
+      Number of recipients that were sent a multipart message.
+    </td>
+  </tr>
+  <tr>
+    <td><b>messages_sent</b><br><em>integer</em></td>
+    <td>
+      Total number of recipients.
+    </td>
+  </tr>
+  <tr>
+    <td><b>messages_html</b><br><em>integer</em></td>
+    <td>
+      Number of recipients that received either an HTML or multipart message.
+    </td>
+  </tr>
+  <tr>
+    <td><b>messages_text</b><br><em>integer</em></td>
+    <td>
+      Number of recipients that received a text-only message.
+    </td>
+  </tr>
+
+  <!-- Bounces -->
+  <tr>
+    <td><b>bounces_total</b><br><em>integer</em></td>
+    <td>
+      Total number of bounces received.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique</b><br><em>integer</em></td>
+    <td>
+      Unique (by subscriber) bounces received.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique_hard</b><br><em>integer</em></td>
+    <td>
+      Number of unique (by subscriber) bounces where bounce_type is hard.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique_soft</b><br><em>integer</em></td>
+    <td>
+      Number of unique (by subscriber) bounces where bounce_type is soft.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique_other</b><br><em>integer</em></td>
+    <td>
+      Number of unique (by subscriber) bounces where bounce_type is other.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique_local</b><br><em>integer</em></td>
+    <td>
+      Number of unique (by subscriber) bounces that were local.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique_remote</b><br><em>integer</em></td>
+    <td>
+      Number of unique (by subscriber) bounces that were remote.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_status_updated</b><br><em>integer</em></td>
+    <td>
+      Number of recipients where status was updated to status 'bounce' (See 1 below).
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounces_unique_by_code</b><br><em>hash</em></td>
+    <td>
+      Number of unique (by subscriber) bounces for each bounce code. The keys in the included hash are the bounce code.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounced</b><br><em>integer</em></td>
+    <td>
+      <em>Deprecated</em>: Unique (by subscriber) bounces received.
+      This is just another name for <code>bounces_unique</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>duplicate_bounces</b><br><em>integer</em></td>
+    <td>
+      Number of non-unique bounces.
+    </td>
+  </tr>
+  <tr>
+    <td><b>unbounced</b><br><em>integer</em></td>
+    <td>
+      Number of messages that were sent that have not bounced.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounce_rate</b><br><em>float</em></td>
+    <td>
+      Floating point value indicating the unique bounce rate for this autoresponder.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounce_rate_hard</b><br><em>float</em></td>
+    <td>
+      The ratio of the unique bounces that were hard bounces.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounce_rate_soft</b><br><em>float</em></td>
+    <td>
+      The ratio of the unique bounces that were soft bounces.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounce_rate_other</b><br><em>float</em></td>
+    <td>
+      The ratio of the unique bounces that were other bounces.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>bounce_local_rate</b><br><em>float</em></td>
+    <td>
+      The ratio of the unique bounces that were local bounces.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+
+  <!-- Clicks -->
+  <tr>
+    <td><b>clicks_total</b><br><em>integer</em></td>
+    <td>
+      Number of total clicks.
+    </td>
+  </tr>
+  <tr>
+    <td><b>clicks_unique</b><br><em>integer</em></td>
+    <td>
+      Number of unique clicks (unique by subscriber).
+    </td>
+  </tr>
+  <tr>
+    <td><b>clicks_unique_by_link</b><br><em>integer</em></td>
+    <td>
+      <em>Deprecated:</em> Number of unique clicks (unique by subscriber/link) -- this value does not carry much meaning.
+    </td>
+  </tr>
+  <tr>
+    <td><b>duplicate_clicks</b><br><em>integer</em></td>
+    <td>
+      Number of non-unique clicks.
+    </td>
+  </tr>
+  <tr>
+    <td><b>click_rate</b><br><em>float</em></td>
+    <td>
+      The ratio of messages that were accepted and have been clicked.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>click_to_open_rate</b><br><em>float</em></td>
+    <td>
+      The ratio of messages that were opened that have been clicked.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>unclicked</b><br><em>integer</em></td>
+    <td>
+      Number of messages that were accepted by the remote server but have not been clicked.
+    </td>
+  </tr>
+
+  <!-- Opens -->
+  <tr>
+    <td><b>opens_total</b><br><em>integer</em></td>
+    <td>
+      Number of total opens
+    </td>
+  </tr>
+  <tr>
+    <td><b>opens_unique</b><br><em>integer</em></td>
+    <td>
+      Number of unique opens (unique by subscriber)
+    </td>
+  </tr>
+  <tr>
+    <td><b>open_rate</b><br><em>float</em></td>
+    <td>
+      Ratio of messages that were accepted that have been opened.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>open_ratio</b><br><em>float</em></td>
+    <td>
+      Average number of times each opened message has been opened (<code>opens_total / opens_unique</code>).
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>unopened</b><br><em>integer</em></td>
+    <td>
+      Number of messages that were accepted and have not been opened.
+    </td>
+  </tr>
+  <tr>
+    <td><b>duplicate_opens</b><br><em>integer</em></td>
+    <td>
+      Number of non-unique opens.
+    </td>
+  </tr>
+
+  <!-- Spam Complaints -->
+  <tr>
+    <td><b>scomps_total</b><br><em>integer</em></td>
+    <td>
+      Number of spam complaints
+    </td>
+  </tr>
+  <tr>
+    <td><b>scomps_unique</b><br><em>integer</em></td>
+    <td>
+      Number of unique spam complaints (unique by subscriber).
+    </td>
+  </tr>
+  <tr>
+    <td><b>scomps_status_updated</b><br><em>integer</em></td>
+    <td>
+      Number of recipients where the status was updated to status 'scomp' (See 1 below).
+    </td>
+  </tr>
+  <tr>
+    <td><b>duplicate_scomps</b><br><em>integer</em></td>
+    <td>
+      Number of non-unique spam complaints.
+    </td>
+  </tr>
+
+  <!-- Unsubscribes -->
+  <tr>
+    <td><b>unsubs_total</b><br><em>integer</em></td>
+    <td>
+      Number of total unsubscribes
+    </td>
+  </tr>
+  <tr>
+    <td><b>unsubs_unique</b><br><em>integer</em></td>
+    <td>
+      Number of unique unsubscribes (unique by subscriber)
+    </td>
+  </tr>
+  <tr>
+    <td><b>unsubs_status_updated</b><br><em>integer</em></td>
+    <td>
+      Number of recipients where the status was updated to status 'unsubscribed' (See 1 below).
+    </td>
+  </tr>
+  <tr>
+    <td><b>duplicate_unsubs</b><br><em>integer</em></td>
+    <td>
+      Number of non-unique unsubscribes.
+    </td>
+  </tr>
+  <tr>
+    <td><b>unsub_rate</b><br><em>float</em></td>
+    <td>
+      The ratio of messages that were accepted and unsubscribed.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+
+  <!-- Skips -->
+  <tr>
+    <td><b>skips_error</b><br><em>integer</em></td>
+    <td>
+      Number of messages that were skipped due to a Special Sending Rule error.
+    </td>
+  </tr>
+  <tr>
+    <td><b>skips_request</b><br><em>integer</em></td>
+    <td>
+      Number of messages that were skipped due to a Special Sending Rule request.
+    </td>
+  </tr>
+
+  <!-- Engine Injection -->
+  <tr>
+    <td><b>total_messages</b><br><em>integer</em></td>
+    <td>
+      Total number of messages injected for this autoresponder.
+    </td>
+  </tr>
+  <tr>
+    <td><b>total_success</b><br><em>integer</em></td>
+    <td>
+      Number of messages that were successfully delivered to the remote server.
+    </td>
+  </tr>
+  <tr>
+    <td><b>total_failure</b><br><em>integer</em></td>
+    <td>
+      Number of messages ended due to SMTP conversation failures.
+    </td>
+  </tr>
+  <tr>
+    <td><b>total_failure_toolong</b><br><em>integer</em></td>
+    <td>
+      Number of messages ended due to being in the queue too long.
+    </td>
+  </tr>
+  <tr>
+    <td><b>accepted</b><br><em>integer</em></td>
+    <td>
+      Total number of messages that were accepted by the remote server.
+    </td>
+  </tr>
+  <tr>
+    <td><b>accepted_rate</b><br><em>float</em></td>
+    <td>
+      Ratio of messages that were attempted and accepted (<code>accepted / messages_sent</code>).
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>in_queue</b><br><em>integer</em></td>
+    <td>
+      Number of messages that are currently in GreenArrow Engine's delivery queue.
+    </td>
+  </tr>
+  <tr>
+    <td><b>in_queue_rate</b><br><em>float</em></td>
+    <td>
+      Ratio of the total number of messages that have been handed off to GreenArrow Engine and are still in queue.
+      This value ranges from <code>0.0</code> to <code>1.0</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>max_unique_activities</b><br><em>integer</em></td>
+    <td>
+      The max value of <code>opens_unique</code>, <code>clicks_unique</code>, <code>unsubs_unique</code>, and <code>scomps_unique</code>.
+    </td>
+  </tr>
+
+</table>
 
 1. The "status updated" fields will always be 0 on [Remote Lists](../remote_lists.markdown).
 
@@ -465,7 +816,9 @@ The response will be a JSON object in the format below.
           "bounce_local_rate":0.0,
           "duplicate_scomps":0,
           "duplicate_unsubs":7,
-          "unsub_rate":0.08363636363636363
+          "unsub_rate":0.08363636363636363,
+          "skips_error":2,
+          "skips_request":17
        },
        "error_code":null,
        "error_message":null
