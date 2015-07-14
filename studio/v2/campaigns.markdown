@@ -1458,15 +1458,15 @@ The POST request should have a JSON document in its payload with at least keys t
   </tr>
   <tr>
     <td><b>duplicate_content</b><br><em>boolean</em></td>
-    <td>Copy the template's content when creating the new campaign.</td>
+    <td>Copy the template's content when creating the new campaign. Defaults to <code>false</code>.</td>
   </tr>
   <tr>
     <td><b>duplicate_segmentation_criteria</b><br><em>boolean</em></td>
-    <td>Copy the template's segment when creating the new campaign.</td>
+    <td>Copy the template's segment when creating the new campaign. Defaults to <code>false</code>.</td>
   </tr>
   <tr>
     <td><b>duplicate_dispatch</b><br><em>boolean</em></td>
-    <td>Copy the template's delivery settings when creating the new campaign.</td>
+    <td>Copy the template's delivery settings when creating the new campaign. Defaults to <code>false</code>.</td>
   </tr>
 
   <tr>
