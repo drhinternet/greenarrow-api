@@ -1448,241 +1448,264 @@ The POST request should have a JSON document in its payload with at least keys t
 <table>
 
   <tr>
-    <td><b>name</b><br><em>string</em></td>
-    <td>The name of the campaign.</td>
-  </tr>
-
-  <tr>
     <td><b>source_template_id</b><br><em>integer</em></td>
     <td>
       Use the specified template as a base when creating this new campaign.
       Any other fields supplied in this request will overwrite the values inherited from the template.
-    </td>
-  </tr>
-
-  <tr>
-    <td><b>segmentation_criteria_id</b><br><em>integer</em></td>
-    <td>
-      The ID of the segmentation criteria to use when delivering this campaign.
-      Only one of <code>segmentation_criteria_id</code>, <code>segmentation_criteria_ad_hoc</code>, and <code>segmentation_criteria_remote_sql</code> may be specified.
+      See the fields <code>duplicate_content</code>, <code>duplicate_segmentation_criteria</code>,
+      and <code>duplicate_dispatch</code> to specify what data to copy from the template.
     </td>
   </tr>
   <tr>
-    <td><b>segmentation_criteria_ad_hoc</b><br><em>array of hashes</em></td>
-    <td>
-      An ad hoc segmentation criteria specification - see the "Ad Hoc Segmentation Criteria" section below for more details.
-      Only one of <code>segmentation_criteria_id</code>, <code>segmentation_criteria_ad_hoc</code>, and <code>segmentation_criteria_remote_sql</code> may be specified.
-    </td>
+    <td><b>duplicate_content</b><br><em>boolean</em></td>
+    <td>Copy the template's content when creating the new campaign.</td>
   </tr>
   <tr>
-    <td><b>segmentation_criteria_remote_sql</b><br><em>integer</em></td>
-    <td>
-      The SQL to use when querying the remote database for this campaign. This only applies to <a href="../remote_lists.markdown">Remote Lists</a>.
-      Only one of <code>segmentation_criteria_id</code>, <code>segmentation_criteria_ad_hoc</code>, and <code>segmentation_criteria_remote_sql</code> may be specified.
-    </td>
+    <td><b>duplicate_segmentation_criteria</b><br><em>boolean</em></td>
+    <td>Copy the template's segment when creating the new campaign.</td>
+  </tr>
+  <tr>
+    <td><b>duplicate_dispatch</b><br><em>boolean</em></td>
+    <td>Copy the template's delivery settings when creating the new campaign.</td>
   </tr>
 
   <tr>
     <td colspan="2">
-      <b>contents</b><br><em>array of hashes</em><br>
+      <b>campaign</b><br><em>hash</em><br>
+
       <table>
+
         <tr>
           <td><b>name</b><br><em>string</em></td>
-          <td>String identifier for this content.</td>
+          <td>The name of the campaign.</td>
         </tr>
-        <tr>
-          <td><b>subject</b><br><em>string</em></td>
-          <td>The subject of the email.</td>
-        </tr>
-        <tr>
-          <td><b>format</b><br><em>string</em></td>
-          <td>Email format to use when delivering this campaign. Valid formats include <code>html</code>, <code>text</code>, and <code>both</code>.</td>
-        </tr>
-        <tr>
-          <td><b>html</b><br><em>string</em></td>
-          <td>If format is <code>html</code> or <code>both</code>, this is the HTML portion of the email.</td>
-        </tr>
-        <tr>
-          <td><b>text</b><br><em>string</em></td>
-          <td>If format is <code>text</code> or <code>both</code>, this is the plaintext portion of the email.</td>
-        </tr>
-      </table>
-    </td>
-  </tr>
 
-  <tr>
-    <td colspan="2">
-      <b>dispatch_attributes</b><br><em>hash</em><br>
-      <table>
         <tr>
-          <td><b>state</b><br><em>string</em></td>
+          <td><b>segmentation_criteria_id</b><br><em>integer</em></td>
           <td>
-            The state of delivery; Can be one of: "idle", "scheduled", "sending", "finished", "failed", "cancelled"
+            The ID of the segmentation criteria to use when delivering this campaign.
+            Only one of <code>segmentation_criteria_id</code>, <code>segmentation_criteria_ad_hoc</code>, and <code>segmentation_criteria_remote_sql</code> may be specified.
           </td>
         </tr>
         <tr>
-          <td><b>state_description</b><br><em>string</em></td>
+          <td><b>segmentation_criteria_ad_hoc</b><br><em>array of hashes</em></td>
           <td>
-            Localized textual description of the state.
+            An ad hoc segmentation criteria specification - see the "Ad Hoc Segmentation Criteria" section below for more details.
+            Only one of <code>segmentation_criteria_id</code>, <code>segmentation_criteria_ad_hoc</code>, and <code>segmentation_criteria_remote_sql</code> may be specified.
           </td>
         </tr>
         <tr>
-          <td><b>virtual_mta_id</b><br><em>integer</em></td>
+          <td><b>segmentation_criteria_remote_sql</b><br><em>integer</em></td>
           <td>
-            The ID of a Virtual MTA explicitly assigned to the Campaign; Will come blank if Campaign is about to use general setting.
+            The SQL to use when querying the remote database for this campaign. This only applies to <a href="../remote_lists.markdown">Remote Lists</a>.
+            Only one of <code>segmentation_criteria_id</code>, <code>segmentation_criteria_ad_hoc</code>, and <code>segmentation_criteria_remote_sql</code> may be specified.
           </td>
         </tr>
+
         <tr>
-          <td><b>virtual_mta_name</b><br><em>string</em></td>
-          <td>
-            The name of a Virtual MTA explicitly assigned to the Campaign.
+          <td colspan="2">
+            <b>contents</b><br><em>array of hashes</em><br>
+            <table>
+              <tr>
+                <td><b>name</b><br><em>string</em></td>
+                <td>String identifier for this content.</td>
+              </tr>
+              <tr>
+                <td><b>subject</b><br><em>string</em></td>
+                <td>The subject of the email.</td>
+              </tr>
+              <tr>
+                <td><b>format</b><br><em>string</em></td>
+                <td>Email format to use when delivering this campaign. Valid formats include <code>html</code>, <code>text</code>, and <code>both</code>.</td>
+              </tr>
+              <tr>
+                <td><b>html</b><br><em>string</em></td>
+                <td>If format is <code>html</code> or <code>both</code>, this is the HTML portion of the email.</td>
+              </tr>
+              <tr>
+                <td><b>text</b><br><em>string</em></td>
+                <td>If format is <code>text</code> or <code>both</code>, this is the plaintext portion of the email.</td>
+              </tr>
+            </table>
           </td>
         </tr>
+
         <tr>
-          <td><b>bounce_email_id</b><br><em>string</em></td>
-          <td>
-            The ID of a Bounce Email explicitly assigned to the Campaign; Will come blank if Campaign is about to use general setting.
-          </td>
-        </tr>
-        <tr>
-          <td><b>bounce_email_name</b><br><em>string</em></td>
-          <td>
-            The Bounce Email explicitly assigned to the Campaign.
-          </td>
-        </tr>
-        <tr>
-          <td><b>url_domain_id</b><br><em>integer</em></td>
-          <td>
-            The ID of an URL domain explicitly assigned to the Campaign.
-          </td>
-        </tr>
-        <tr>
-          <td><b>url_domain_name</b><br><em>string</em></td>
-          <td>
-            The URL domain explicitly assigned to the Campaign.
-          </td>
-        </tr>
-        <tr>
-          <td><b>seed_list_id</b><br><em>integer</em></td>
-          <td>
-            <em>Deprecated:</em> The ID of the first seed list assigned to the Campaign, ordered by ID. Use <code>seed_lists</code> instead.
-          </td>
-        </tr>
-        <tr>
-          <td><b>seed_list_name</b><br><em>string</em></td>
-          <td>
-            <em>Deprecated:</em> The name of the first seed list assigned to the Campaign, ordered by ID. Use <code>seed_lists</code> instead.
-          </td>
-        </tr>
-        <tr>
-          <td><b>seed_list_ids</b><br><em>array of integers</em></td>
-          <td>
-            An array of seed lists assigned to the Campaign, where each entry is the ID of a seed list to use.
-          </td>
-        </tr>
-        <tr>
-          <td><b>seed_list_names</b><br><em>array of strings</em></td>
-          <td>
-            An array of seed lists assigned to the Campaign, where each entry is the name of a seed list to use.
-          </td>
-        </tr>
-        <tr>
-          <td><b>speed</b><br><em>integer</em></td>
-          <td>
-            Maximum throughput speed; <code>0</code> for unlimited throughput.
-          </td>
-        </tr>
-        <tr>
-          <td><b>track_opens</b><br><em>boolean</em></td>
-          <td>
-            Marks whether the Campaign will track openings stats.
-          </td>
-        </tr>
-        <tr>
-          <td><b>track_links</b><br><em>boolean</em></td>
-          <td>
-            Marks whether the Campaign will track clicks stats.
-          </td>
-        </tr>
-        <tr>
-          <td><b>paused</b><br><em>boolean</em></td>
-          <td>
-            Marks whether the Campaign has been paused.
-          </td>
-        </tr>
-        <tr>
-          <td><b>from_name</b><br><em>string</em></td>
-          <td>
-            Name to use in the "From:" field.
-          </td>
-        </tr>
-        <tr>
-          <td><b>from_email</b><br><em>string</em></td>
-          <td>
-            Email to use in the "From:" field.
-          </td>
-        </tr>
-        <tr>
-          <td><b>reply_to</b><br><em>string</em></td>
-          <td>
-            Email to use in the "ReplyTo:" field.
-          </td>
-        </tr>
-        <tr>
-          <td><b>sender_email</b><br><em>string</em></td>
-          <td>
-            Email to use in the "Sender:" field.
-          </td>
-        </tr>
-        <tr>
-          <td><b>begins_at</b><br><em>string</em></td>
-          <td>
-            Time to start delivery at. If this value is specified and the
-            campaign has a segment, content, and delivery settings - the
-            campaign will be marked as scheduled and sending will begin at the
-            requested time. If one of those sections are missing or this value
-            is blank, the campaign will remain in an "idle" state.
-          </td>
-        </tr>
-        <tr>
-          <td><b>autowinner_enabled</b><br><em>boolean</em></td>
-          <td>
-            The campaign is configured to use automatic winner selection.
-          </td>
-        </tr>
-        <tr>
-          <td><b>autowinner_percentage</b><br><em>string</em></td>
-          <td>
-            The percentage that will be sent for the split-test portion of the campaign. See note (1) below.
-          </td>
-        </tr>
-        <tr>
-          <td><b>autowinner_delay_amount</b><br><em>integer</em></td>
-          <td>
-            The number of units of time that the campaign will wait before finishing after a split-test.
-        </tr>
-        <tr>
-          <td><b>autowinner_delay_unit</b><br><em>string</em></td>
-          <td>
-            The unit used in calculating the delay duration. This may be <code>minutes</code>, <code>hours</code>, or <code>days</code>.
-          </td>
-        </tr>
-        <tr>
-          <td><b>autowinner_metric</b><br><em>string</em></td>
-          <td>
-            The metric used to decide the winner. See the "Automatic Winner Selection Metrics" table for more information.
-          </td>
-        </tr>
-        <tr>
-          <td><b>special_sending_rule_id</b><br><em>integer</em></td>
-          <td>
-            The ID of the Special Sending Rule used for this campaign. Special Sending Rules may only be used on the System Organization. See note (4) below.
-          </td>
-        </tr>
-        <tr>
-          <td><b>special_sending_rule_name</b><br><em>string</em></td>
-          <td>
-            The name of the Special Sending Rule used for this campaign. See note (4) below.
+          <td colspan="2">
+            <b>dispatch_attributes</b><br><em>hash</em><br>
+            <table>
+              <tr>
+                <td><b>state</b><br><em>string</em></td>
+                <td>
+                  The state of delivery; Can be one of: "idle", "scheduled", "sending", "finished", "failed", "cancelled"
+                </td>
+              </tr>
+              <tr>
+                <td><b>state_description</b><br><em>string</em></td>
+                <td>
+                  Localized textual description of the state.
+                </td>
+              </tr>
+              <tr>
+                <td><b>virtual_mta_id</b><br><em>integer</em></td>
+                <td>
+                  The ID of a Virtual MTA explicitly assigned to the Campaign; Will come blank if Campaign is about to use general setting.
+                </td>
+              </tr>
+              <tr>
+                <td><b>virtual_mta_name</b><br><em>string</em></td>
+                <td>
+                  The name of a Virtual MTA explicitly assigned to the Campaign.
+                </td>
+              </tr>
+              <tr>
+                <td><b>bounce_email_id</b><br><em>string</em></td>
+                <td>
+                  The ID of a Bounce Email explicitly assigned to the Campaign; Will come blank if Campaign is about to use general setting.
+                </td>
+              </tr>
+              <tr>
+                <td><b>bounce_email_name</b><br><em>string</em></td>
+                <td>
+                  The Bounce Email explicitly assigned to the Campaign.
+                </td>
+              </tr>
+              <tr>
+                <td><b>url_domain_id</b><br><em>integer</em></td>
+                <td>
+                  The ID of an URL domain explicitly assigned to the Campaign.
+                </td>
+              </tr>
+              <tr>
+                <td><b>url_domain_name</b><br><em>string</em></td>
+                <td>
+                  The URL domain explicitly assigned to the Campaign.
+                </td>
+              </tr>
+              <tr>
+                <td><b>seed_list_id</b><br><em>integer</em></td>
+                <td>
+                  <em>Deprecated:</em> The ID of the first seed list assigned to the Campaign, ordered by ID. Use <code>seed_lists</code> instead.
+                </td>
+              </tr>
+              <tr>
+                <td><b>seed_list_name</b><br><em>string</em></td>
+                <td>
+                  <em>Deprecated:</em> The name of the first seed list assigned to the Campaign, ordered by ID. Use <code>seed_lists</code> instead.
+                </td>
+              </tr>
+              <tr>
+                <td><b>seed_list_ids</b><br><em>array of integers</em></td>
+                <td>
+                  An array of seed lists assigned to the Campaign, where each entry is the ID of a seed list to use.
+                </td>
+              </tr>
+              <tr>
+                <td><b>seed_list_names</b><br><em>array of strings</em></td>
+                <td>
+                  An array of seed lists assigned to the Campaign, where each entry is the name of a seed list to use.
+                </td>
+              </tr>
+              <tr>
+                <td><b>speed</b><br><em>integer</em></td>
+                <td>
+                  Maximum throughput speed; <code>0</code> for unlimited throughput.
+                </td>
+              </tr>
+              <tr>
+                <td><b>track_opens</b><br><em>boolean</em></td>
+                <td>
+                  Marks whether the Campaign will track openings stats.
+                </td>
+              </tr>
+              <tr>
+                <td><b>track_links</b><br><em>boolean</em></td>
+                <td>
+                  Marks whether the Campaign will track clicks stats.
+                </td>
+              </tr>
+              <tr>
+                <td><b>paused</b><br><em>boolean</em></td>
+                <td>
+                  Marks whether the Campaign has been paused.
+                </td>
+              </tr>
+              <tr>
+                <td><b>from_name</b><br><em>string</em></td>
+                <td>
+                  Name to use in the "From:" field.
+                </td>
+              </tr>
+              <tr>
+                <td><b>from_email</b><br><em>string</em></td>
+                <td>
+                  Email to use in the "From:" field.
+                </td>
+              </tr>
+              <tr>
+                <td><b>reply_to</b><br><em>string</em></td>
+                <td>
+                  Email to use in the "ReplyTo:" field.
+                </td>
+              </tr>
+              <tr>
+                <td><b>sender_email</b><br><em>string</em></td>
+                <td>
+                  Email to use in the "Sender:" field.
+                </td>
+              </tr>
+              <tr>
+                <td><b>begins_at</b><br><em>string</em></td>
+                <td>
+                  Time to start delivery at. If this value is specified and the
+                  campaign has a segment, content, and delivery settings - the
+                  campaign will be marked as scheduled and sending will begin at the
+                  requested time. If one of those sections are missing or this value
+                  is blank, the campaign will remain in an "idle" state.
+                </td>
+              </tr>
+              <tr>
+                <td><b>autowinner_enabled</b><br><em>boolean</em></td>
+                <td>
+                  The campaign is configured to use automatic winner selection.
+                </td>
+              </tr>
+              <tr>
+                <td><b>autowinner_percentage</b><br><em>string</em></td>
+                <td>
+                  The percentage that will be sent for the split-test portion of the campaign. See note (1) below.
+                </td>
+              </tr>
+              <tr>
+                <td><b>autowinner_delay_amount</b><br><em>integer</em></td>
+                <td>
+                  The number of units of time that the campaign will wait before finishing after a split-test.
+              </tr>
+              <tr>
+                <td><b>autowinner_delay_unit</b><br><em>string</em></td>
+                <td>
+                  The unit used in calculating the delay duration. This may be <code>minutes</code>, <code>hours</code>, or <code>days</code>.
+                </td>
+              </tr>
+              <tr>
+                <td><b>autowinner_metric</b><br><em>string</em></td>
+                <td>
+                  The metric used to decide the winner. See the "Automatic Winner Selection Metrics" table for more information.
+                </td>
+              </tr>
+              <tr>
+                <td><b>special_sending_rule_id</b><br><em>integer</em></td>
+                <td>
+                  The ID of the Special Sending Rule used for this campaign. Special Sending Rules may only be used on the System Organization. See note (4) below.
+                </td>
+              </tr>
+              <tr>
+                <td><b>special_sending_rule_name</b><br><em>string</em></td>
+                <td>
+                  The name of the Special Sending Rule used for this campaign. See note (4) below.
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
       </table>
