@@ -3,7 +3,7 @@
 **Table of Contents**
 
 - [Campaign Templates](#campaign-templates)
-  - [Create a new campaign](#create-a-new-campaign)
+  - [Create a new template](#create-a-new-template)
     - [URL](#url)
     - [Request Parameters](#request-parameters)
     - [Response](#response)
@@ -14,7 +14,7 @@
 ## Campaign Templates
 
 
-### Create a new campaign
+### Create a new template
 
 #### URL
 
@@ -71,8 +71,8 @@ that marked with bold in the following list:
 
 #### Response
 
-A successful response will return the campaign record using the format
-described in the "Get campaign details" section of the API.
+A successful response will return the template record using the format
+described in the "Get template details" section of the API.
 
 #### Example Request
 

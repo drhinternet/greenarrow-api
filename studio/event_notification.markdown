@@ -1,21 +1,20 @@
+Event Notification
+==================
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [Event Notification](#event-notification)
-  - [Click and Open Tracking Events](#click-and-open-tracking-events)
-    - [studio_click Event](#studio_click-event)
-    - [studio_open Event](#studio_open-event)
-  - [Unsubscribe events](#unsubscribe-events)
-    - [studio_unsub Event](#studio_unsub-event)
-  - [Subscriber Created or Updated Events](#subscriber-created-or-updated-events)
-    - [studio_subscriber_created Event](#studio_subscriber_created-event)
-    - [studio_subscriber_updated Event](#studio_subscriber_updated-event)
+- [Click and Open Tracking Events](#click-and-open-tracking-events)
+  - [studio_click Event](#studio_click-event)
+  - [studio_open Event](#studio_open-event)
+- [Unsubscribe events](#unsubscribe-events)
+  - [studio_unsub Event](#studio_unsub-event)
+- [Subscriber Created or Updated Events](#subscriber-created-or-updated-events)
+  - [studio_subscriber_created Event](#studio_subscriber_created-event)
+  - [studio_subscriber_updated Event](#studio_subscriber_updated-event)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-Event Notification
-==================
 
 There are multiple kinds of events in the GreenArrow system that you can access
 or be notified of. This document gives an overview of events that are specific
