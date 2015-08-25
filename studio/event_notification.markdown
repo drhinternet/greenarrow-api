@@ -13,6 +13,7 @@ Event Notification
 - [Subscriber Created or Updated Events](#subscriber-created-or-updated-events)
   - [studio_subscriber_created Event](#studio_subscriber_created-event)
   - [studio_subscriber_updated Event](#studio_subscriber_updated-event)
+- [Receiving All Events](#receiving-all-events)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -102,7 +103,11 @@ studio_unsub events.
 
 ## Subscriber Created or Updated Events
 
-When a subscriber is created or updated, a *studio_subscriber_created* or *studio_subscriber_updated* event may be generated.
+When a subscriber is created or updated, a `studio_subscriber_created` or `studio_subscriber_updated` event may be generated.
+
+Neither of these events are generated if the subscriber is updated due to a bounce, spam complaint, or unsubscribe that resulted from a campaign or autoresponder. To receive notifications when a subscriber is updated due to those events, see the events `bounce_all`, `bounce_bad_address`, `scomp`, and `studio_unsub`.
+
+If the subscriber status is changed (from any status, to any status) via the API or user interface, the `studio_subscriber_updated` event will be generated.
 
 ### studio_subscriber_created Event
 
@@ -130,3 +135,18 @@ When a subscriber is created or updated, a *studio_subscriber_created* or *studi
 | event_time | The time that this event was triggered. | 1317305252 |
 | json_before | The subscriber data *before* the update was applied, as defined by the GreenArrow Studio API. | [See API Documentation](https://github.com/drhinternet/greenarrow-api/blob/master/studio/v2/subscribers.markdown#get-subscriber-details) |
 | json_after | The subscriber data *after* the update was applied, as defined by the GreenArrow Studio API. | [See API Documentation](https://github.com/drhinternet/greenarrow-api/blob/master/studio/v2/subscribers.markdown#get-subscriber-details) |
+
+## Receiving All Events
+
+If you wish to receive an event for any possible update or action for a subscriber, you should handle all of the following events.
+
+| Event Type |
+| --- |
+| `studio_open` |
+| `studio_click` |
+| `studio_unsub` |
+| `bounce_all` |
+| `bounce_bad_address` |
+| `scomp` |
+| `studio_subscriber_created` |
+| `studio_subscriber_updated` |
