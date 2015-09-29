@@ -31,11 +31,17 @@
   - [Response](#response-3)
   - [Example](#example-2)
   - [Example code](#example-code-1)
-- [Unsubscribe](#unsubscribe)
+- [Trigger Autoresponders on a Subscriber](#trigger-autoresponders-on-a-subscriber)
   - [URL](#url-4)
+  - [Request Parameters](#request-parameters-4)
   - [Request Payload](#request-payload-2)
   - [Response](#response-4)
   - [Example](#example-3)
+- [Unsubscribe](#unsubscribe)
+  - [URL](#url-5)
+  - [Request Payload](#request-payload-3)
+  - [Response](#response-5)
+  - [Example](#example-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -560,6 +566,348 @@ A failure will return a standard error response with an explanation of what went
 #### Example code
 
 * [Update an existing subscriber](../examples/update_existing_subscribers_custom_field.php)
+
+
+
+### Trigger Autoresponders on a Subscriber
+
+This endpoint will trigger autoresponders for a single subscriber. The list of
+autoresponders to trigger may be provided by name or by ID.
+
+Any autoresponder(s) may be triggered using this endpoint - it is *not*
+restricted to just "API" triggers.
+
+If any error is returned by this method, no autoresponders will be triggered.
+
+#### URL
+
+    POST /ga/api/v2/mailing_lists/:mailing_list_id/subscribers/:subscriber_id_or_email/trigger_autoresponders
+
+#### Request Parameters
+
+In the URL of the request, the following values must be replaced.
+
+<table>
+  <tr valign="top">
+    <td><b>mailing_list_id</b><br><em>integer</em></td>
+    <td>The ID of the mailing list that contains the subscriber record.</td>
+  </tr>
+  <tr valign="top">
+    <td><b>subscriber_id_or_email</b><br><em>string</em></td>
+    <td>
+      <p>This may either be the numeric ID for the subscriber record, or an email address.</p>
+      <p>If this value is an email address, it must be URI escaped. For example, <code>bob@example.com</code> escapes as <code>bob%40example.com</code>.</p>
+    </td>
+  </tr>
+</table>
+
+#### Request Payload
+
+The body of this request should be a JSON hash with the following keys.
+
+<table>
+  <tr valign="top">
+    <td><b>create_missing_subscriber</b><br><em>boolean</em> &mdash; default <code>false</code><br></td>
+    <td>
+      <p>
+        Studio can only send autoresponders to subscribers that are
+        on the mailing list. If the subscriber is not found on the
+        mailing list and this flag is true, the subscriber will be
+        added to the mailing list.
+      </p><p>
+        <code>subscriber_id_or_email</code> must be an email address
+        for this to work.
+      </p>
+      <ul>
+        <li>
+          If it is an integer and not found on the list a
+          <code>not_found</code> error will be returned.
+        </li><li>
+          If it is an improperly formatted email address a
+          <code>validation_failed</code> error will be returned.
+        </li><li>
+          If if the custom field data for the subscriber does not
+          pass validation a <code>validation_failed</code> error will
+          be returned.
+        </li>
+      </ul>
+      <p>
+        NOTE: On-subscription autoresponders that are configured to respond to subscribers created
+        on the API will be triggered on subscribers created due to this flag. This can be prevented
+        with the <code>skip_subscription_autoresponders</code> option.
+      </p><p>
+        <b>WARNING:</b> If you are also using this mailing list to send campaigns,
+        you need to make sure you're not implicitly subscribing people to get mailing list
+        messages from you, if that's not what you want.
+      </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>reactivate_subscriber</b><br><em>boolean</em> &mdash; default <code>false</code><br></td>
+    <td>
+      <p>
+        Studio can only send autoresponders to subscribers that have a status of <code>active</code>.
+      </p><p>
+        If the requested subscriber exists on the mailing list and is in a non-active status:
+      </p>
+      <ul>
+        <li>If this flag is true: the subscriber will be reactivated (its status set back to <code>active</code>) and the autoresponder will be triggered.</li>
+        <li>If this flag is false: an <code>invalid_request</code> error will be returned.</li>
+      </ul>
+        <b>WARNING:</b> If you are also using this mailing list to send campaigns, be careful with this flag!
+        This will reactivate the subscriber, potentially causing them to receive campaigns from which they had 
+        previously unsubscribed.
+      </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>skip_subscription_autoresponders</b><br><em>boolean</em> &mdash; default <code>false</code></td>
+    <td>
+      <p>
+        Set this value to <code>true</code> to skip subscription autoresponders
+        that would have triggered as a result of a new subscriber being created
+        with the <code>create_missing_subscriber</code> flag.
+      </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>autoresponder_names</b><br><em>array of strings</em></td>
+    <td>
+      <p>
+        The list of autoresponders, by name, that should be triggered. The
+        asterisk (<code>*</code>) is used as a wildcard character &mdash; if you have
+        autoresponders named <code>AR 1</code> and <code>AR Two</code>, then including <code>AR *</code> in
+        <code>autoresponder_names</code> will cause both to be triggered.
+      </p></p>
+        Only one of <code>autoresponder_names</code> and <code>autoresponder_ids</code> may be provided.
+      </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>autoresponder_ids</b><br><em>array of integers</em></td>
+    <td>
+      <p> The list of autoresponders, by numeric ID, that should be triggered. </p>
+      <p> Only one of <code>autoresponder_names</code> and <code>autoresponder_ids</code> may be provided. </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>content_replacement_fields</b><br><em>hash of strings to strings</em></td>
+    <td>
+      <p>
+        If provided, the key/value pairs in this hash will be interpolated into the content of the autoresponder,
+        prefixed with an <code>api:</code> string with whitespace replaced as underscores.
+      </p><p>
+        For example, if you provide the hash <code>{ "my_value": "Hello World", "Second Key": "Here's another value" }</code>,
+        anywhere in your autoresponder content that contains <code>%%api:my_value%%</code> or <code>%%api:Second_Key%%</code>
+        will be replaced with <code>Hello World</code> and <code>Here's another value</code>, respectively. Spaces in the key
+        must be replaced with underscores when entering the replacement code into your Autoresponder's content.
+      </p><p>
+        These values are <em>only</em> used for interpolation into the email(s) generated by this
+        API request. Any subsequent autoresponders or campaigns sent to this subscriber will have
+        no knowledge or history of these <code>content_replacement_fields</code> values.
+      </p><p>
+        These values are not passed to Special Sending Rules.
+      </p><p>
+        Fields present in this hash will override Custom Field counterparts
+        with the same name. If you include a `content_replacement_fields` key
+        `First Name`, it will override any custom field named `API:First Name`.
+      </p><p>
+        <!--
+          If any clauses are added or modified here, please update the test in
+          spec/controllers/api/v2/subscribers_controller_spec.rb
+        -->
+        The hash keys are validated as follows:
+
+        <ul>
+          <li>Keys must not be blank</li>
+          <li>Keys must not consist of only whitespace</li>
+          <li>Keys must contain at least one alphanumeric character <code>A-Z a-z 0-9</code></li>
+          <li>Keys must be case-insensitive unique</li>
+          <li>Keys must be 50 characters or less</li>
+          <li>Whitespace within keys are treated as underscores - so <code>First_Name</code> and <code>First Name</code> are the same key</li>
+        </ul>
+
+        If a key is passed that does not match this, an `invalid_request` error will be returned.
+      </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td colspan="2">
+      <b>custom_fields</b><br><em>hash</em><br>
+      <hr />
+      <p>
+        Each value in this hash contains custom field data to be applied to
+        the subscriber record. These hashes should be like
+        <code>{ "Custom Field Name": "My Value" }</code> -- just as though it was
+        being passed to update a subscriber record.
+      </p><p>
+        By default, if the subscriber is not active, this update will be not be applied.
+        If <code>reactivate_subscriber</code> is set to <code>true</code>, then the
+        subscriber will be reactivated and these updates will be applied.
+      </p><p>
+        The more specific hashes take precedence over the <code>for_all</code> hash.
+        For example, if you pass in a <code>First Name</code> key in both <code>for_all</code>
+        and <code>for_new</code> -- the value in <code>for_new</code> will be set.
+        However, if both hashes contain unique keys - then all of the values will be set.
+      </p><p>
+        If the provided (or if a custom field is required, and not provided)
+        custom fields result in a validation error on the subscriber record, no
+        autoresponder will be sent. A validation error will be returned.
+      </p>
+      <table>
+        <tr valign="top">
+          <td><b>for_all</b><br><em>hash</em></td>
+          <td>
+            This is the base custom field data. Values in this hash will be applied
+            to any subscriber that is successfully triggered.
+          </td>
+        </tr>
+        <tr valign="top">
+          <td><b>for_new</b><br><em>hash</em></td>
+          <td>
+            This custom field data will be applied to subscribers that are created as
+            a result of <code>create_missing_subscriber</code> being set to <code>true</code>
+            and the subscriber not already existing in the mailing list.
+          </td>
+        </tr>
+        <tr valign="top">
+          <td><b>for_active</b><br><em>hash</em></td>
+          <td>
+            This custom field data will be applied to subscribers who already existed
+            and are active on the mailing list.
+          </td>
+        </tr>
+        <tr valign="top">
+          <td><b>for_reactivated</b><br><em>hash</em></td>
+          <td>
+            This custom field data will be applied to subscribers who are reactivated
+            as a result of <code>reactivate_subscriber</code> being set to <code>true</code>.
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+#### Response
+
+A successful response will contain the following keys.
+
+<table>
+  <tr valign="top">
+    <td colspan="2">
+      <b>triggered_autoresponders</b><br><em>array of hashes</em><br>
+      <table>
+        <tr valign="top">
+          <td><b>id</b><br><em>integer</em></td>
+          <td> The ID of the autoresponder that was triggered. </td>
+        </tr>
+        <tr valign="top">
+          <td><b>name</b><br><em>string</em></td>
+          <td> The name of the autoresponder that was triggered. </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>subscriber</b><br><em>hash</em></td>
+    <td>
+      <p>
+        The subscriber record that was used for this call, as described in the
+        format described in the "Get subscriber details" section of this API.
+      </p><p>
+        The record that is returned will be after any updates in this request
+        have been applied.
+      </p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td><b>subscription_result</b><br><em>string</em></td>
+    <td>
+      The result of the subscript as a result of this API call.
+      If the subscriber was created, this value will be <code>created</code>.
+      If the subscriber already existed and was active, this value will be <code>remained_active</code>.
+      If the subscriber already existed and was reactivated, this value will be <code>reactivated</code>.
+      If none of those situations applied, this call should have already resulted in an error.
+    </td>
+  </tr>
+</table>
+
+#### Example
+
+```
+> POST /ga/api/mailing_lists/2/subscribers/bob%40example.com/trigger_autoresponders HTTP/1.1
+> Authorization: Basic MToyYjBmNTA5YjQ3MDk1ODk0Mzk5ZWRkMGVhODE1ZDlkMjQ4MzUwYjc4
+> Accept: application/json
+> Content-Type: application/json
+```
+
+```json
+{
+  "autoresponder_ids": [
+    203
+  ],
+  "custom_fields": {
+    "for_new": {
+      "First Name": "Bob",
+      "Last Name": "Example"
+    }
+  },
+  "create_missing_subscriber": true
+}
+```
+
+```
+< Content-Type: application/json; charset=utf-8
+< X-UA-Compatible: IE=Edge
+< ETag: "29694bdf4c95e5a20de5d440073eff40"
+< Cache-Control: max-age=0, private, must-revalidate
+< Set-Cookie: _session_id=f6f0a9eac82fc88c3bbb036e0ac74390; path=/; HttpOnly
+< X-Request-Id: a62aeb23d79348c61ddecaffaf231575
+< X-Runtime: 0.183498
+< Connection: close
+< Server: thin
+```
+
+```json
+{
+  "success": true,
+  "data": {
+    "triggered_autoresponders": [
+      {
+        "id": 203,
+        "name": "by api"
+      }
+    ],
+    "subscriber": {
+      "id": 3430120,
+      "mailing_list_id": 2,
+      "email": "bob@example.com",
+      "created_at": "2015-09-29T14:07:34-05:00",
+      "created_at_epoch": 1443553654,
+      "status": "active",
+      "subscribe_time": "2015-09-29T14:07:34-05:00",
+      "subscribe_time_epoch": 1443553654,
+      "subscribe_ip": null,
+      "custom_fields": {
+        "First Name": {
+          "name": "First Name",
+          "type": "text",
+          "value": "Bob"
+        },
+        "Last Name": {
+          "name": "Last Name",
+          "type": "text",
+          "value": "Example"
+        }
+      }
+    },
+    "subscription_result": "created"
+  },
+  "error_code": null,
+  "error_message": null
+}
+```
 
 
 
