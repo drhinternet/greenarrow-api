@@ -2384,9 +2384,10 @@ delivered, this API will return an empty list.
 
 Optional Parameters
 
-| Key        | Meaning                                                                                                                     |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `url`      | If specified, only return links to the specified URL. The specified URL may contain wildcards (`*`) to match multiple URLs. |
+| Key          | Meaning                                                                                                                                     |
+| ----------   | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`        | If specified, only return links to the specified URL. The specified URL may contain wildcards (`*`) to match multiple URLs.                 |
+| `content_id` | If specified, only return statistics for the specified Content ID. The Content ID may be obtained from the `Get campaign details` endpoint. |
 
 * The value of the `url` parameter must be URI encoded.
 
