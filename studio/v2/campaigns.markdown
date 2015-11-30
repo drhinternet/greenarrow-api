@@ -427,7 +427,7 @@ GreenArrow Engine's API.
         <tr>
           <td><b>special_sending_rule_id</b><br><em>integer</em></td>
           <td>
-            The ID of the Special Sending Rule used for this campaign. Special Sending Rules may only be used on the System Organization. See note (4) below.
+            The ID of the Special Sending Rule used for this campaign. See note (4) below.
           </td>
         </tr>
         <tr>
@@ -1726,7 +1726,8 @@ The POST request should have a JSON document in its payload with at least keys t
    assign the entire list of seed lists to the provided value, overwriting one or
    more seed lists that were already in use.
 4. Only one of `special_sending_rule_id` and `special_sending_rule_name` may be
-   present in a single request. Special Sending Rules are only valid on the System Organization.
+   present in a single request. Your organization must be granted access to
+   Special Sending Rules by the system administrator.
 
 #### Ad Hoc Segmentation Criteria
 

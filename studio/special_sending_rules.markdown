@@ -100,6 +100,8 @@ In the "Admin" top navigation, click on the "SSRs" sub-navigation link.
 
 ### Creating a New Special Sending Rule
 
+Only system administrators may create or update Special Sending Rules.
+
 1. In the "Admin" top navigation, click on the "SSRs" sub-navigation link.
 2. Click "Create a special sending rule".
 3. Fill in this form with the correct details. See the documentation below to
@@ -148,7 +150,32 @@ value. This is the maximum number of workers that any individual SSR may allocat
 
 ### Organization Permissions
 
-Special Sending Rules may only be used on the System Organization.
+Special Sending Rules are disabled by default for all organizations other than
+the System Organization.  System administrators may navigate to an
+organization's individual page to grant or revoke access to SSRs, with
+the following caveats.
+
+* This is an "all or nothing" option - turning on special sending rules for an
+  organization grants them access to all of them
+* If you remove access to SSRs for an organization which has any autoresponders,
+  not-yet-started campaigns or mailing lists that use a Special Sending Rule,
+  then the Special Sending Rule setting for those campaigns or
+  autoresponders will be cleared.
+  * This can change the email that will be sent by these autoresponders,
+    campaigns, and/or mailing lists, so a confirmation message will be shown on
+    the organization edit page confirming the change.
+  * When an autoresponder or campaign is updated in this way, a note is added
+    to their history about the update.
+* Campaigns that start sending with an SSR and do not have permissions to an
+  SSR (e.g. campaign was setup with SSR permissions, started sending with SSR
+  permissions, then was paused after permissions were revoked, and later
+  resumed) are failed with a note in the campaign history log
+* If an autoresponder or campaign has an SSR and the organization doesn't have
+  SSR permissions, still show it in the campaign's view page with the
+  `(invalid)` suffix
+* If an autoresponder or campaign has an SSR and the organization doesn't have
+  SSR permissions, still show it in the edit page for that object, but they may
+  only select `None` - show the current SSR with the `(invalid)` suffix
 
 ## Campaign Preview Emails
 
