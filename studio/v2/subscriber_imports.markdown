@@ -1,4 +1,4 @@
 # Subscriber Imports
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/Subscriber-Imports](http://docs.drh.net/greenarrow-studio/API-V2/Subscriber-Imports).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Subscriber-Imports](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Subscriber-Imports).
 

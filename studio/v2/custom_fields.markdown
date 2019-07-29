@@ -1,4 +1,4 @@
 # Custom Fields
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/Custom-Fields](http://docs.drh.net/greenarrow-studio/API-V2/Custom-Fields).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Custom-Fields](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Custom-Fields).
 

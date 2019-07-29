@@ -1,4 +1,4 @@
 # Previews
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/Previews](http://docs.drh.net/greenarrow-studio/API-V2/Previews).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Previews](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Previews).
 

@@ -1,4 +1,4 @@
 # Campaign Templates
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/Campaign-Templates](http://docs.drh.net/greenarrow-studio/API-V2/Campaign-Templates).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Campaign-Templates](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Campaign-Templates).
 

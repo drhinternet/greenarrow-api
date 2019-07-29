@@ -1,4 +1,4 @@
 # Campaigns
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/Campaigns](http://docs.drh.net/greenarrow-studio/API-V2/Campaigns)
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Campaigns](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Campaigns)
 

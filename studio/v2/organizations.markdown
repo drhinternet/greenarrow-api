@@ -1,4 +1,4 @@
 # Organizations
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/Organizations](http://docs.drh.net/greenarrow-studio/API-V2/Organizations).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Organizations](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/Organizations).
 

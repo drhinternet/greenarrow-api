@@ -1,4 +1,4 @@
 # Content Replacement Codes
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/Replacement-Codes](http://docs.drh.net/greenarrow-studio/Replacement-Codes).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/Replacement-Codes](https://www.greenarrowemail.com/docs/greenarrow-studio/Replacement-Codes).
 

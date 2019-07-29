@@ -1,4 +1,4 @@
 # GreenArrow API
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/API-V2/](http://docs.drh.net/greenarrow-studio/API-V2/).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/API-V2/).
 

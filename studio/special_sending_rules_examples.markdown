@@ -1,4 +1,4 @@
 # Special Sending Rules Examples
 
-This page has moved to [http://docs.drh.net/greenarrow-studio/Special-Sending-Rules/Examples](http://docs.drh.net/greenarrow-studio/Special-Sending-Rules/Examples).
+This page has moved to [https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/Special-Sending-Rules/Examples](https://www.greenarrowemail.com/docs/greenarrow-studio/APIs/Special-Sending-Rules/Examples).
 
